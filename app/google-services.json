@@ -1,0 +1,266 @@
+{
+  "project_info": {
+    "project_number": "66938755212",
+    "project_id": "adani-mundra-township-connect",
+    "storage_bucket": "adani-mundra-township-connect.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66938755212:android:a23b9c64f94696c57403a9",
+        "android_client_info": {
+          "package_name": "com.adanimundra.township"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66938755212-pv5hgv1tpf8q7blet3ovhmtf60485631.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adanimundra.township",
+            "certificate_hash": "7210503d6106b23d53e9fc3100d4b0ba075e238b"
+          }
+        },
+        {
+          "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhdBCWehaSXyw0Wn7OcF2mqu8Y1FLLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66938755212-374v4ja5sn4rmkmsubl5sa0aiq5h14u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adanitownship.technician"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66938755212:android:7a453478e79e1ef77403a9",
+        "android_client_info": {
+          "package_name": "com.adanitownship.admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66938755212-cko51g0rsfh349f413hvu0popsuv3mr7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adanitownship.admin",
+            "certificate_hash": "1506d9f4b5c1a50262a488faf245c39b0a7270e8"
+          }
+        },
+        {
+          "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhdBCWehaSXyw0Wn7OcF2mqu8Y1FLLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66938755212-374v4ja5sn4rmkmsubl5sa0aiq5h14u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adanitownship.technician"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66938755212:android:fb2946fe83135c017403a9",
+        "android_client_info": {
+          "package_name": "com.adanitownship.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhdBCWehaSXyw0Wn7OcF2mqu8Y1FLLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66938755212-374v4ja5sn4rmkmsubl5sa0aiq5h14u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adanitownship.technician"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66938755212:android:71c4d435378ecc587403a9",
+        "android_client_info": {
+          "package_name": "com.adanitownship.gatekeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66938755212-agctf43kru32eibfntc804o7u3dv6f8f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adanitownship.gatekeeper",
+            "certificate_hash": "bb2f949d91e7c264b59b2aacf8dd337cd99ac366"
+          }
+        },
+        {
+          "client_id": "66938755212-hcr2568ng9h1poi0fbor1pkqimh30go5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adanitownship.gatekeeper",
+            "certificate_hash": "80ac706031bec4bd6db8c30524f12b0418d0a5fb"
+          }
+        },
+        {
+          "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhdBCWehaSXyw0Wn7OcF2mqu8Y1FLLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66938755212-374v4ja5sn4rmkmsubl5sa0aiq5h14u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adanitownship.technician"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66938755212:android:16c8873790e7ac6d7403a9",
+        "android_client_info": {
+          "package_name": "com.adanitownship.technician"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66938755212-4r6kjdt5jukkfqo5dmh17otp4n8d0i7q.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adanitownship.technician",
+            "certificate_hash": "4bcefb700b0aed7c5ca9d2dca5424299a6aa4ef0"
+          }
+        },
+        {
+          "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhdBCWehaSXyw0Wn7OcF2mqu8Y1FLLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66938755212-374v4ja5sn4rmkmsubl5sa0aiq5h14u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adanitownship.technician"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66938755212:android:823e3ae91f5a43da7403a9",
+        "android_client_info": {
+          "package_name": "com.mundratownship.group"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8EhdBCWehaSXyw0Wn7OcF2mqu8Y1FLLM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "66938755212-sl85q07l2hfpa16fns67fiofvopr63ok.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "66938755212-374v4ja5sn4rmkmsubl5sa0aiq5h14u9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.adanitownship.technician"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

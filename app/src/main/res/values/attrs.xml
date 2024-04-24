@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Declare custom theme attributes that allow changing which styles are
+         used for button bars depending on the API level.
+         ?android:attr/buttonBarStyle is new as of API 11 so this is
+         necessary to support previous API levels. -->
+    <declare-styleable name="ButtonBarContainerTheme">
+        <attr name="metaButtonBarStyle" format="reference" />
+        <attr name="metaButtonBarButtonStyle" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableLayout">
+        <attr name="el_headerLayout" format="reference"/>
+        <attr name="el_contentLayout" format="reference" />
+        <attr name="el_duration" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="AspectRatioImageView">
+        <attr name="ari_ratio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="ExpandableTextView">
+        <attr name="trimLength" format="integer" />
+    </declare-styleable>
+
+
+    <declare-styleable name="ucrop_UCropView">
+
+        <!--Crop image view-->
+        <attr name="ucrop_aspect_ratio_x" format="float" />
+        <attr name="ucrop_aspect_ratio_y" format="float" />
+
+        <!--Overlay view-->
+        <attr name="ucrop_show_oval_crop_frame" format="boolean" />
+        <attr name="ucrop_circle_dimmed_layer" format="boolean" />
+        <attr name="ucrop_dimmed_color" format="color" />
+
+        <attr name="ucrop_grid_stroke_size" format="dimension" />
+        <attr name="ucrop_grid_color" format="color" />
+        <attr name="ucrop_grid_row_count" format="integer" />
+        <attr name="ucrop_grid_column_count" format="integer" />
+        <attr name="ucrop_show_grid" format="boolean" />
+
+        <attr name="ucrop_frame_stroke_size" format="dimension" />
+        <attr name="ucrop_frame_color" format="color" />
+        <attr name="ucrop_show_frame" format="boolean" />
+
+    </declare-styleable>
+
+    <declare-styleable name="ucrop_AspectRatioTextView">
+
+        <attr name="ucrop_artv_ratio_title" format="string" />
+
+        <attr name="ucrop_artv_ratio_x" format="float" />
+        <attr name="ucrop_artv_ratio_y" format="float" />
+
+    </declare-styleable>
+
+    <declare-styleable name="ExoPlayerView">
+        <attr name="exo_resize_mode" />
+        <attr name="exo_aspect_ratio" />
+        <attr name="exo_full_screen" format="boolean" />
+        <attr name="exo_play_when_ready" format="boolean" />
+        <attr name="exo_show_controller" format="boolean" />
+    </declare-styleable>
+
+    <attr name="exo_resize_mode" format="enum">
+        <enum name="Fit" value="1" />
+        <enum name="Fill" value="2" />
+        <enum name="Zoom" value="3" />
+    </attr>
+
+    <attr name="exo_aspect_ratio" format="enum">
+        <enum name="aspect_1_1" value="1" />
+        <enum name="aspect_16_9" value="2" />
+        <enum name="aspect_4_3" value="3" />
+        <enum name="aspect_match" value="4" />
+        <enum name="aspect_mp3" value="5" />
+    </attr>
+
+    <declare-styleable name="CircularSeekBar">
+        <attr name="max" format="integer" />
+        <attr name="move_outside_circle" format="boolean" />
+        <attr name="maintain_equal_circle" format="boolean" />
+        <attr name="use_custom_radii" format="boolean" />
+        <attr name="lock_enabled" format="boolean" />
+        <attr name="circle_x_radius" format="dimension" />
+        <attr name="circle_y_radius" format="dimension" />
+        <attr name="circle_stroke_width" format="dimension" />
+        <attr name="pointer_radius" format="dimension" />
+        <attr name="pointer_halo_width" format="dimension" />
+        <attr name="pointer_halo_border_width" format="dimension" />
+        <attr name="circle_color" format="color" />
+        <attr name="circle_progress_color" format="color" />
+        <attr name="pointer_color" format="color" />
+        <attr name="pointer_halo_color" format="color" />
+        <attr name="pointer_halo_color_ontouch" format="color" />
+        <attr name="pointer_alpha_ontouch" format="integer" />
+        <attr name="start_angle" format="float" />
+        <attr name="end_angle" format="float" />
+        <attr name="circle_fill" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="MessageTextView">
+        <attr name="widget_id_top" format="integer" />
+        <attr name="widget_id_bottom" format="integer" />
+        <attr name="widget_id_link_preview" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="RecordView">
+        <attr name="slide_to_cancel_text" format="string" />
+        <attr name="slide_to_cancel_arrow" format="reference" />
+        <attr name="slide_to_cancel_margin_right" format="dimension" />
+
+    </declare-styleable>
+
+    <declare-styleable name="RecordButton">
+
+        <attr name="src" format="reference" />
+
+    </declare-styleable>
+
+
+    <declare-styleable name="LoopingViewPager">
+        <attr name="isInfinite" format="boolean" />
+        <attr name="autoScroll" format="boolean" />
+        <attr name="wrap_content" format="boolean" />
+        <attr name="scrollInterval" format="integer" />
+        <attr name="viewpagerAspectRatio" format="float" />
+        <attr name="itemAspectRatio" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="CustomShapePagerIndicator">
+        <attr name="indicator_spacing" format="dimension" />
+    </declare-styleable>
+
+
+    <attr name="fontName" format="enum">
+        <enum name="OpenSans_Bold" value="1" />
+        <enum name="OpenSans_BoldItalic" value="2" />
+        <enum name="OpenSans_ExtraBold" value="3" />
+        <enum name="OpenSans_ExtraBoldItalic" value="4" />
+        <enum name="OpenSans_Italic" value="5" />
+        <enum name="OpenSans_Light" value="6" />
+        <enum name="OpenSans_LightItalic" value="7" />
+        <enum name="OpenSans_Regular" value="8" />
+        <enum name="OpenSans_SemiBold" value="9" />
+        <enum name="OpenSans_SemiBoldItalic" value="10" />
+        <enum name="modern" value="11" />
+        <enum name="courier_bold" value="12" />
+        <enum name="roboto_black" value="13" />
+        <enum name="sf_bold" value="14" />
+    </attr>
+
+    <declare-styleable name="CustomFontTextView">
+        <attr name="fontName" />
+    </declare-styleable>
+
+    <declare-styleable name="scaleStyle">
+        <attr name="scalableType">
+            <enum name="none" value="0" />
+
+            <enum name="fitXY" value="1" />
+            <enum name="fitStart" value="2" />
+            <enum name="fitCenter" value="3" />
+            <enum name="fitEnd" value="4" />
+
+            <enum name="leftTop" value="5" />
+            <enum name="leftCenter" value="6" />
+            <enum name="leftBottom" value="7" />
+            <enum name="centerTop" value="8" />
+            <enum name="center" value="9" />
+            <enum name="centerBottom" value="10" />
+            <enum name="rightTop" value="11" />
+            <enum name="rightCenter" value="12" />
+            <enum name="rightBottom" value="13" />
+
+            <enum name="leftTopCrop" value="14" />
+            <enum name="leftCenterCrop" value="15" />
+            <enum name="leftBottomCrop" value="16" />
+            <enum name="centerTopCrop" value="17" />
+            <enum name="centerCrop" value="18" />
+            <enum name="centerBottomCrop" value="19" />
+            <enum name="rightTopCrop" value="20" />
+            <enum name="rightCenterCrop" value="21" />
+            <enum name="rightBottomCrop" value="22" />
+
+            <enum name="startInside" value="23" />
+            <enum name="centerInside" value="24" />
+            <enum name="endInside" value="25" />
+        </attr>
+    </declare-styleable>
+    <declare-styleable name="FullscreenAttrs">
+        <attr name="fullscreenBackgroundColor" format="color" />
+        <attr name="fullscreenTextColor" format="color" />
+    </declare-styleable>
+
+
+    <attr name="cropme_frame_width_percent" format="fraction" />
+    <attr name="cropme_frame_height_percent" format="fraction" />
+    <attr name="cropme_max_scale" format="float" />
+    <attr name="cropme_with_border" format="boolean" />
+    <attr name="cropme_background_alpha" format="fraction" />
+    <attr name="cropme_custom_shape_layout" format="reference" />
+
+    <attr name="cropme_overlay_shape" format="enum">
+        <enum name="none" value="0" />
+        <enum name="rectangle" value="1" />
+        <enum name="circle" value="2" />
+        <enum name="custom" value="3" />
+    </attr>
+
+    <declare-styleable name="CropLayout">
+        <attr name="cropme_frame_width_percent" />
+        <attr name="cropme_frame_height_percent" />
+        <attr name="cropme_max_scale" />
+        <attr name="cropme_overlay_shape" />
+        <attr name="cropme_with_border" />
+        <attr name="cropme_background_alpha" />
+        <attr name="cropme_custom_shape_layout" />
+    </declare-styleable>
+
+    <declare-styleable name="CropOverlay">
+        <attr name="cropme_with_border" />
+        <attr name="cropme_background_alpha" />
+    </declare-styleable>
+    <!--Flutter wave-->
+
+
+    <attr name="PayButtonStyle" format="reference" />
+    <attr name="OTPButtonStyle" format="reference" />
+    <attr name="OTPHeaderStyle" format="reference" />
+    <attr name="PinHeaderStyle" format="reference" />
+    <attr name="PinButtonStyle" format="reference" />
+    <attr name="SavedCardButtonStyle" format="reference" />
+    <attr name="PaymentTileStyle" format="reference" />
+    <attr name="PaymentTileTextStyle" format="reference" />
+    <attr name="PaymentTileDividerStyle" format="reference" />
+    <attr name="TabLayoutStyle" format="reference" />
+
+
+    <declare-styleable name="CountryCodePicker">
+        <attr name="ccp_defaultCode" format="integer" />
+        <attr name="ccp_textColor" format="color" />
+        <attr name="ccp_backgroundColor" format="color" />
+        <attr name="ccp_textSize" format="dimension" />
+        <attr name="ccp_textFont" format="string" />
+        <attr name="ccp_arrowSize" format="dimension" />
+        <attr name="ccp_countryPreference" format="string" />
+        <attr name="ccp_defaultNameCode" format="string" />
+        <attr name="ccp_hideNameCode" format="boolean" />
+        <attr name="ccp_keyboardAutoPopOnSearch" format="boolean" />
+        <attr name="ccp_customMasterCountries" format="string" />
+        <attr name="ccp_showFlag" format="boolean" />
+        <attr name="ccp_showFullName" format="boolean" />
+        <attr name="ccp_selectionDialogShowSearch" format="boolean" />
+        <attr name="ccp_clickable" format="boolean" />
+        <attr name="ccp_hidePhoneCode" format="boolean" />
+        <attr name="ccp_enableHint" format="boolean" />
+        <attr name="ccp_enablePhoneAutoFormatter" format="boolean" />
+        <attr name="ccp_setCountryByTimeZone" format="boolean" />
+
+        <!--For dialog-->
+        <attr name="ccp_dialogTextColor" format="color" />
+    </declare-styleable>
+
+    <declare-styleable name="SmoothCheckBox">
+        <attr name="duration" format="integer"/>
+        <attr name="stroke_width" format="dimension"/>
+        <attr name="color_tick" format="color"/>
+        <attr name="color_checked" format="color"/>
+        <attr name="color_unchecked" format="color"/>
+        <attr name="color_unchecked_stroke" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircularView">
+        <!--Radius of Outer Circle in dp-->
+        <attr name="m_circle_radius" format="integer"/>
+
+        <!--Stroke for Outer Circle in dp-->
+        <attr name="m_cicle_stroke_width" format="integer"/>
+
+        <!--Color of Stroke of Outer Circle-->
+        <attr name="m_circle_stroke_color" format="color"/>
+
+        <!--Color of rotating Arc-->
+        <attr name="m_arc_stroke_color" format="color"/>
+
+        <!--Arc margin from Circle in dp-->
+        <attr name="m_arc_margin" format="integer"/>
+
+
+    </declare-styleable>
+
+</resources>

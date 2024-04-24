@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">DriverBookingApp</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="msg_tag">Move with safety</string>
+    <string name="otp_verification">OTP VERIFICATION</string>
+    <string name="relax_we_will_automatically_validate_otp">Relax. We will automatically validate OTP</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="please_enter_otp_below">Please enter OTP below</string>
+    <string name="email_for_otp"><u>Email for OTP</u></string>
+    <string name="call_for_otp"><u>Call for OTP</u></string>
+    <string name="search">Search\n</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="loading">Loading...\n</string>
+    <string name="title">TITLE</string>
+    <string name="msg_token_fmt">FCM TOKEN</string>
+
+    <string name="OpenSans_Bold">opensans_bold</string>
+    <string name="OpenSans_BoldItalic">opensans_bolditalic</string>
+    <string name="OpenSans_ExtraBold">opensans_extrabold</string>
+    <string name="OpenSans_ExtraBoldItalic">opensans_extrabolditalic</string>
+    <string name="OpenSans_Italic">opensans_italic</string>
+    <string name="OpenSans_Light">opensans_light</string>
+    <string name="OpenSans_LightItalic">opensans_lightitalic</string>
+    <string name="OpenSans_Regular">opensans_regular</string>
+    <string name="OpenSans_SemiBold">opensans_semibold</string>
+    <string name="OpenSans_SemiBoldItalic">opensans_semibolditalic</string>
+    <string name="modern">modern</string>
+    <string name="courier_bold">courier_bold</string>
+    <string name="roboto_black">roboto_black</string>
+    <string name="sf_bold">sf_bold</string>
+
+</resources>

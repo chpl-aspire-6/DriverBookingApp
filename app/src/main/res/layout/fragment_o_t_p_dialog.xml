@@ -1,0 +1,302 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/_8sdp"
+    android:background="@color/overlay_dark_10"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_10sdp"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/background_bottomsheet_title_top"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/_20sdp"
+            android:paddingBottom="@dimen/_20sdp">
+
+            <TextView
+                android:id="@+id/OTPDialogFragTvOTPVerification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/otp_verification"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_12sdp"
+                android:textStyle="bold"
+                app:fontFamily="sans-serif-light" />
+
+            <TextView
+                android:id="@+id/OTPDialogFragTVRelexWeWillAuto"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:gravity="center"
+                android:text="@string/relax_we_will_automatically_validate_otp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_10sdp"
+                app:fontFamily="sans-serif-light" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_15sdp"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/_10sdp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/OTPDialogFragTvCountryCode"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:enabled="false"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text="+91"
+                        android:textColor="@color/grey_60"
+                        android:textSize="@dimen/_12sdp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="0dp" />
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/OTPDialogFragEt_mobile_register"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:enabled="true"
+                        android:hint="@string/phone_number"
+                        android:inputType="phone"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:text=""
+                        android:textColor="@color/grey_90"
+                        android:textColorHint="@color/grey_40"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold">
+
+                        <requestFocus />
+
+                    </com.google.android.material.textfield.TextInputEditText>
+
+
+                    <ImageView
+                        android:id="@+id/OTPDialogFragIv_truemobile_register"
+                        android:layout_width="@dimen/_28sdp"
+                        android:layout_height="@dimen/_28sdp"
+                        android:background="@drawable/circle_primary"
+                        android:padding="@dimen/_4sdp"
+                        app:srcCompat="@drawable/ic_single_tick"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/OTPDialogFragTvPleseEnterOTPBelow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_5sdp"
+                    android:gravity="center"
+                    android:text="@string/please_enter_otp_below"
+                    android:textSize="@dimen/_10sdp"
+                    app:fontFamily="sans-serif-light" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_15sdp" />
+
+                <com.mukesh.OtpView
+                    android:id="@+id/OTPDialogFragOtp_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:itemBackground="@color/grey_10"
+                    android:textColor="@android:color/black"
+                    tools:ignore="MissingClass" />
+
+                <TextView
+                    android:id="@+id/OTPDialogFragTv_coundown_otp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:text="02:00"
+                    android:textColor="@color/grey_60"
+                    android:textSize="@dimen/_12ssp"
+                    app:fontFamily="sans-serif-light" />
+
+
+                <TextView
+                    android:id="@+id/OTPDialogFragTvWalletMsg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:gravity="center"
+                    android:paddingStart="@dimen/_15sdp"
+                    android:paddingEnd="@dimen/_15sdp"
+                    android:textColor="@color/red_500"
+                    android:textSize="@dimen/_12ssp"
+                    android:visibility="gone" />
+
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:indeterminateTint="@color/colorPrimaryDark"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/OTPDialogFragLlResend"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_3sdp"
+                    android:visibility="gone">
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/OTPDialogFragBtn_resend_register"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Resend The Otp"
+                        android:textColor="@color/blue_500"
+                        android:visibility="visible" />
+
+                    <LinearLayout
+                        android:layout_marginTop="@dimen/_3sdp"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/lin_email_otp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/OTPDialogFragTvOr1"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:textColor="@color/black"
+                                android:visibility="visible" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/OTPDialogFragTvBtn_email_otp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/email_for_otp"
+                                android:textColor="@color/blue_500"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:visibility="gone"
+                            android:id="@+id/lin_call_otp"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content">
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/OTPDialogFragTvOr"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="or"
+                                android:textColor="@color/black"
+                                android:visibility="visible" />
+
+                            <androidx.appcompat.widget.AppCompatTextView
+                                android:id="@+id/OTPDialogFragTvBtn_call_otp"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_5sdp"
+                                android:gravity="center"
+                                android:text="@string/call_for_otp"
+                                android:textColor="@color/blue_500"
+                                android:visibility="visible" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_15sdp" />
+
+            </LinearLayout>
+
+
+            <!--androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_action_register"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/btn_rounded_primary"
+                android:text="VERIFY"
+                android:textColor="@android:color/text_color_white" />
+    -->
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp">
+
+                <Button
+                    android:id="@+id/OTPDialogFragCancel_bt"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_bottomsheet_btn_left"
+                    android:gravity="center"
+                    android:text="Cancel"
+                    android:textColor="@color/grey_90"
+                    android:textSize="@dimen/_12ssp" />
+
+                <Button
+                    android:id="@+id/OTPDialogFragDone_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/background_bottomsheet_btn_right"
+                    android:text="Verify"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_12ssp" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>
