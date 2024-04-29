@@ -49,7 +49,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         edtEmailOrMobile = findViewById(R.id.edtEmailOrMobile);
         btnContinue = findViewById(R.id.btnContinue);
-        FirebaseApp.initializeApp(this);
         preferenceManager = new PreferenceManager(LoginActivity.this);
         tools = new Tools(this);
         restCall = RestClient.createService(RestCall.class, "https://adanidev.mysmartsociety.app/shantivan/residentApiNewEnc/", "smartapikey");
@@ -78,7 +77,6 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(LoginActivity.this, "1"+tokenStr, Toast.LENGTH_SHORT).show();
 
                } else {
-
                     if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
                         tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
                         preferenceManager.setKeyValueString("token", tokenStr);
@@ -96,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
                     preferenceManager.setKeyValueString("token", tokenStr);
                     Toast.makeText(LoginActivity.this, "3"+tokenStr, Toast.LENGTH_SHORT).show();
 
-
                 } else {
                     checkNetworkConnection(e.getLocalizedMessage());
                 }
@@ -107,8 +104,6 @@ public class LoginActivity extends AppCompatActivity {
                     tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
                     preferenceManager.setKeyValueString("token", tokenStr);
                     Toast.makeText(LoginActivity.this, "4"+tokenStr, Toast.LENGTH_SHORT).show();
-
-
                 }
                 //handle cancel
             }).addOnCompleteListener(task -> {
@@ -116,16 +111,12 @@ public class LoginActivity extends AppCompatActivity {
                     tokenStr = task.getResult();
                     preferenceManager.setKeyValueString("token", task.getResult());
                     Toast.makeText(LoginActivity.this, "5"+tokenStr, Toast.LENGTH_SHORT).show();
-
-
                     Log.v("TAG", "This is the token : " + task.getResult());
                 } else {
                     if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
                         tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
                         preferenceManager.setKeyValueString("token", tokenStr);
                         Toast.makeText(LoginActivity.this, "6"+tokenStr, Toast.LENGTH_SHORT).show();
-
-
                     } else {
                         checkNetworkConnection(Objects.requireNonNull(task.getException()).getLocalizedMessage());
                     }
