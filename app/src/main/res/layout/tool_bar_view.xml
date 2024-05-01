@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_vertical"
+    android:background="@color/colorPrimary"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/_10sdp">
+
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imgBackExtra"
+        android:layout_width="@dimen/_30sdp"
+        android:layout_height="@dimen/_30sdp"
+        android:background="@drawable/rectangle_new_ui_back_arrow_bg"
+        android:padding="@dimen/_10sdp"
+        app:srcCompat="@drawable/ic_new_back_arrow_white" />
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingStart="@dimen/_10sdp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="@dimen/_15ssp" />
+
+    <ImageView
+        android:id="@+id/imgDelete"
+        android:layout_width="@dimen/_25sdp"
+        android:layout_height="@dimen/_28sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:visibility="gone"
+        app:srcCompat="@drawable/ic_delete_sweep_black_24dp"
+        app:tint="@color/white" />
+
+
+
+
+</LinearLayout>

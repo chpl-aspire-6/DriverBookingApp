@@ -1,6 +1,7 @@
 package com.adanitownship.driver;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -24,6 +26,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
+import com.adanitownship.driver.network.adapter.RequestListAdapter;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.utils.GzipUtils;
@@ -53,6 +56,7 @@ public class DashBoardActivity extends AppCompatActivity {
     Tools tools;
     SwitchCompat switchOnOff;
     int switchStatus;
+    FrameLayout notification ;
     List<BookingRequestListResponse.Booking> bookingList = new ArrayList<>();
 
 
@@ -67,6 +71,7 @@ public class DashBoardActivity extends AppCompatActivity {
         lin_ps_load = findViewById(R.id.lin_ps_load);
         lin_logout = findViewById(R.id.lin_logout);
         rel_nodata = findViewById(R.id.rel_nodata);
+        notification = findViewById(R.id.notification);
         txt_PersonName = findViewById(R.id.txt_PersonName);
         switchOnOff = findViewById(R.id.switchOnOff);
         imgClose = findViewById(R.id.imgClose);
@@ -80,6 +85,14 @@ public class DashBoardActivity extends AppCompatActivity {
 
         txt_PersonName.setText(preferenceManager.getKeyValueString("driver_name"));
 
+
+        notification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashBoardActivity.this ,NotificationActivity.class);
+                startActivity(intent);
+            }
+        });
         swipe.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -156,7 +169,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     public void acceptbooking() {
 
-        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id"), preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"), preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"), preferenceManager.getKeyValueString("pickup_location_name"), preferenceManager.getKeyValueString("drop_location_name"), preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"), preferenceManager.getKeyValueString("travel_agent_name"), preferenceManager.getKeyValueString("travel_agent_phone_no")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -202,7 +215,7 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void rejectbooking(String reason) {
-        restCall.rejectbooking("rejectbooking", preferenceManager.getKeyValueString("request_id"), reason).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        restCall.rejectbooking("rejectbooking", preferenceManager.getKeyValueString("request_id"), reason, preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -393,6 +406,14 @@ public class DashBoardActivity extends AppCompatActivity {
                                     public void onAcceptItemClickListener(BookingRequestListResponse.Booking booking) {
                                         if (booking.getDutyStatus().equalsIgnoreCase("1")) {
                                             preferenceManager.setKeyValueString("request_id", booking.getRequestId());
+                                            preferenceManager.setKeyValueString("pickup_date", booking.getPickupDate());
+                                            preferenceManager.setKeyValueString("pickup_time", booking.getPickupTime());
+                                            preferenceManager.setKeyValueString("pickup_location_name", booking.getPickupLocationName());
+                                            preferenceManager.setKeyValueString("drop_location_name", booking.getDropLocationName());
+                                            preferenceManager.setKeyValueString("driver_mobile_no", booking.getDriverMobileNo());
+                                            preferenceManager.setKeyValueString("driver_name", booking.getDriverName());
+                                            preferenceManager.setKeyValueString("travel_agent_name", booking.getTravelAgentName());
+                                            preferenceManager.setKeyValueString("travel_agent_phone_no", booking.getTravelAgentAlternateMobileNo());
                                             showAcceptDialog();
                                         } else {
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
@@ -425,12 +446,8 @@ public class DashBoardActivity extends AppCompatActivity {
 
                                 bookingList = bookingRequestListResponse.getBookingList();
 
-                                if (bookingList.get(0).getDutyStatus().equalsIgnoreCase("1")) {
-                                    switchOnOff.setChecked(true);  // Set switch to "On" if dutyStatus is "1"
-                                } else {
-                                    switchOnOff.setChecked(false); // Set switch to "Off" otherwise
-                                }
-
+                                // Set switch to "Off" otherwise
+                                switchOnOff.setChecked(bookingList.get(0).getDutyStatus().equalsIgnoreCase("1"));  // Set switch to "On" if dutyStatus is "1"
 
 
                             } else {
@@ -497,7 +514,6 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-
     public void showRejectReasonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -541,7 +557,7 @@ public class DashBoardActivity extends AppCompatActivity {
         builder.setView(dialogView);
 
         builder.setPositiveButton("OK", (dialog, which) -> {
-        driverPickupUser();
+            driverPickupUser();
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -554,9 +570,6 @@ public class DashBoardActivity extends AppCompatActivity {
 
 
     }
-
-
-
 
 
     public void driverDutyUpdate() {

@@ -104,6 +104,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-messaging'
     implementation 'com.google.firebase:firebase-messaging-ktx'
+    implementation 'com.google.firebase:firebase-perf'
+
 
     implementation 'com.google.android.gms:play-services-base:18.1.0'
     implementation 'com.google.android.gms:play-services-identity:18.0.1'

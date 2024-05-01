@@ -16,14 +16,15 @@ public class VariableBag {
     public static int SUCCESS = 2;
     public static int ERROR = 1;
     public static int WARNING = 3;
+    public static boolean isBackground = false;
+    public static String LAST_NOTIFICATION_ID = "last_noti";
+
 
     public static String PREF_NAME = "BMS";
     public static String LOGIN = "LOGIN";
 
     public static String NO_DATA_ICON = "no_data_icon";
     public static boolean WHITE_LABEL_APP = true;
-
-
 
 
     public static String AUTHORITY = "com.adanimundra.township.droidninja.filepicker.provider";

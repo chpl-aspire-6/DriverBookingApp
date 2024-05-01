@@ -103,6 +103,9 @@ public class PreferenceManager {
         return getStringPreference(VariableBag.NO_DATA_ICON);
 
     }
+    public String getKeyValueStringWithZero(String key) {
+        return getStringPreference(key);
+    }
 
     public void setNoDataIcon(String icon) {
         setStringPreference(VariableBag.NO_DATA_ICON, icon);

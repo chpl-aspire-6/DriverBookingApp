@@ -23,7 +23,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:orientation="horizontal"
             android:padding="@dimen/_3sdp"
-            android:weightSum="2">
+            android:weightSum="3">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -51,16 +51,43 @@
                 app:switchTextAppearance="@style/SwitchTextAppearance"
                 app:track="@drawable/track_selector" />
 
+            <FrameLayout
+                android:id="@+id/notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_gravity="end">
 
-            <!--                        <androidx.appcompat.widget.SwitchCompat-->
-            <!--                            android:id="@+id/switchOnOff"-->
-            <!--                            android:layout_width="0dp"-->
-            <!--                            android:layout_height="match_parent"-->
-            <!--                            android:layout_weight="1"-->
-            <!--                            android:gravity="end"-->
-            <!--                            app:showText="true"-->
-            <!--                            tools:ignore="UseSwitchCompatOrMaterialXml" />-->
+                <FrameLayout
+                    android:id="@+id/fram_noti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
 
+                    <ImageView
+                        android:id="@+id/iv_not"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_notifications_black_24dp"
+                        app:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tv_noti_count"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10ssp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/circel_back"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_6ssp"
+                        android:textStyle="normal"
+                        android:visibility="gone" />
+                </FrameLayout>
+
+
+            </FrameLayout>
         </LinearLayout>
 
         <!--        Driver Profile -->

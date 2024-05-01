@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NotificationActivity">
+    <include
+        android:id="@+id/toolBar"
+        layout="@layout/tool_bar_view" />
+
+    <LinearLayout
+        android:id="@+id/lin_ps_load"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolBar"
+        android:orientation="vertical">
+
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <include layout="@layout/data_placeholder_layout_notification" />
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lin_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolBar"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:src="@drawable/bell" />
+
+        <TextView
+            android:id="@+id/tv_no_Data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center"
+            android:text="@string/no_notification_available"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp"
+            android:visibility="visible" />
+    </LinearLayout>
+
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/toolBar">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_notification"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+
+</RelativeLayout>
