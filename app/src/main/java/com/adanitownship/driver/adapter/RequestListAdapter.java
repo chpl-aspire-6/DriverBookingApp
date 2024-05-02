@@ -1,10 +1,11 @@
-package com.adanitownship.driver.network.adapter;
+package com.adanitownship.driver.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adanitownship.driver.R;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +104,11 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        Glide.with(context)
+                        .load(searchbookingList.get(position).getUser_photo())
+                                .placeholder(R.drawable.vector_person)
+                                        .into(holder.iv_profile_photo);
+
         holder.lin_PickUP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,6 +140,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.txt_PersonName.setText(searchbookingList.get(position).getUserFullName());
         holder.txt_MobileNumber.setText(searchbookingList.get(position).getUserContactNumber());
         holder.txtPeopleCount.setText(searchbookingList.get(position).getPassengerCount());
+        holder.txt_req_id.setText(searchbookingList.get(position).getDisplay_request_id());
 
 
         if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("3")) {
@@ -185,7 +193,8 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details;
-        TextView txt_FromLocation, txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject , txt_Status;
+        ImageView iv_profile_photo;
+        TextView txt_FromLocation, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject , txt_Status;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -199,12 +208,14 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             lin_Details = itemView.findViewById(R.id.lin_Details);
             txt_FromLocation = itemView.findViewById(R.id.txt_FromLocation);
             txt_ToLocation = itemView.findViewById(R.id.txt_ToLocation);
+            txt_req_id = itemView.findViewById(R.id.txt_req_id);
             txt_DateDetail = itemView.findViewById(R.id.txt_DateDetail);
             txt_timeDetail = itemView.findViewById(R.id.txt_timeDetail);
             txt_PersonName = itemView.findViewById(R.id.txt_PersonName);
             txt_MobileNumber = itemView.findViewById(R.id.txt_MobileNumber);
             txtPeopleCount = itemView.findViewById(R.id.txtPeopleCount);
             txt_Status = itemView.findViewById(R.id.txt_Status);
+            iv_profile_photo = itemView.findViewById(R.id.iv_profile_photo);
 
 
         }

@@ -1,18 +1,16 @@
-package com.adanitownship.driver.network.adapter;
+package com.adanitownship.driver.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adanitownship.driver.R;
-import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.NotificationResponse;
 import com.bumptech.glide.Glide;
 
@@ -21,7 +19,7 @@ import java.util.List;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.MyDataViewHolder> {
     List<NotificationResponse.Notification> notifications;
     Context context;
-    public static ItemSingleNotifyClickListener itemSingleNotifyClickListener;
+      ItemSingleNotifyClickListener itemSingleNotifyClickListener;
 
     public NotificationAdapter(List<NotificationResponse.Notification> notifications, Context context) {
         this.notifications = notifications;
@@ -32,8 +30,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         void onItemClickListener(NotificationResponse.Notification notification);
         void onDeleteItemClickListener(NotificationResponse.Notification notification);
     }
-    public void setOnItemClickListener(ItemSingleNotifyClickListener itemSingleNotifyClickListener) {
-        itemSingleNotifyClickListener = itemSingleNotifyClickListener;
+    public void setOnItemClickListener(ItemSingleNotifyClickListener itemClickListener){
+        itemSingleNotifyClickListener = itemClickListener;
     }
 
     @NonNull

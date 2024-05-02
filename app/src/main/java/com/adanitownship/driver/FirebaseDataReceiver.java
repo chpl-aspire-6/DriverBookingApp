@@ -11,9 +11,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.AudioManager;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,7 +20,6 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.adanitownship.driver.utils.Delegate;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.adanitownship.driver.utils.VariableBag;
@@ -34,7 +30,6 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import java.util.List;
 import java.util.Random;
 
@@ -44,8 +39,8 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
     Bitmap bitmap = null;
     Bitmap bitmapSmall = null;
     String TAG = "FirebaseDataReceiver";
-    private PreferenceManager preferenceManager;
     Vibrator vibe;
+    private PreferenceManager preferenceManager;
 
     public void onReceive(final Context context, Intent intent) {
         String var2 = intent.getAction();
@@ -57,7 +52,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
         System.gc();
 
-        if ("com.google.android.c2dm.intent.RECEIVE".equals(var2)) {
+        if ("com.google.android.c2dm.intent.RECEIVE" .equals(var2)) {
 
             Bundle var20;
 
@@ -122,7 +117,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                 getBitmapFromUrl(context, title, message, clickAction, image, remoteMessage, true);
             }
         } else if (small_icon != null && small_icon.length() > 5) {
-            getBitmapFromUrl(context, title, message, clickAction,  small_icon, remoteMessage, false);
+            getBitmapFromUrl(context, title, message, clickAction, small_icon, remoteMessage, false);
         } else {
             sendNotification(context, title, message, image);
         }
@@ -130,7 +125,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
     }
 
-    private void sendNotification(Context context, String title, String message , String image
+    private void sendNotification(Context context, String title, String message, String image
 //                                  String clickAction, String image, String menuClick
     ) {
         JSONObject mainObject = null;
@@ -152,8 +147,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                 }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel mChannel = new NotificationChannel(
-                            channelId, channelName, importance);
+                    NotificationChannel mChannel = new NotificationChannel(channelId, channelName, importance);
 
                     mChannel.setShowBadge(true);
                     mChannel.setSound(null, null);
@@ -186,8 +180,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 //
 //                }
 
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, getRandomNumber(1, 10000), intent,
-                        PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, getRandomNumber(1, 10000), intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
                 NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
 
@@ -195,17 +188,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
                 if (bitmap != null) {
 
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(title)
-                            .setContentText(message)
-                            .setSound(null)
-                            .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap))
-                            .setLights(Color.RED, 1000, 1000)
-                            .setVibrate(new long[]{0, 400, 250, 400})
-                            .setAutoCancel(true)
-                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                            .setContentIntent(pendingIntent);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(message).setSound(null).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap)).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
 
 
                     if (notificationManager != null) {
@@ -216,17 +199,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
                 } else if (bitmapSmall != null) {
 
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                            .setLargeIcon(bitmapSmall)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(title)
-                            .setSound(null)
-                            .setContentText(message)
-                            .setLights(Color.RED, 1000, 1000)
-                            .setVibrate(new long[]{0, 400, 250, 400})
-                            .setAutoCancel(true)
-                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                            .setContentIntent(pendingIntent);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setLargeIcon(bitmapSmall).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setSound(null).setContentText(message).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
 
                     if (message.length() > 40) {
                         mBuilder.setStyle(bigTextStyle);
@@ -241,17 +214,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
                 } else {
 
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_driver_logo))
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle(title)
-                            .setContentText(message)
-                            .setSound(null)
-                            .setLights(Color.RED, 1000, 1000)
-                            .setVibrate(new long[]{0, 400, 250, 400})
-                            .setAutoCancel(true)
-                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                            .setContentIntent(pendingIntent);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_driver_logo)).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(message).setSound(null).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
 
                     if (message.length() > 40) {
                         mBuilder.setStyle(bigTextStyle);
@@ -281,16 +244,6 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                             break;
                         case AudioManager.RINGER_MODE_NORMAL:
                             Log.i("MyApp", "Normal mode");
-
-//                            try {
-//                                playNotificationSound(context, Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-//                                        + "://" + context.getPackageName() + "/raw/just_saying"));
-//
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
-
-
                             break;
                     }
 
@@ -305,8 +258,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
     }
 
 
-    public void getBitmapFromUrl(Context context, String title, String message, String clickAction,
-                                 String imageUrl, RemoteMessage remoteMessage, boolean isBigImg) {
+    public void getBitmapFromUrl(Context context, String title, String message, String clickAction, String imageUrl, RemoteMessage remoteMessage, boolean isBigImg) {
 
 
         new Thread(() -> {
@@ -347,255 +299,29 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
         }).start();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   /* private void sendNotification(Context context, String title, String message, String clickAction, String society_id, String image, String menuClick) {
-        JSONObject mainObject = null;
-        Tools.log(TAG, "I'm in!!! sendNotification");
-
-        if (VariableBag.mediaPlayer != null) {
-            VariableBag.mediaPlayer.stop();
-        }
-        if (title != null && title.length() > 0 && !title.equalsIgnoreCase("sos")) {
-
-            try {
-
-                int NOTIFICATION_COLOR = ContextCompat.getColor(context,R.color.colorPrimary);
-//                        context.getResources().getColor(R.color.colorPrimary);
-                long[] VIBRATE_PATTERN = {0, 500};
-
-
-                String channelId = "channel-" + 01;
-                String channelName = "Channel Name";
-                int importance = 0;
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    importance = NotificationManager.IMPORTANCE_HIGH;
-                }
-
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel mChannel = new NotificationChannel(
-                            channelId, channelName, importance);
-
-                    mChannel.setShowBadge(true);
-                    mChannel.setSound(null, null);
-                    mChannel.setDescription(title);
-                    mChannel.setLightColor(NOTIFICATION_COLOR);
-                    mChannel.setVibrationPattern(VIBRATE_PATTERN);
-                    mChannel.enableVibration(true);
-
-                    if (notificationManager != null) {
-                        notificationManager.createNotificationChannel(mChannel);
-                    }
-                }
-                Intent intent;
-
-
-
-
-
-
-                PendingIntent pendingIntent;
-
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S) {
-                    pendingIntent = PendingIntent.getActivity(context, getRandomNumber(1, 10000), intent,
-                            PendingIntent.FLAG_IMMUTABLE);
-                }else {
-                    pendingIntent = PendingIntent.getActivity(context, getRandomNumber(1, 10000), intent,
-                            PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
-                }
-
-                NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
-
-                //pendingIntent.
-
-                if (bitmap != null) {
-
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                            .setSmallIcon(R.drawable.ic_driver_logo)
-                            .setContentTitle(title)
-                            .setContentText(message)
-                            .setSound(null)
-                            .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap))
-                            .setLights(Color.RED, 1000, 1000)
-                            .setVibrate(new long[]{0, 400, 250, 400})
-                            .setAutoCancel(true)
-                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                            .setContentIntent(pendingIntent);
-
-
-                    if (notificationManager != null) {
-
-                        notificationManager.notify(getRandomNumber(1, 10000), mBuilder.build());
-
-                    }
-
-                } else if (bitmapSmall != null) {
-
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                            .setLargeIcon(bitmapSmall)
-                            .setSmallIcon(R.drawable.ic_driver_logo)
-                            .setContentTitle(title)
-                            .setSound(null)
-                            .setContentText(message)
-                            .setLights(Color.RED, 1000, 1000)
-                            .setVibrate(new long[]{0, 400, 250, 400})
-                            .setAutoCancel(true)
-                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                            .setContentIntent(pendingIntent);
-
-                    if (message.length() > 40) {
-                        mBuilder.setStyle(bigTextStyle);
-                    }
-
-
-                    if (notificationManager != null) {
-
-                        notificationManager.notify(getRandomNumber(1, 10000), mBuilder.build());
-
-                    }
-
-                } else {
-
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
-                            .setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_driver_logo))
-                            .setSmallIcon(R.drawable.ic_driver_logo)
-                            .setContentTitle(title)
-                            .setContentText(message)
-                            .setSound(null)
-                            .setLights(Color.RED, 1000, 1000)
-                            .setVibrate(new long[]{0, 400, 250, 400})
-                            .setAutoCancel(true)
-                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-                            .setContentIntent(pendingIntent);
-
-                    if (message.length() > 40) {
-                        mBuilder.setStyle(bigTextStyle);
-                    }
-
-
-                    if (notificationManager != null) {
-
-                        notificationManager.notify(getRandomNumber(1, 10000), mBuilder.build());
-
-
-                    }
-
-                }
-                AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
-
-                if (am != null && getNotificationPermission()) {
-
-                    switch (am.getRingerMode()) {
-                        case AudioManager.RINGER_MODE_SILENT:
-                            break;
-                        case AudioManager.RINGER_MODE_VIBRATE:
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                vibe.vibrate(VibrationEffect.createOneShot(30, VibrationEffect.DEFAULT_AMPLITUDE));
-                            } else {
-                                vibe.vibrate(30);
-                            }
-
-                            break;
-                        case AudioManager.RINGER_MODE_NORMAL:
-                            if (preferenceManager.getNotificationSoundSetting()) {
-                                try {
-                                    if (preferenceManager.getRingtoneNotification() != null && preferenceManager.getRingtoneNotification().toString().length() > 2) {
-                                        playNotificationSoundCheck(context, preferenceManager.getRingtoneNotification(), false, false, false);
-                                    } else {
-                                        playNotificationSoundCheck(context, Uri.parse(ContentResolver.SCHEME_ANDROID_RESOURCE
-                                                + "://" + context.getPackageName() + "/raw/just_saying"), false, false, false);
-                                    }
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                            }
-                            break;
-                    }
-
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-
-    }
-
-
-    public void getBitmapFromUrl(Context context, String title, String message, String clickAction,
-                                 String society_id, String imageUrl, String menuClick, RemoteMessage remoteMessage, boolean isBigImg) {
-
-
-        new Thread(() -> {
-            try {
-
-                try {
-                    URL url = new URL(imageUrl);
-                    HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                    connection.setDoInput(true);
-                    connection.connect();
-                    InputStream input = connection.getInputStream();
-                    Bitmap bitmapNew = BitmapFactory.decodeStream(input);
-                    if (isBigImg) {
-                        bitmap = bitmapNew;
-                    } else {
-                        bitmapSmall = bitmapNew;
-                    }
-
-                    checkConditions(context, title, message, clickAction, society_id, imageUrl, menuClick, remoteMessage);
-
-
-                } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                    if (isBigImg) {
-                        bitmap = null;
-                    } else {
-                        bitmapSmall = null;
-                    }
-
-                    checkConditions(context, title, message, clickAction, society_id, imageUrl, menuClick, remoteMessage);
-
-                }
-
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }).start();
-    }*/
-
     public int getRandomNumber(int min, int max) {
         // min (inclusive) and max (exclusive)
         Random r = new Random();
         return r.nextInt(max - min) + min;
     }
 
+    public boolean getNotificationPermission(Context context) {
 
-    static
-    class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
+        if (NotificationManagerCompat.from(AppLevel.getInstance()).areNotificationsEnabled()) {
+            //Do your Work
+            Tools.log(TAG, "Have Notification access");
+
+            return true;
+        } else {
+            Tools.log(TAG, "Don't Have Notification access");
+
+            return false;
+
+        }
+
+    }
+
+    static class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(Context... params) {
@@ -617,33 +343,6 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
             }
             return false;
         }
-    }
-
-    public boolean getNotificationPermission(Context context) {
-
-        if (NotificationManagerCompat.from(AppLevel.getInstance()).areNotificationsEnabled()) {
-            //Do your Work
-            Tools.log(TAG, "Have Notification access");
-
-            return true;
-        } else {
-            Tools.log(TAG, "Don't Have Notification access");
-
-            return false;
-
-        }
-
-    }
-
-
-    public void playSound(Context context, Uri alarmSound){
-
-        Ringtone ringtone = RingtoneManager.getRingtone(context, alarmSound);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            ringtone.setLooping(false);
-        }
-        ringtone.play();
-        Delegate.ringtone = ringtone;
     }
 
 }

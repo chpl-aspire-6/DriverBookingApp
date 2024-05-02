@@ -32,5 +32,10 @@
     <string name="want_to_delete_all_the_notification">"Want to Delete All the Notification? "</string>
     <string name="notification_title">Notification Title</string>
     <string name="notification_description_is_here_display_with_small_text_size_and_with_some_fascinating_font_thnak_you">description\n</string>
+    <string name="no_search_found">No Search Found!</string>
+    <string name="no_data_avavilable">No Data Avavilable</string>
+    <string name="are_you_sure_to_accept_this_ride">Are you sure to Accept this Ride</string>
+    <string name="write_the_reason_for_rejecting_this_trip_here">Write the reason for rejecting this trip here...</string>
+    <string name="enter_your_mobile_number_or_email">Enter your mobile number or Email</string>
 
 </resources>

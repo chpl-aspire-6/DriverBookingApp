@@ -271,6 +271,7 @@
     <color name="colorHomeHRLine">#DBDBDB</color>
     <color name="colorHomeRightCircle">#C6BDBD</color>
     <color name="colorHomeProgressCircleBG">#888383</color>
+    <color name="colorHomeProgressCircleBG1">#80000000</color>
     <color name="colorNewUiBorderAlphaBlack">#D9CFCF</color>
     <color name="colorHomeProgressColor">#4F9F29</color>
     <color name="colorHomeLeftCircle">#A08B5D</color>

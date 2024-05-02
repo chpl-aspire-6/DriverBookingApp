@@ -51,6 +51,10 @@ public class BookingRequestListResponse {
         @SerializedName("user_full_name")
         @Expose
         private String userFullName;
+
+        @SerializedName("user_photo")
+        @Expose
+        private String user_photo;
         @SerializedName("society_id")
         @Expose
         private String societyId;
@@ -151,6 +155,12 @@ public class BookingRequestListResponse {
         @Expose
         private String userBookingRemarks;
 
+        @SerializedName("display_request_id")
+        @Expose
+        private String display_request_id;
+
+
+
         public String getRequestId() {
             return requestId;
         }
@@ -173,6 +183,15 @@ public class BookingRequestListResponse {
 
         public void setUserFullName(String userFullName) {
             this.userFullName = userFullName;
+        }
+
+
+        public String getUser_photo() {
+            return user_photo;
+        }
+
+        public void setUser_photo(String user_photo) {
+            this.user_photo = user_photo;
         }
 
         public String getSocietyId() {
@@ -437,6 +456,15 @@ public class BookingRequestListResponse {
 
         public void setUserBookingRemarks(String userBookingRemarks) {
             this.userBookingRemarks = userBookingRemarks;
+        }
+
+
+        public String getDisplay_request_id() {
+            return display_request_id;
+        }
+
+        public void setDisplay_request_id(String display_request_id) {
+            this.display_request_id = display_request_id;
         }
 
     }

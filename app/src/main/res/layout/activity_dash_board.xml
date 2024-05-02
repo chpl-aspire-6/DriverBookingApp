@@ -55,9 +55,9 @@
                 android:id="@+id/notification"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="end"
                 android:layout_marginStart="@dimen/_10sdp"
-                android:layout_gravity="end">
+                android:layout_weight="1">
 
                 <FrameLayout
                     android:id="@+id/fram_noti"
@@ -154,13 +154,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/imgIcon1"
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_80sdp"
-                        android:layout_centerHorizontal="true" />
+                        android:layout_centerHorizontal="true"
+                        android:src="@drawable/no_search_found" />
 
                     <TextView
                         android:id="@+id/tvNoData"
@@ -170,7 +171,7 @@
                         android:layout_centerInParent="true"
                         android:layout_marginTop="@dimen/_8sdp"
                         android:gravity="center"
-                        android:text="No Data Available"
+                        android:text="@string/no_search_found"
                         android:textSize="@dimen/_14ssp" />
 
 
@@ -214,7 +215,8 @@
                         android:id="@+id/imgIcon"
                         android:layout_width="@dimen/_80sdp"
                         android:layout_height="@dimen/_80sdp"
-                        android:layout_marginTop="@dimen/_minus60sdp" />
+                        android:layout_marginTop="@dimen/_minus60sdp"
+                        android:src="@drawable/data_not_found" />
 
                     <TextView
                         android:id="@+id/tv_no_data"
@@ -222,9 +224,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/_15sdp"
                         android:gravity="center"
-                        android:text="No Data Avavilable"
-                        android:textSize="@dimen/_14sdp"
-                        android:visibility="visible" />
+                        android:text="@string/no_data_avavilable"
+                        android:textSize="@dimen/_14sdp" />
                 </LinearLayout>
 
                 <LinearLayout

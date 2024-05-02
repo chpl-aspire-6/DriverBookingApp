@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
-            android:hint="Write the reason for rejecting this trip here..."
+            android:hint="@string/write_the_reason_for_rejecting_this_trip_here"
             android:maxLines="1"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/editext_bg"

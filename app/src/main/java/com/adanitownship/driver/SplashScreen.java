@@ -14,7 +14,6 @@ import com.adanitownship.driver.utils.PreferenceManager;
 
 public class SplashScreen extends AppCompatActivity {
 
-
     LinearLayout lin_GetStared;
     PreferenceManager preferenceManager;
 

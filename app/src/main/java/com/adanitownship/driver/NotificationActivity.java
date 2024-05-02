@@ -1,6 +1,5 @@
 package com.adanitownship.driver;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -12,13 +11,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatImageView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,7 +21,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
-import com.adanitownship.driver.network.adapter.NotificationAdapter;
+import com.adanitownship.driver.adapter.NotificationAdapter;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.networkResponse.NotificationResponse;
 import com.adanitownship.driver.utils.GzipUtils;
@@ -90,6 +85,15 @@ public class NotificationActivity extends AppCompatActivity {
         lin_ps_load.setVisibility(View.VISIBLE);
         lin_nodata.setVisibility(View.GONE);
         recyclerView.setVisibility(View.GONE);
+
+        try{
+
+
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 
@@ -145,7 +149,10 @@ public class NotificationActivity extends AppCompatActivity {
                                 }
                             });
                         } else {
-                            Tools.toast(NotificationActivity.this, notificationResponse.getMessage(), 1);
+                            lin_nodata.setVisibility(View.VISIBLE);
+                            recyclerView.setVisibility(View.GONE);
+                            lin_ps_load.setVisibility(View.GONE);
+//                            Tools.toast(NotificationActivity.this, notificationResponse.getMessage(), 1);
 
                         }
 

@@ -26,13 +26,14 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
-import com.adanitownship.driver.network.adapter.RequestListAdapter;
+import com.adanitownship.driver.adapter.RequestListAdapter;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.utils.GzipUtils;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.adanitownship.driver.utils.VariableBag;
+import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -46,19 +47,24 @@ public class DashBoardActivity extends AppCompatActivity {
     RestCall restCall;
     PreferenceManager preferenceManager;
     SwipeRefreshLayout swipe;
-    ImageView imgClose, imgIcon;
+    ImageView imgClose, imgIcon , iv_profile_photo;
     EditText etSearch;
     TextView txt_PersonName;
     RelativeLayout rel_nodata;
-    LinearLayout lin_ps_load, lin_logout;
+    LinearLayout lin_ps_load, lin_logout, linLayNoData;
     RecyclerView recy_booking_list;
     RequestListAdapter requestListAdapter;
     Tools tools;
     SwitchCompat switchOnOff;
     int switchStatus;
-    FrameLayout notification ;
+    FrameLayout notification;
     List<BookingRequestListResponse.Booking> bookingList = new ArrayList<>();
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        driverBookingList();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,8 @@ public class DashBoardActivity extends AppCompatActivity {
         recy_booking_list = findViewById(R.id.recy_booking_list);
         lin_ps_load = findViewById(R.id.lin_ps_load);
         lin_logout = findViewById(R.id.lin_logout);
+        iv_profile_photo = findViewById(R.id.iv_profile_photo);
+        linLayNoData = findViewById(R.id.linLayNoData);
         rel_nodata = findViewById(R.id.rel_nodata);
         notification = findViewById(R.id.notification);
         txt_PersonName = findViewById(R.id.txt_PersonName);
@@ -81,15 +89,20 @@ public class DashBoardActivity extends AppCompatActivity {
         lin_ps_load.setVisibility(View.VISIBLE);
         recy_booking_list.setVisibility(View.GONE);
         rel_nodata.setVisibility(View.GONE);
+        linLayNoData.setVisibility(View.GONE);
         Tools.displayImage(DashBoardActivity.this, imgIcon, preferenceManager.getNoDataIcon());
 
         txt_PersonName.setText(preferenceManager.getKeyValueString("driver_name"));
+        Glide.with(DashBoardActivity.this)
+                        .load(preferenceManager.getKeyValueString("driver_profile"))
+                                .placeholder(R.drawable.vector_person)
+                                        .into(iv_profile_photo);
 
-
+        driverBookingList();
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DashBoardActivity.this ,NotificationActivity.class);
+                Intent intent = new Intent(DashBoardActivity.this, NotificationActivity.class);
                 startActivity(intent);
             }
         });
@@ -102,16 +115,14 @@ public class DashBoardActivity extends AppCompatActivity {
             }
         });
 
-//
+
         switchOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     switchStatus = 1;//on
-//                    switchOnOff.setTrackTintList(ColorStateList.valueOf(getColor(R.color.colorPrimary)));
                 } else {
                     switchStatus = 0;//off
-//                    switchOnOff.setTrackTintList(ColorStateList.valueOf(Color.GRAY));
                 }
             }
         });
@@ -162,14 +173,23 @@ public class DashBoardActivity extends AppCompatActivity {
                 logoutDialog();
             }
         });
-        driverBookingList();
+
 
     }
 
 
     public void acceptbooking() {
 
-        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id"), preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"), preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"), preferenceManager.getKeyValueString("pickup_location_name"), preferenceManager.getKeyValueString("drop_location_name"), preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"), preferenceManager.getKeyValueString("travel_agent_name"), preferenceManager.getKeyValueString("travel_agent_phone_no")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id"),
+                preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"),
+                preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"),
+                preferenceManager.getKeyValueString("pickup_location_name"),
+                preferenceManager.getKeyValueString("drop_location_name"),
+                preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"),
+                preferenceManager.getKeyValueString("travel_agent_name"),
+                preferenceManager.getKeyValueString("travel_agent_phone_no"),
+                preferenceManager.getKeyValueString("society_id"),
+                preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -196,7 +216,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     try {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
-
+                            requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
 
                         } else {
@@ -215,7 +235,14 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void rejectbooking(String reason) {
-        restCall.rejectbooking("rejectbooking", preferenceManager.getKeyValueString("request_id"), reason, preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        restCall.rejectbooking("rejectbooking", preferenceManager.getKeyValueString("request_id"), reason, preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id")
+        ,   preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"),
+                preferenceManager.getKeyValueString("pickup_location_name"),
+                preferenceManager.getKeyValueString("drop_location_name"),
+                preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"),
+                preferenceManager.getKeyValueString("travel_agent_name"),
+                preferenceManager.getKeyValueString("travel_agent_phone_no"),preferenceManager.getKeyValueString("society_id"),
+                preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -242,7 +269,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     try {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
-
+                            requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
 
 
@@ -291,6 +318,7 @@ public class DashBoardActivity extends AppCompatActivity {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
 
+                            requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
 
                         } else {
@@ -373,7 +401,8 @@ public class DashBoardActivity extends AppCompatActivity {
                             swipe.setRefreshing(false);
                             lin_ps_load.setVisibility(View.GONE);
                             recy_booking_list.setVisibility(View.GONE);
-                            rel_nodata.setVisibility(View.VISIBLE);
+                            rel_nodata.setVisibility(View.GONE);
+                            linLayNoData.setVisibility(View.VISIBLE);
                             Tools.toast(DashBoardActivity.this, "no_internet_connection", VariableBag.ERROR);
 
                         });
@@ -396,7 +425,7 @@ public class DashBoardActivity extends AppCompatActivity {
                                 lin_ps_load.setVisibility(View.GONE);
                                 recy_booking_list.setVisibility(View.VISIBLE);
                                 rel_nodata.setVisibility(View.GONE);
-
+                                linLayNoData.setVisibility(View.GONE);
                                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(DashBoardActivity.this, LinearLayoutManager.VERTICAL, false);
                                 recy_booking_list.setLayoutManager(layoutManager);
                                 requestListAdapter = new RequestListAdapter(bookingRequestListResponse.getBookingList(), DashBoardActivity.this);
@@ -413,9 +442,12 @@ public class DashBoardActivity extends AppCompatActivity {
                                             preferenceManager.setKeyValueString("driver_mobile_no", booking.getDriverMobileNo());
                                             preferenceManager.setKeyValueString("driver_name", booking.getDriverName());
                                             preferenceManager.setKeyValueString("travel_agent_name", booking.getTravelAgentName());
-                                            preferenceManager.setKeyValueString("travel_agent_phone_no", booking.getTravelAgentAlternateMobileNo());
+                                            preferenceManager.setKeyValueString("travel_agent_phone_no", booking.getTravelAgentPhoneNo());
+                                            preferenceManager.setKeyValueString("society_id", booking.getSocietyId());
+                                            preferenceManager.setKeyValueString("user_id", booking.getUserId());
                                             showAcceptDialog();
                                         } else {
+
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
                                         }
 
@@ -425,6 +457,16 @@ public class DashBoardActivity extends AppCompatActivity {
                                     public void onRejectItemClickListener(BookingRequestListResponse.Booking booking) {
                                         if (booking.getDutyStatus().equalsIgnoreCase("1")) {
                                             preferenceManager.setKeyValueString("request_id", booking.getRequestId());
+                                            preferenceManager.setKeyValueString("pickup_date", booking.getPickupDate());
+                                            preferenceManager.setKeyValueString("pickup_time", booking.getPickupTime());
+                                            preferenceManager.setKeyValueString("pickup_location_name", booking.getPickupLocationName());
+                                            preferenceManager.setKeyValueString("drop_location_name", booking.getDropLocationName());
+                                            preferenceManager.setKeyValueString("driver_mobile_no", booking.getDriverMobileNo());
+                                            preferenceManager.setKeyValueString("driver_name", booking.getDriverName());
+                                            preferenceManager.setKeyValueString("travel_agent_name", booking.getTravelAgentName());
+                                            preferenceManager.setKeyValueString("travel_agent_phone_no", booking.getTravelAgentPhoneNo());
+                                            preferenceManager.setKeyValueString("society_id", booking.getSocietyId());
+                                            preferenceManager.setKeyValueString("user_id", booking.getUserId());
                                             showRejectReasonDialog();
                                         } else {
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
@@ -451,7 +493,11 @@ public class DashBoardActivity extends AppCompatActivity {
 
 
                             } else {
-                                Tools.toast(DashBoardActivity.this, bookingRequestListResponse.getMessage(), 1);
+                                lin_ps_load.setVisibility(View.GONE);
+                                recy_booking_list.setVisibility(View.VISIBLE);
+                                rel_nodata.setVisibility(View.GONE);
+                                linLayNoData.setVisibility(View.VISIBLE);
+//                                Tools.toast(DashBoardActivity.this, bookingRequestListResponse.getMessage(), 1);
 
                             }
                         } catch (Exception e) {
@@ -489,28 +535,32 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void showAcceptDialog() {
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Pick Up Confirmation");
-        builder.setIcon(R.drawable.ic_confirm);
-        builder.setMessage("Are you sure you want to Accept this Ride ?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                acceptbooking();
-                requestListAdapter.update(bookingList);
 
-            }
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+        final ImageView img_icon = dialogView.findViewById(R.id.img_icon);
+        final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
+        final EditText editText_reason = dialogView.findViewById(R.id.editText_reason);
+        img_icon.setImageResource(R.drawable.ic_pick_confirmation);
+        txtHeading.setText(R.string.are_you_sure_to_accept_this_ride);
+        editText_reason.setVisibility(View.GONE);
+        builder.setView(dialogView);
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            acceptbooking();
+            requestListAdapter.update(bookingList);
+            driverBookingList();
         });
 
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.dilaog_bg);
+        alertDialog.show();
+
     }
 
 
@@ -526,6 +576,7 @@ public class DashBoardActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(reason)) {
                 rejectbooking(reason);
                 requestListAdapter.update(bookingList);
+                driverBookingList();
             } else {
                 input.setError("Please provide a reason for rejecting the trip");
                 input.requestFocus();

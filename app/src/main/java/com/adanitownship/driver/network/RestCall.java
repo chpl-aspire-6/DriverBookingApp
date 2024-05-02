@@ -41,7 +41,10 @@ public interface RestCall {
                                  @Field("driver_mobile_no") String driver_mobile_no,
                                  @Field("driver_name") String driver_name,
                                  @Field("travel_agent_name") String travel_agent_name,
-                                 @Field("travel_agent_phone_no") String travel_agent_phone_no);
+                                 @Field("travel_agent_phone_no") String travel_agent_phone_no,
+                                 @Field("society_id") String society_id,
+                                 @Field("user_id") String user_id
+                                 );
 
 @FormUrlEncoded
     @POST("driverController.php")
@@ -55,7 +58,18 @@ public interface RestCall {
     @FormUrlEncoded
     @POST("driverController.php")
     Single<String> rejectbooking(@Field("rejectbooking") String rejectbooking, @Field("request_id") String request_id, @Field("reject_reason") String reject_reason ,@Field("driver_id") String driver_id,
-                                 @Field("travel_agent_id") String travel_agent_id);
+                                 @Field("travel_agent_id") String travel_agent_id,
+                                 @Field("pickup_date") String pickup_date,
+                                 @Field("pickup_time") String pickup_time,
+                                 @Field("pickup_location_name") String pickup_location_name,
+                                 @Field("drop_location_name") String drop_location_name,
+                                 @Field("driver_mobile_no") String driver_mobile_no,
+                                 @Field("driver_name") String driver_name,
+                                 @Field("travel_agent_name") String travel_agent_name,
+                                 @Field("travel_agent_phone_no") String travel_agent_phone_no,
+                                 @Field("society_id") String society_id,
+                                 @Field("user_id") String user_id
+                                 );
 
 
     @FormUrlEncoded

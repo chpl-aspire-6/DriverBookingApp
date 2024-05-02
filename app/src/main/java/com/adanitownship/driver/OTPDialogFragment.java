@@ -10,8 +10,6 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 
 import com.adanitownship.driver.network.RestCall;
@@ -33,13 +30,10 @@ import com.adanitownship.driver.utils.GzipUtils;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.google.firebase.FirebaseApp;
-import com.google.firebase.installations.FirebaseInstallations;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.gson.Gson;
 import com.mukesh.OtpView;
 
 import java.util.Locale;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import rx.Subscriber;
@@ -48,8 +42,6 @@ import rx.schedulers.Schedulers;
 
 public class OTPDialogFragment extends DialogFragment {
     RestCall restCall;
-    String tokenStr;
-
     Tools tools;
     LinearLayout OTPDialogFragLlResend;
     ImageView OTPDialogFragIv_truemobile_register;
@@ -108,10 +100,6 @@ public class OTPDialogFragment extends DialogFragment {
         OTPDialogFragEt_mobile_register.setEnabled(false);
         OTPDialogFragEt_mobile_register.setFocusable(false);
         countDownTimer();
-
-//        getDeviceToken();
-//        getToken();
-
         OTPDialogFragLlResend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -136,64 +124,6 @@ public class OTPDialogFragment extends DialogFragment {
         });
 
         OTPDialogFragCancel_bt.setOnClickListener(v -> dismiss());
-
-//        try {
-//
-//            FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
-//                if (!TextUtils.isEmpty(token)) {
-//                    tokenStr = token;
-//                    preferenceManager.setKeyValueString("token", token);
-//
-//
-//                } else {
-//
-//                    if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-//                        tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-//                        preferenceManager.setKeyValueString("token", tokenStr);
-//
-//                    } else {
-//                        checkNetworkConnection(token);
-//                    }
-//
-//                }
-//            }).addOnFailureListener(e -> {
-//
-//                if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-//                    tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-//                    preferenceManager.setKeyValueString("token", tokenStr);
-//
-//                } else {
-//                    checkNetworkConnection(e.getLocalizedMessage());
-//                }
-//
-//                //handle e
-//            }).addOnCanceledListener(() -> {
-//                if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-//                    tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-//                    preferenceManager.setKeyValueString("token", tokenStr);
-//
-//                }
-//                //handle cancel
-//            }).addOnCompleteListener(task -> {
-//                if (task.isSuccessful()) {
-//                    tokenStr = task.getResult();
-//                    preferenceManager.setKeyValueString("token", task.getResult());
-//
-//                    Log.v("TAG", "This is the token : " + task.getResult());
-//                } else {
-//                    if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-//                        tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-//                        preferenceManager.setKeyValueString("token", tokenStr);
-//
-//                    } else {
-//                        checkNetworkConnection(Objects.requireNonNull(task.getException()).getLocalizedMessage());
-//                    }
-//                }
-//            });
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
 
         return view;
     }
@@ -242,10 +172,6 @@ public class OTPDialogFragment extends DialogFragment {
     }
 
     public void driverOtpVerification() {
-        Log.e("Tanu85", Tools.getDeviceID(requireActivity()));
-        Log.e("Tanu85", Tools.getDeviceID(requireActivity()));
-
-
         restCall.driverOtpVerification("driverOtpVerification", mNum, OTPDialogFragOtp_view.getText().toString(), preferenceManager.getKeyValueString("token"), "android", Tools.getDeviceID(requireActivity()), versionCode).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
@@ -281,8 +207,8 @@ public class OTPDialogFragment extends DialogFragment {
                                 startActivity(intent);
                                 preferenceManager.setKeyValueString("driver_id", verifyOtpResponse.getDriverId());
                                 preferenceManager.setKeyValueString("driver_name", verifyOtpResponse.getDriverName());
-                                preferenceManager.setKeyValueString("travel_agent_id",verifyOtpResponse.getTravelAgentId());
-                                preferenceManager.setKeyValueString("driver_profile",verifyOtpResponse.getDriverPhoto());
+                                preferenceManager.setKeyValueString("travel_agent_id", verifyOtpResponse.getTravelAgentId());
+                                preferenceManager.setKeyValueString("driver_profile", verifyOtpResponse.getDriverPhoto());
                                 requireActivity().finish();
                             } else {
                                 Tools.toast(requireActivity(), verifyOtpResponse.getMessage(), 1);
@@ -294,70 +220,6 @@ public class OTPDialogFragment extends DialogFragment {
                 });
             }
         });
-    }
-
-    public void getDeviceToken() {
-
-        //    FirebaseMessaging.getInstance().getToken().addOnCompleteListener(new OnCompleteListener<String>() {
-//            @SuppressLint("RestrictedApi")
-//            @Override
-//            public void onComplete(@NonNull Task<String> task) {
-//                if (!task.isSuccessful()) {
-//                    Log.w(TAG, "Fetching FCM registration token failed", task.getException());
-//                    return;
-//                }
-//                token = task.getResult();
-//                Toast.makeText(requireActivity(), token, Toast.LENGTH_LONG).show();
-//            }
-//        });
-
-
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
-            if (!TextUtils.isEmpty(token)) {
-                tokenStr = token;
-                preferenceManager.setKeyValueString("token", token);
-
-            } else {
-
-                if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                    tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-                    preferenceManager.setKeyValueString("token", tokenStr);
-                } else {
-                    checkNetworkConnection(token);
-                }
-
-            }
-        }).addOnFailureListener(e -> {
-
-            if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-                preferenceManager.setKeyValueString("token", tokenStr);
-            } else {
-                checkNetworkConnection(e.getLocalizedMessage());
-            }
-
-            //handle e
-        }).addOnCanceledListener(() -> {
-            if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-                preferenceManager.setKeyValueString("token", tokenStr);
-            }
-            //handle cancel
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                tokenStr = task.getResult();
-                preferenceManager.setKeyValueString("token", task.getResult());
-                Log.v("TAG", "This is the token : " + task.getResult());
-            } else {
-                if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                    tokenStr = FirebaseInstallations.getInstance().getToken(true).getResult().getToken();
-                    preferenceManager.setKeyValueString("token", tokenStr);
-                } else {
-                    checkNetworkConnection(Objects.requireNonNull(task.getException()).getLocalizedMessage());
-                }
-            }
-        });
-
     }
 
 
@@ -393,74 +255,5 @@ public class OTPDialogFragment extends DialogFragment {
         };
         countDownTimer.start();
     }
-
-    public void checkNetworkConnection(String msg) {
-        requireActivity().runOnUiThread(() -> {
-
-            try {
-
-                tokenStr = Tools.generateRandomHexToken(100);
-                preferenceManager.setKeyValueString("token", tokenStr);
-
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            if (!requireActivity().isFinishing()) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
-                builder.setTitle(msg);
-                builder.setCancelable(false);
-                builder.setPositiveButton("Retry", (dialog, which) -> {
-                    dialog.dismiss();
-                });
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }
-        });
-    }
-
-
-    private void getToken() {
-
-        FirebaseMessaging.getInstance().getToken().addOnSuccessListener(token -> {
-            if (!TextUtils.isEmpty(token)) {
-                preferenceManager.setKeyValueString("token", token);
-
-            } else {
-
-                if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-
-                    preferenceManager.setKeyValueString("token", FirebaseInstallations.getInstance().getToken(true).getResult().getToken());
-
-                }
-
-            }
-        }).addOnFailureListener(e -> {
-
-            if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                preferenceManager.setKeyValueString("token", FirebaseInstallations.getInstance().getToken(true).getResult().getToken());
-            }
-
-            //handle e
-        }).addOnCanceledListener(() -> {
-            if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                preferenceManager.setKeyValueString("token", FirebaseInstallations.getInstance().getToken(true).getResult().getToken());
-            }
-            //handle cancel
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                preferenceManager.setKeyValueString("token", task.getResult());
-                Log.v("TAG", "This is the token : " + task.getResult());
-            } else {
-
-                if (FirebaseInstallations.getInstance().getToken(true).isSuccessful()) {
-                    preferenceManager.setKeyValueString("token", FirebaseInstallations.getInstance().getToken(true).getResult().getToken());
-                }
-            }
-        });
-
-    }
-
 
 }
