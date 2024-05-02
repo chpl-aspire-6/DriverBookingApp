@@ -105,7 +105,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
         Glide.with(context)
-                        .load(searchbookingList.get(position).getUser_photo())
+                        .load(searchbookingList.get(position).getUserPhoto())
                                 .placeholder(R.drawable.vector_person)
                                         .into(holder.iv_profile_photo);
 
@@ -140,7 +140,9 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.txt_PersonName.setText(searchbookingList.get(position).getUserFullName());
         holder.txt_MobileNumber.setText(searchbookingList.get(position).getUserContactNumber());
         holder.txtPeopleCount.setText(searchbookingList.get(position).getPassengerCount());
-        holder.txt_req_id.setText(searchbookingList.get(position).getDisplay_request_id());
+        holder.txt_req_id.setText(searchbookingList.get(position).getDisplayRequestId());
+        holder.txt_AgentAmountDetail.setText(searchbookingList.get(position).getCompanyPaymentAmount());
+        holder.txt_CustomerDetail.setText(searchbookingList.get(position).getUserPaymentAmount());
 
 
         if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("3")) {
@@ -194,7 +196,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details;
         ImageView iv_profile_photo;
-        TextView txt_FromLocation, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject , txt_Status;
+        TextView txt_FromLocation,txt_AgentAmountDetail,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject , txt_Status;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -215,6 +217,8 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             txt_MobileNumber = itemView.findViewById(R.id.txt_MobileNumber);
             txtPeopleCount = itemView.findViewById(R.id.txtPeopleCount);
             txt_Status = itemView.findViewById(R.id.txt_Status);
+            txt_CustomerDetail = itemView.findViewById(R.id.txt_CustomerDetail);
+            txt_AgentAmountDetail = itemView.findViewById(R.id.txt_AgentAmountDetail);
             iv_profile_photo = itemView.findViewById(R.id.iv_profile_photo);
 
 

@@ -45,16 +45,18 @@ public class BookingRequestListResponse {
         @SerializedName("request_id")
         @Expose
         private String requestId;
+        @SerializedName("display_request_id")
+        @Expose
+        private String displayRequestId;
         @SerializedName("user_id")
         @Expose
         private String userId;
         @SerializedName("user_full_name")
         @Expose
         private String userFullName;
-
         @SerializedName("user_photo")
         @Expose
-        private String user_photo;
+        private String userPhoto;
         @SerializedName("society_id")
         @Expose
         private String societyId;
@@ -88,6 +90,12 @@ public class BookingRequestListResponse {
         @SerializedName("pickup_time")
         @Expose
         private String pickupTime;
+        @SerializedName("company_payment_amount")
+        @Expose
+        private String companyPaymentAmount;
+        @SerializedName("user_payment_amount")
+        @Expose
+        private String userPaymentAmount;
         @SerializedName("travel_agent_name")
         @Expose
         private String travelAgentName;
@@ -145,6 +153,9 @@ public class BookingRequestListResponse {
         @SerializedName("user_request_date")
         @Expose
         private String userRequestDate;
+        @SerializedName("reject_reason")
+        @Expose
+        private String rejectReason;
         @SerializedName("user_contact_number")
         @Expose
         private String userContactNumber;
@@ -155,18 +166,20 @@ public class BookingRequestListResponse {
         @Expose
         private String userBookingRemarks;
 
-        @SerializedName("display_request_id")
-        @Expose
-        private String display_request_id;
-
-
-
         public String getRequestId() {
             return requestId;
         }
 
         public void setRequestId(String requestId) {
             this.requestId = requestId;
+        }
+
+        public String getDisplayRequestId() {
+            return displayRequestId;
+        }
+
+        public void setDisplayRequestId(String displayRequestId) {
+            this.displayRequestId = displayRequestId;
         }
 
         public String getUserId() {
@@ -185,13 +198,12 @@ public class BookingRequestListResponse {
             this.userFullName = userFullName;
         }
 
-
-        public String getUser_photo() {
-            return user_photo;
+        public String getUserPhoto() {
+            return userPhoto;
         }
 
-        public void setUser_photo(String user_photo) {
-            this.user_photo = user_photo;
+        public void setUserPhoto(String userPhoto) {
+            this.userPhoto = userPhoto;
         }
 
         public String getSocietyId() {
@@ -280,6 +292,22 @@ public class BookingRequestListResponse {
 
         public void setPickupTime(String pickupTime) {
             this.pickupTime = pickupTime;
+        }
+
+        public String getCompanyPaymentAmount() {
+            return companyPaymentAmount;
+        }
+
+        public void setCompanyPaymentAmount(String companyPaymentAmount) {
+            this.companyPaymentAmount = companyPaymentAmount;
+        }
+
+        public String getUserPaymentAmount() {
+            return userPaymentAmount;
+        }
+
+        public void setUserPaymentAmount(String userPaymentAmount) {
+            this.userPaymentAmount = userPaymentAmount;
         }
 
         public String getTravelAgentName() {
@@ -434,6 +462,14 @@ public class BookingRequestListResponse {
             this.userRequestDate = userRequestDate;
         }
 
+        public String getRejectReason() {
+            return rejectReason;
+        }
+
+        public void setRejectReason(String rejectReason) {
+            this.rejectReason = rejectReason;
+        }
+
         public String getUserContactNumber() {
             return userContactNumber;
         }
@@ -456,15 +492,6 @@ public class BookingRequestListResponse {
 
         public void setUserBookingRemarks(String userBookingRemarks) {
             this.userBookingRemarks = userBookingRemarks;
-        }
-
-
-        public String getDisplay_request_id() {
-            return display_request_id;
-        }
-
-        public void setDisplay_request_id(String display_request_id) {
-            this.display_request_id = display_request_id;
         }
 
     }
