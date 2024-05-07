@@ -126,7 +126,7 @@ public class NotificationActivity extends AppCompatActivity {
                         notificationResponse = new Gson().fromJson(GzipUtils.decrypt(encData), NotificationResponse.class);
 
                         if (notificationResponse != null && notificationResponse.getStatus().equalsIgnoreCase("200")) {
-
+                            preferenceManager.setNotificationDot(false);
                             lin_nodata.setVisibility(View.GONE);
                             lin_ps_load.setVisibility(View.GONE);
                             recyclerView.setVisibility(View.VISIBLE);

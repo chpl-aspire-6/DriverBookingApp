@@ -112,7 +112,14 @@ public class PreferenceManager {
         // mEditor.putString(VariableBag.NO_DATA_ICON, icon).commit();
     }
 
+    public boolean getNotificationDot() {
+        return mSharedPreferences.getBoolean(VariableBag.NOTIFICATION_COUNTER, false);
+    }
 
+    public void setNotificationDot(boolean v) {
+        mEditor.putBoolean(VariableBag.NOTIFICATION_COUNTER, v);
+        mEditor.commit();
+    }
 }
 
 

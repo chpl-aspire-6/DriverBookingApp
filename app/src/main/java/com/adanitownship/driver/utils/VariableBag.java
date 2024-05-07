@@ -19,6 +19,7 @@ public class VariableBag {
     public static boolean isBackground = false;
     public static String LAST_NOTIFICATION_ID = "last_noti";
 
+    public static String NOTIFICATION_COUNTER = "notification_counter";
 
     public static String PREF_NAME = "BMS";
     public static String LOGIN = "LOGIN";

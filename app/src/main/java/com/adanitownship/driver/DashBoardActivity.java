@@ -1,14 +1,24 @@
 package com.adanitownship.driver;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -16,10 +26,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -34,6 +48,7 @@ import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.adanitownship.driver.utils.VariableBag;
 import com.bumptech.glide.Glide;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -49,7 +64,11 @@ public class DashBoardActivity extends AppCompatActivity {
     SwipeRefreshLayout swipe;
     ImageView imgClose, imgIcon , iv_profile_photo;
     EditText etSearch;
-    TextView txt_PersonName;
+    TextView txt_PersonName , tv_noti_count;
+    public static final String CHANNEL_ID = "reminder_channel";
+    private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 101;
+
+
     RelativeLayout rel_nodata;
     LinearLayout lin_ps_load, lin_logout, linLayNoData;
     RecyclerView recy_booking_list;
@@ -81,6 +100,7 @@ public class DashBoardActivity extends AppCompatActivity {
         rel_nodata = findViewById(R.id.rel_nodata);
         notification = findViewById(R.id.notification);
         txt_PersonName = findViewById(R.id.txt_PersonName);
+        tv_noti_count = findViewById(R.id.tv_noti_count);
         switchOnOff = findViewById(R.id.switchOnOff);
         imgClose = findViewById(R.id.imgClose);
         etSearch = findViewById(R.id.etSearch);
@@ -99,6 +119,20 @@ public class DashBoardActivity extends AppCompatActivity {
                                         .into(iv_profile_photo);
 
         driverBookingList();
+
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION_PERMISSION);
+            } else {
+                // Permission already granted, create notification channel (if needed)
+                createNotificationChannels();
+            }
+        } else { // Below Android 13
+            // Notification permission is always granted on older versions
+            createNotificationChannels();
+        }
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -127,6 +161,13 @@ public class DashBoardActivity extends AppCompatActivity {
             }
         });
 
+
+        if (preferenceManager.getNotificationDot()) {
+            tv_noti_count.setText(" ");
+            tv_noti_count.setVisibility(View.VISIBLE);
+        } else {
+            tv_noti_count.setVisibility(View.GONE);
+        }
 
         switchOnOff.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -669,5 +710,61 @@ public class DashBoardActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+
+
+    private void showPermissionRationaleDialog() {
+        // Build a dialog explaining why the permission is needed
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("This app needs notification permission to show important updates and alerts. Grant permission to enable notifications?");
+        builder.setPositiveButton("Grant Permission", (dialog, which) -> {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION_PERMISSION);
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    private void openNotificationSettings() {
+        // Open the app settings page where the user can enable notification permission
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        // Verify if it resolves to an activity before starting the intent
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
+        } else {
+            // Handle case where there is no matching activity (unlikely)
+            Toast.makeText(this, "Unable to open Notification Settings", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void createNotificationChannels() {
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,"App notifications", NotificationManager.IMPORTANCE_HIGH);
+            channel.setDescription("App  notifications appear here");
+            channel.setSound(null,null);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_NOTIFICATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission granted, create notification channel
+                createNotificationChannels();
+            } else {
+                // Permission denied, explain why it's needed and offer to go to settings
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
+                    // Show a rationale dialog explaining why the permission is needed
+                    showPermissionRationaleDialog();
+                } else {
+                    // User denied and checked "Don't ask again"
+                    openNotificationSettings();
+                }
+            }
+        }
     }
 }

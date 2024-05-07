@@ -1,7 +1,10 @@
 package com.adanitownship.driver;
 
 import android.annotation.SuppressLint;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Context;
+import android.os.Build;
 
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
@@ -17,6 +20,7 @@ public class AppLevel extends MultiDexApplication {
     private FirebaseAnalytics mFirebaseAnalytics;
 
     private static AppLevel instance;
+
 
     public AppLevel() {
         super();
@@ -42,5 +46,9 @@ public class AppLevel extends MultiDexApplication {
         FirebaseApp.initializeApp(this);
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
     }
+
+
+
 }

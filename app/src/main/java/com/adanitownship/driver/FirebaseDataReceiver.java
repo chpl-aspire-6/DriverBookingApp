@@ -137,6 +137,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                 int NOTIFICATION_COLOR = context.getResources().getColor(R.color.colorPrimary);
                 long[] VIBRATE_PATTERN = {0, 500};
 
+                preferenceManager.setNotificationDot(true);
 
                 String channelId = "channel-" + 01;
                 String channelName = "Channel Name";
