@@ -120,17 +120,15 @@ public class DashBoardActivity extends AppCompatActivity {
 
         driverBookingList();
 
-
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION_PERMISSION);
             } else {
-                // Permission already granted, create notification channel (if needed)
+
                 createNotificationChannels();
             }
-        } else { // Below Android 13
-            // Notification permission is always granted on older versions
+        } else {
+
             createNotificationChannels();
         }
         notification.setOnClickListener(new View.OnClickListener() {
@@ -148,15 +146,15 @@ public class DashBoardActivity extends AppCompatActivity {
 
             }
         });
-
-
         switchOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     switchStatus = 1;//on
+
                 } else {
                     switchStatus = 0;//off
+
                 }
             }
         });
@@ -259,6 +257,7 @@ public class DashBoardActivity extends AppCompatActivity {
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                             requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                            driverBookingList();
 
                         } else {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
@@ -312,8 +311,7 @@ public class DashBoardActivity extends AppCompatActivity {
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                             requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
-
-
+                            driverBookingList();
                         } else {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
                         }
@@ -330,8 +328,8 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-    public void driverPickupUser() {
-        restCall.driverPickupUser("driverPickupUser", preferenceManager.getKeyValueString("request_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+    public void driverPickupUser(String requestId) {
+        restCall.driverPickupUser("driverPickupUser", requestId).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -358,9 +356,9 @@ public class DashBoardActivity extends AppCompatActivity {
                     try {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
-
                             requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                            driverBookingList();
 
                         } else {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
@@ -377,8 +375,8 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-    public void driverDropUser() {
-        restCall.driverDropUser("driverDropUser", preferenceManager.getKeyValueString("request_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+    public void driverDropUser(String requestId , String pos) {
+        restCall.driverDropUser("driverDropUser",requestId).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -405,9 +403,10 @@ public class DashBoardActivity extends AppCompatActivity {
                     try {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
-
-                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                            bookingList.remove(Integer.parseInt(pos));
                             requestListAdapter.update(bookingList);
+                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                           driverBookingList();
 
                         } else {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
@@ -425,6 +424,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
 
     public void driverBookingList() {
+//        tools.showLoading();
         restCall.driverBookingList("driverBookingList", preferenceManager.getKeyValueString("driver_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
@@ -439,6 +439,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     public void run() {
 
                         runOnUiThread(() -> {
+                            tools.stopLoading();
                             swipe.setRefreshing(false);
                             lin_ps_load.setVisibility(View.GONE);
                             recy_booking_list.setVisibility(View.GONE);
@@ -457,6 +458,7 @@ public class DashBoardActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        tools.stopLoading();
                         swipe.setRefreshing(false);
                         BookingRequestListResponse bookingRequestListResponse = null;
                         try {
@@ -516,14 +518,22 @@ public class DashBoardActivity extends AppCompatActivity {
 
                                     @Override
                                     public void onPickUpItemClickListener(BookingRequestListResponse.Booking booking) {
-                                        showPickUpConfrimstionDialog();
+
+                                        if (booking.getDutyStatus().equalsIgnoreCase("1")) {
+                                            showPickUpConfrimstionDialog(booking.getRequestId());
+                                        }else {
+                                            Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
+                                        }
 
                                     }
 
                                     @Override
-                                    public void onDropItemClickListener(BookingRequestListResponse.Booking booking) {
-
-                                        driverDropUser();
+                                    public void onDropItemClickListener(String pos ,BookingRequestListResponse.Booking booking) {
+                                        if (booking.getDutyStatus().equalsIgnoreCase("1")) {
+                                            showDropConfirmationDialog(booking.getRequestId(), pos);
+                                        }else {
+                                            Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
+                                        }
                                     }
                                 });
 
@@ -587,7 +597,7 @@ public class DashBoardActivity extends AppCompatActivity {
         txtHeading.setText(R.string.are_you_sure_to_accept_this_ride);
         editText_reason.setVisibility(View.GONE);
         builder.setView(dialogView);
-
+        builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
             acceptbooking();
             requestListAdapter.update(bookingList);
@@ -611,17 +621,33 @@ public class DashBoardActivity extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
         final EditText input = dialogView.findViewById(R.id.editText_reason);
         builder.setView(dialogView);
-
+        builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
-            String reason = input.getText().toString();
-            if (!TextUtils.isEmpty(reason)) {
+            String reason = input.getText().toString().trim();
+            if(reason.isEmpty()){
+                input.setError("Please provide a reason for rejecting the trip");
+                input.findFocus().requestFocus();
+                Toast.makeText(DashBoardActivity.this , "Please provide a reason for rejecting the trip",Toast.LENGTH_SHORT).show();
+
+            }else {
                 rejectbooking(reason);
                 requestListAdapter.update(bookingList);
                 driverBookingList();
-            } else {
-                input.setError("Please provide a reason for rejecting the trip");
-                input.requestFocus();
+                dialog.dismiss();
             }
+
+
+
+//            if (!TextUtils.isEmpty(reason)&& !reason.startsWith("")) {
+//                rejectbooking(reason);
+//                requestListAdapter.update(bookingList);
+//                driverBookingList();
+//                dialog.dismiss();
+//            } else {
+//                input.setError("Please provide a reason for rejecting the trip");
+//                input.findFocus().requestFocus();
+//                Toast.makeText(DashBoardActivity.this , "Please provide a reason for rejecting the trip",Toast.LENGTH_SHORT).show();
+//            }
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -636,7 +662,7 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-    public void showPickUpConfrimstionDialog() {
+    public void showPickUpConfrimstionDialog(String requestId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
@@ -647,9 +673,9 @@ public class DashBoardActivity extends AppCompatActivity {
         txtHeading.setText("Are you sure for Pick Up");
         editText_reason.setVisibility(View.GONE);
         builder.setView(dialogView);
-
+        builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
-            driverPickupUser();
+            driverPickupUser(requestId);
         });
 
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -663,8 +689,36 @@ public class DashBoardActivity extends AppCompatActivity {
 
     }
 
+    public void showDropConfirmationDialog(String requestId,String pos) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
+        final ImageView img_icon = dialogView.findViewById(R.id.img_icon);
+        final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
+        final EditText editText_reason = dialogView.findViewById(R.id.editText_reason);
+        img_icon.setImageResource(R.drawable.drop_confirmation);
+        txtHeading.setText("Are you sure you want to Drop ");
+        editText_reason.setVisibility(View.GONE);
+        builder.setView(dialogView);
+        builder.setCancelable(false);
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            driverDropUser(requestId , pos);
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) ->
+                dialog.cancel());
+
+        AlertDialog alertDialog = builder.create();
+
+        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        alertDialog.getWindow().setBackgroundDrawableResource(R.drawable.dilaog_bg);
+        alertDialog.show();
+
+
+    }
 
     public void driverDutyUpdate() {
+        tools.showLoading();
         restCall.driverDutyUpdate("driverDutyUpdate", preferenceManager.getKeyValueString("driver_id"), switchStatus).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
@@ -678,6 +732,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     public void run() {
 
                         runOnUiThread(() -> {
+                            tools.stopLoading();
                             swipe.setRefreshing(false);
                             lin_ps_load.setVisibility(View.GONE);
                             recy_booking_list.setVisibility(View.GONE);
@@ -692,12 +747,13 @@ public class DashBoardActivity extends AppCompatActivity {
             @Override
             public void onNext(String encData) {
                 runOnUiThread(() -> {
+                    tools.stopLoading();
                     CommonResponse commonResponse = null;
                     try {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                         if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
-                            requestListAdapter.update(bookingList);
+                            driverBookingList();
                         } else {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
                         }
@@ -726,14 +782,11 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     private void openNotificationSettings() {
-        // Open the app settings page where the user can enable notification permission
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        // Verify if it resolves to an activity before starting the intent
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivity(intent);
         } else {
-            // Handle case where there is no matching activity (unlikely)
             Toast.makeText(this, "Unable to open Notification Settings", Toast.LENGTH_SHORT).show();
         }
     }
@@ -753,15 +806,11 @@ public class DashBoardActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == REQUEST_CODE_NOTIFICATION_PERMISSION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission granted, create notification channel
                 createNotificationChannels();
             } else {
-                // Permission denied, explain why it's needed and offer to go to settings
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
-                    // Show a rationale dialog explaining why the permission is needed
                     showPermissionRationaleDialog();
                 } else {
-                    // User denied and checked "Don't ask again"
                     openNotificationSettings();
                 }
             }

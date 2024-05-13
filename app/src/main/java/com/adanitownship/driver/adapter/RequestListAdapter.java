@@ -40,7 +40,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
         void onRejectItemClickListener(BookingRequestListResponse.Booking booking);
         void onPickUpItemClickListener(BookingRequestListResponse.Booking booking);
-        void onDropItemClickListener(BookingRequestListResponse.Booking booking);
+        void onDropItemClickListener(String pos ,BookingRequestListResponse.Booking booking);
     }
 
     public void setOnItemClickListener(ItemSingleClickListener clickListener) {
@@ -69,7 +69,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
                 List<BookingRequestListResponse.Booking> filteredList = new ArrayList<>();
                 for (BookingRequestListResponse.Booking row : bookingList) {
 
-                    if (row.getUserFullName().toLowerCase().contains(charString.toLowerCase()) || row.getPickupLocationName().toLowerCase().contains(charString.toLowerCase()) || row.getDropLocationName().toLowerCase().contains(charString.toLowerCase()) || row.getPickupDate().toLowerCase().contains(charString.toLowerCase()) || row.getPickupTime().toLowerCase().contains(charString.toLowerCase())) {
+                    if (row.getDisplayRequestId().toLowerCase().contains(charString.toLowerCase()) ||row.getUserFullName().toLowerCase().contains(charString.toLowerCase()) || row.getPickupLocationName().toLowerCase().contains(charString.toLowerCase()) || row.getDropLocationName().toLowerCase().contains(charString.toLowerCase()) || row.getPickupDate().toLowerCase().contains(charString.toLowerCase()) || row.getPickupTime().toLowerCase().contains(charString.toLowerCase())) {
                         filteredList.add(row);
                         flag = 1;
                     }
@@ -118,7 +118,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.lin_Drop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sClickListener.onDropItemClickListener(searchbookingList.get(position));
+                sClickListener.onDropItemClickListener(String.valueOf(position),searchbookingList.get(position));
             }
         });
         holder.lin_accept.setOnClickListener(new View.OnClickListener() {

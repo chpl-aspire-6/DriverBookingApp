@@ -35,7 +35,8 @@
     <string name="no_search_found">No Search Found!</string>
     <string name="no_data_avavilable">No Data Avavilable</string>
     <string name="are_you_sure_to_accept_this_ride">Are you sure to Accept this Ride</string>
-    <string name="write_the_reason_for_rejecting_this_trip_here">Write the reason for rejecting this trip here...</string>
+    <string name="write_the_reason_for_rejecting_this_trip_here">Write  reason for rejecting this trip...</string>
     <string name="enter_your_mobile_number_or_email">Enter your mobile number or Email</string>
+    <string name="pick_up">Pick Up</string>
 
 </resources>

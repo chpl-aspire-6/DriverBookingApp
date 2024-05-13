@@ -1,5 +1,7 @@
 package com.adanitownship.driver;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.app.ActivityManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.util.Log;
+import android.window.SplashScreen;
 
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -40,6 +43,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
     Bitmap bitmapSmall = null;
     String TAG = "FirebaseDataReceiver";
     Vibrator vibe;
+    String channelId = "channel-" + 01;
     private PreferenceManager preferenceManager;
 
     public void onReceive(final Context context, Intent intent) {
@@ -66,6 +70,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
             if (preferenceManager.getLoginSession()) {
                 if (remoteMessage.getData().containsKey("msg_id") && remoteMessage.getData().get("msg_id") != null) {
+                    Log.d("asd", "nextStep: data 11");
                     try {
 
                         Long msgId = Long.parseLong(remoteMessage.getData().get("msg_id"));
@@ -89,6 +94,7 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
                 } else {
                     nextStep(context, remoteMessage);
+                    Log.d("asd", "nextStep: data 12");
                 }
             }
 
@@ -102,6 +108,8 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
     private void nextStep(Context context, RemoteMessage remoteMessage) {
 
+        Log.d("asd", "nextStep: data 1");
+
         final String title = remoteMessage.getData().get("title");
         final String message = remoteMessage.getData().get("body");
         final String clickAction = remoteMessage.getData().get("click_action");
@@ -111,25 +119,28 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
             if (image.contains("logo.png")) {
                 bitmap = null;
                 image = null;
-
+                Log.d("asd", "nextStep: data 2");
                 sendNotification(context, title, message, image);
             } else {
+                Log.d("asd", "nextStep: data 3");
                 getBitmapFromUrl(context, title, message, clickAction, image, remoteMessage, true);
             }
         } else if (small_icon != null && small_icon.length() > 5) {
+            Log.d("asd", "nextStep: data 4");
             getBitmapFromUrl(context, title, message, clickAction, small_icon, remoteMessage, false);
         } else {
+            Log.d("asd", "nextStep: data 5");
             sendNotification(context, title, message, image);
         }
 
 
     }
 
-    private void sendNotification(Context context, String title, String message, String image
-//                                  String clickAction, String image, String menuClick
+    private void sendNotification(Context context, String title, String message,  String image
+//                                  String image,String clickAction, String image, String menuClick
     ) {
         JSONObject mainObject = null;
-
+        Log.d("tag", "sendNotification:" +title);
         if (title != null && title.length() > 0 && !title.equalsIgnoreCase("sos")) {
 
             try {
@@ -163,33 +174,20 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                 }
                 Intent intent;
                 intent = new Intent(context, DashBoardActivity.class);
-
-//                if (menuClick.equalsIgnoreCase("custom_notification")) {
-//                    intent = new Intent(context, DashBoardActivity.class);
-//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                    if (clickAction != null && clickAction.length() > 0) {
-//                        mainObject = new JSONObject(clickAction);
-//                        intent.putExtra("img", mainObject.getString("img_url"));
-//                        intent.putExtra("title", mainObject.getString("title"));
-//                        intent.putExtra("desc", mainObject.getString("description"));
-//                        intent.putExtra("time", mainObject.getString("notification_time"));
-//                    }
-//                }
-//                else {
-//                    intent = new Intent(context, DashBoardActivity.class);
-//                    intent.putExtra("isFromFCM", true);
-//
-//                }
-
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, getRandomNumber(1, 10000), intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
-
                 NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle();
 
                 //pendingIntent.
 
                 if (bitmap != null) {
 
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(message).setSound(null).setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap)).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
+                            .setSmallIcon(R.mipmap.ic_fcm_icon)
+                            .setContentTitle(title).setContentText(message)
+                            .setSound(null).setStyle(new NotificationCompat.BigPictureStyle()
+                                    .bigPicture(bitmap)).setLights(Color.RED, 1000, 1000)
+                            .setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true)
+                            .setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
 
 
                     if (notificationManager != null) {
@@ -199,36 +197,31 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                     }
 
                 } else if (bitmapSmall != null) {
-
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setLargeIcon(bitmapSmall).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setSound(null).setContentText(message).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId)
+                            .setLargeIcon(bitmapSmall).setSmallIcon(R.mipmap.ic_fcm_icon)
+                            .setContentTitle(title).setSound(null).setContentText(message)
+                            .setLights(Color.RED, 1000, 1000)
+                            .setVibrate(new long[]{0, 400, 250, 400})
+                            .setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
+                            .setContentIntent(pendingIntent);
 
                     if (message.length() > 40) {
                         mBuilder.setStyle(bigTextStyle);
                     }
-
-
                     if (notificationManager != null) {
 
                         notificationManager.notify(getRandomNumber(1, 10000), mBuilder.build());
-
                     }
 
                 } else {
-
-                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_driver_logo)).setSmallIcon(R.mipmap.ic_launcher).setContentTitle(title).setContentText(message).setSound(null).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
-
+                    NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context, channelId).setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_fcm_icon)).setSmallIcon(R.mipmap.ic_fcm_icon).setContentTitle(title).setContentText(message).setSound(null).setLights(Color.RED, 1000, 1000).setVibrate(new long[]{0, 400, 250, 400}).setAutoCancel(true).setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL).setContentIntent(pendingIntent);
                     if (message.length() > 40) {
                         mBuilder.setStyle(bigTextStyle);
                     }
-
-
                     if (notificationManager != null) {
 
                         notificationManager.notify(getRandomNumber(1, 10000), mBuilder.build());
-
-
                     }
-
                 }
                 AudioManager am = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
 
@@ -248,6 +241,13 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
                             break;
                     }
 
+                }
+                if (title.equalsIgnoreCase("Logout")) {
+                    preferenceManager.deleteLoginSession();
+                    preferenceManager.clearPreferences();
+                    Intent intent1 = new Intent(context, LoginActivity.class);
+                    intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent1);
                 }
 
             } catch (Exception e) {
@@ -282,7 +282,6 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
 
 
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
                     e.printStackTrace();
                     if (isBigImg) {
                         bitmap = null;
@@ -321,6 +320,9 @@ public class FirebaseDataReceiver extends BroadcastReceiver {
         }
 
     }
+
+
+
 
     static class ForegroundCheckTask extends AsyncTask<Context, Void, Boolean> {
 

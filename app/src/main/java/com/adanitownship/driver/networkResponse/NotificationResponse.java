@@ -71,6 +71,22 @@ public class NotificationResponse {
         @Expose
         private String notificationLogo;
 
+
+        public String getNotifiaction_date() {
+            return notifiaction_date;
+        }
+
+        public void setNotifiaction_date(String notifiaction_date) {
+            this.notifiaction_date = notifiaction_date;
+        }
+
+        @SerializedName("notifiaction_date")
+        @Expose
+        private String notifiaction_date;
+
+
+
+
         public String getNotificationId() {
             return notificationId;
         }

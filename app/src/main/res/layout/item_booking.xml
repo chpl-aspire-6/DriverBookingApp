@@ -195,7 +195,7 @@
                             android:layout_height="wrap_content"
                             android:text="From"
                             android:textColor="@color/Black"
-                            android:textSize="@dimen/_13ssp"
+                            android:textSize="@dimen/_11ssp"
                             app:fontName="sf_bold" />
 
                         <TextView
@@ -212,7 +212,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:text="Makarba"
                             android:textColor="@color/grey_80"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
 
                     <!-- Right Side Information -->
@@ -229,7 +229,7 @@
                             android:layout_height="wrap_content"
                             android:text="To"
                             android:textColor="@color/Black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:textSize="@dimen/_11ssp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -245,7 +245,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:text="Vastrapur"
                             android:textColor="@color/grey_80"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -273,7 +273,7 @@
                             android:layout_height="wrap_content"
                             android:text="Date"
                             android:textColor="@color/Black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:textSize="@dimen/_11ssp" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -289,7 +289,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:text="5 April 2024"
                             android:textColor="@color/grey_80"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
 
                     <!-- Right Side Information -->
@@ -308,7 +308,7 @@
                             android:layout_height="wrap_content"
                             android:text="Time"
                             android:textColor="@color/Black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:textSize="@dimen/_11ssp" />
 
                         <TextView
                             android:id="@+id/txt_"
@@ -325,7 +325,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:text="3 PM"
                             android:textColor="@color/grey_80"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -352,16 +352,16 @@
                             android:id="@+id/txt_AgentAmountDetailTag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Agent Amt"
+                            android:text="Company Amt:"
                             android:textColor="@color/Black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:textSize="@dimen/_11ssp" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:text="-"
-                            android:textColor="@color/Black" />
+<!--                        <TextView-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/_3sdp"-->
+<!--                            android:text="-"-->
+<!--                            android:textColor="@color/Black" />-->
 
                         <TextView
                             android:id="@+id/txt_AgentAmountDetail"
@@ -370,7 +370,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:text="5000"
                             android:textColor="@color/grey_80"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
 
                     <!-- Right Side Information -->
@@ -387,17 +387,17 @@
                             android:id="@+id/txt_CustomerDetailTag"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Customer Amt"
+                            android:text="Customer Amt:"
                             android:textColor="@color/Black"
-                            android:textSize="@dimen/_13ssp" />
+                            android:textSize="@dimen/_11ssp" />
 
-                        <TextView
-                            android:id="@+id/txt_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_3sdp"
-                            android:text="-"
-                            android:textColor="@color/Black" />
+<!--                        <TextView-->
+<!--                            android:id="@+id/txt_1"-->
+<!--                            android:layout_width="wrap_content"-->
+<!--                            android:layout_height="wrap_content"-->
+<!--                            android:layout_marginStart="@dimen/_3sdp"-->
+<!--                            android:text="-"-->
+<!--                            android:textColor="@color/Black" />-->
 
                         <TextView
                             android:id="@+id/txt_CustomerDetail"
@@ -406,7 +406,7 @@
                             android:layout_marginStart="@dimen/_3sdp"
                             android:text="300"
                             android:textColor="@color/grey_80"
-                            android:textSize="@dimen/_12ssp" />
+                            android:textSize="@dimen/_11ssp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -519,7 +519,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center"
-                            android:text="PickUP"
+                            android:text="@string/pick_up"
                             android:textAlignment="center"
                             android:textColor="@color/white"
                             android:textSize="@dimen/_12ssp"

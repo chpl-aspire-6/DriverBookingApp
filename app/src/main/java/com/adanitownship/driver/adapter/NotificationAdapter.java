@@ -47,6 +47,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         holder.txt_Status.setText(notifications.get(position).getNotificationTile());
         holder.txt_content.setText(notifications.get(position).getNotificationDescription());
+        holder.tv_time_date.setText(notifications.get(position).getNotifiaction_date());
         holder.img_del_notify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,13 +73,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     public class MyDataViewHolder extends RecyclerView.ViewHolder {
 
-        TextView  txt_Status , txt_content;
+        TextView  txt_Status , txt_content , tv_time_date;
         ImageView iv_notify , img_del_notify;
 
         public MyDataViewHolder(@NonNull View itemView) {
             super(itemView);
             txt_Status = itemView.findViewById(R.id.txt_Status);
             txt_content = itemView.findViewById(R.id.txt_content);
+            tv_time_date = itemView.findViewById(R.id.tv_time_date);
             iv_notify = itemView.findViewById(R.id.iv_notify);
             img_del_notify = itemView.findViewById(R.id.img_del_notify);
         }

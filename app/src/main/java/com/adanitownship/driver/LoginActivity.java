@@ -52,11 +52,10 @@ public class LoginActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(LoginActivity.this);
         tools = new Tools(this);
         restCall = RestClient.createService(RestCall.class, "https://adanidev.mysmartsociety.app/shantivan/residentApiNewEnc/", "smartapikey");
-
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (edtEmailOrMobile.getText().toString().isEmpty()) {
+                if (edtEmailOrMobile.getText().toString().trim().isEmpty()) {
                     edtEmailOrMobile.setError("Enter your number or email" +
                             "!");
                     edtEmailOrMobile.requestFocus();
@@ -128,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
 
         Log.d("asds", "driverLogin: tokenStr" + tokenStr);
 
+        tools.showLoading();
         restCall.driverLogin("driverLogin", edtEmailOrMobile.getText().toString())
                 .subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
                     @Override
@@ -159,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
                                     commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                                     if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                                         Tools.toast(LoginActivity.this, commonResponse.getMessage(), 2);
-                                        preferenceManager.setLoginSession();
+//                                        preferenceManager.setLoginSession();
                                         callDialog(edtEmailOrMobile.getText().toString());
                                     } else {
                                         Tools.toast(LoginActivity.this, commonResponse.getMessage(), 1);

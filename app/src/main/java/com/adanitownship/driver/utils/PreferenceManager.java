@@ -94,7 +94,13 @@ public class PreferenceManager {
 
     public void deleteLoginSession() {
         mEditor.putBoolean(VariableBag.LOGIN, false);
+        mEditor.clear();
         mEditor.commit();
+    }
+    public void clearPreferences() {
+        mEditor.clear();
+        mEditor.commit();
+        //deleteLoginSession();
     }
 
 

@@ -118,8 +118,15 @@ public class OTPDialogFragment extends DialogFragment {
         OTPDialogFragDone_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(OTPDialogFragOtp_view.length()==6){
+                    driverOtpVerification();
+                    preferenceManager.setLoginSession();
+                }else {
+                    OTPDialogFragOtp_view.setError("Enter the Otp");
+                    OTPDialogFragOtp_view.requestFocus();
+                }
 
-                driverOtpVerification();
+
             }
         });
 
@@ -172,6 +179,7 @@ public class OTPDialogFragment extends DialogFragment {
     }
 
     public void driverOtpVerification() {
+        tools.showLoading();
         restCall.driverOtpVerification("driverOtpVerification", mNum, OTPDialogFragOtp_view.getText().toString(), preferenceManager.getKeyValueString("token"), "android", Tools.getDeviceID(requireActivity()), versionCode).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
@@ -183,7 +191,7 @@ public class OTPDialogFragment extends DialogFragment {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
+                        tools.stopLoading();
                         Tools.toast(requireActivity(), getString(R.string.no_internet_connection), 1);
 
                     }
@@ -195,13 +203,12 @@ public class OTPDialogFragment extends DialogFragment {
                 requireActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         tools.stopLoading();
                         VerifyOtpResponse verifyOtpResponse = null;
                         try {
                             verifyOtpResponse = new Gson().fromJson(GzipUtils.decrypt(encData), VerifyOtpResponse.class);
                             if (verifyOtpResponse != null && verifyOtpResponse.getStatus().equalsIgnoreCase("200")) {
-
+//                                preferenceManager.setLoginSession();
                                 Tools.toast(requireActivity(), verifyOtpResponse.getMessage(), 2);
                                 Intent intent = new Intent(requireActivity(), DashBoardActivity.class);
                                 startActivity(intent);

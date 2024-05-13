@@ -39,7 +39,7 @@
             android:id="@+id/editText_reason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="text"
+            android:inputType="textPersonName"
             android:hint="@string/write_the_reason_for_rejecting_this_trip_here"
             android:maxLines="1"
             android:layout_marginTop="@dimen/_10sdp"
