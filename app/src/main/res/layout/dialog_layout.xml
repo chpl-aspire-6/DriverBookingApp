@@ -17,7 +17,7 @@
             android:id="@+id/txtHeading"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Reason for Rejecting Trip"
+            android:text="@string/reason_for_rejecting_trip"
             android:gravity="center"
             android:layout_gravity="center"
             android:textColor="@color/colorPrimary"
@@ -42,6 +42,8 @@
             android:inputType="textPersonName"
             android:hint="@string/write_the_reason_for_rejecting_this_trip_here"
             android:maxLines="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/editext_bg"
             android:maxLength="50"/>

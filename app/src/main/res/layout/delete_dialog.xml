@@ -30,6 +30,7 @@
             android:layout_height="wrap_content"
             android:text="Want to Delete this Notification?"
             android:gravity="center"
+            android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center"
             android:textColor="@color/Black"
             android:textStyle="italic|bold"

@@ -104,6 +104,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import es.dmoral.toasty.Toasty;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import okio.ByteString;
@@ -503,21 +504,19 @@ public class Tools {
 
     public static void toast(Context ctx, String msg, int type) {
 
-        Toast.makeText(ctx, "" + msg, Toast.LENGTH_LONG).show();
-
-
-        //type 0 info, 1 for Error ,2 for Sucess,3 for warning
-//        if (type == 0) {
-//            Toasty.info(ctx, msg, Toast.LENGTH_LONG, true).show();
-//        } else if (type == 1) {
-//            Toasty.error(ctx, msg, Toast.LENGTH_LONG, true).show();
-//        } else if (type == 2) {
-//            Toasty.success(ctx, msg, Toast.LENGTH_LONG, true).show();
-//        } else if (type == 3) {
-//            Toasty.warning(ctx, msg, Toast.LENGTH_LONG, true).show();
-//        } else {
-//            Toast.makeText(ctx, "" + msg, Toast.LENGTH_LONG).show();
-//        }
+//        Toast.makeText(ctx, "" + msg, Toast.LENGTH_LONG).show();
+//        type 0 info, 1 for Error ,2 for Sucess,3 for warning
+        if (type == 0) {
+            Toasty.info(ctx, msg, Toast.LENGTH_LONG, true).show();
+        } else if (type == 1) {
+            Toasty.error(ctx, msg, Toast.LENGTH_LONG, true).show();
+        } else if (type == 2) {
+            Toasty.success(ctx, msg, Toast.LENGTH_LONG, true).show();
+        } else if (type == 3) {
+            Toasty.warning(ctx, msg, Toast.LENGTH_LONG, true).show();
+        } else {
+            Toast.makeText(ctx, "" + msg, Toast.LENGTH_LONG).show();
+        }
     }
 
 

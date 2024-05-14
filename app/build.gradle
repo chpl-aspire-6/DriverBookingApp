@@ -118,4 +118,9 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
 
 
+
+
+    implementation 'com.github.GrenderG:Toasty:1.5.2'
+
+
 }

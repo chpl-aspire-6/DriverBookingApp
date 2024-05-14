@@ -29,7 +29,7 @@
     <string name="roboto_black">roboto_black</string>
     <string name="sf_bold">sf_bold</string>
     <string name="no_notification_available">No notification available!\n</string>
-    <string name="want_to_delete_all_the_notification">"Want to Delete All the Notification? "</string>
+    <string name="want_to_delete_all_the_notification">"Are you want to Delete All the Notification? "</string>
     <string name="notification_title">Notification Title</string>
     <string name="notification_description_is_here_display_with_small_text_size_and_with_some_fascinating_font_thnak_you">description\n</string>
     <string name="no_search_found">No Search Found!</string>
@@ -38,5 +38,6 @@
     <string name="write_the_reason_for_rejecting_this_trip_here">Write  reason for rejecting this trip...</string>
     <string name="enter_your_mobile_number_or_email">Enter your mobile number or Email</string>
     <string name="pick_up">Pick Up</string>
+    <string name="reason_for_rejecting_trip">Reason for Rejecting Trip</string>
 
 </resources>

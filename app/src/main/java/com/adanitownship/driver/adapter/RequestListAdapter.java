@@ -150,35 +150,29 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             holder.lin_Reject.setVisibility(View.VISIBLE);
             holder.lin_Drop.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.GONE);
-//            holder.txt_Status.setText(searchbookingList.get(position).getRequestStatusName());
-            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary));
-            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_Light));
-            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_LightBG));
+//            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary));
+//            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_Light));
+//            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_LightBG));
         } else if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("5")) {
             holder.lin_accept.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.VISIBLE);
             holder.lin_Reject.setVisibility(View.GONE);
             holder.lin_Drop.setVisibility(View.GONE);
-            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary));
-            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_Light));
-            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_LightBG));
+//            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary));
+//            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_Light));
+//            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_LightBG));
         } else if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("6")) {
             holder.lin_accept.setVisibility(View.GONE);
             holder.lin_Reject.setVisibility(View.GONE);
             holder.lin_Drop.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.GONE);
-            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorRedPrimary_LightBG));
-            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorRedPrimary_Light));
+//            holder.txtPeopleCount.setTextColor(ContextCompat.getColor(context ,R.color.colorRedPrimary));
+//            holder.img_per.setColorFilter(ContextCompat.getColor(context, R.color.colorRedPrimary));;
+//            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorRedPrimary_LightBG));
+//            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorRedPrimary_Light));
             holder.txt_Status.setText(searchbookingList.get(position).getRequestStatusName());
-            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorRedPrimary));
+//            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorRedPrimary));
 
-//            holder.lin_Reject.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    holder.lin_Reject.setClickable(false);
-//                    Toast.makeText(context, "You have already submitted the reason", Toast.LENGTH_LONG).show();
-//                }
-//            });
         } else if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("7")) {
             holder.lin_accept.setVisibility(View.GONE);
             holder.lin_Drop.setVisibility(View.VISIBLE);
@@ -195,7 +189,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details;
-        ImageView iv_profile_photo;
+        ImageView iv_profile_photo , img_per;
         TextView txt_FromLocation,txt_AgentAmountDetail,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject , txt_Status;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -220,6 +214,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             txt_CustomerDetail = itemView.findViewById(R.id.txt_CustomerDetail);
             txt_AgentAmountDetail = itemView.findViewById(R.id.txt_AgentAmountDetail);
             iv_profile_photo = itemView.findViewById(R.id.iv_profile_photo);
+            img_per = itemView.findViewById(R.id.img_per);
 
 
         }

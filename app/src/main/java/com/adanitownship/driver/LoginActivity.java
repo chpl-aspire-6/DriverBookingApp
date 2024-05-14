@@ -3,6 +3,7 @@ package com.adanitownship.driver;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,11 +57,12 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (edtEmailOrMobile.getText().toString().trim().isEmpty()) {
-                    edtEmailOrMobile.setError("Enter your number or email" +
-                            "!");
+                    edtEmailOrMobile.setError("Fill the Details !");
                     edtEmailOrMobile.requestFocus();
-                } else {
-
+                } else if (!isValidEmail(edtEmailOrMobile.getText().toString().trim())&&  !isValidMobile(edtEmailOrMobile.getText().toString().trim()) ) {
+                    edtEmailOrMobile.setError("Enter your valid email or mobile number");
+                    edtEmailOrMobile.requestFocus(); 
+                }else {
                     driverLogin();
                 }
             }
@@ -160,6 +162,7 @@ public class LoginActivity extends AppCompatActivity {
                                     if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                                         Tools.toast(LoginActivity.this, commonResponse.getMessage(), 2);
 //                                        preferenceManager.setLoginSession();
+                                        btnContinue.setEnabled(false);
                                         callDialog(edtEmailOrMobile.getText().toString());
                                     } else {
                                         Tools.toast(LoginActivity.this, commonResponse.getMessage(), 1);
@@ -206,5 +209,13 @@ public class LoginActivity extends AppCompatActivity {
                 alertDialog.show();
             }
         });
+    }
+
+    private boolean isValidEmail(String email) {
+        return Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    }
+
+    private boolean isValidMobile(String phone) {
+        return Patterns.PHONE.matcher(phone).matches() && phone.length() == 10;
     }
 }

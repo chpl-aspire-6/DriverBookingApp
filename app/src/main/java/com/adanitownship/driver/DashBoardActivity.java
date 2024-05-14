@@ -110,6 +110,7 @@ public class DashBoardActivity extends AppCompatActivity {
         recy_booking_list.setVisibility(View.GONE);
         rel_nodata.setVisibility(View.GONE);
         linLayNoData.setVisibility(View.GONE);
+        tv_noti_count.setVisibility(View.GONE);
         Tools.displayImage(DashBoardActivity.this, imgIcon, preferenceManager.getNoDataIcon());
 
         txt_PersonName.setText(preferenceManager.getKeyValueString("driver_name"));
@@ -158,7 +159,6 @@ public class DashBoardActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         if (preferenceManager.getNotificationDot()) {
             tv_noti_count.setText(" ");
@@ -624,32 +624,18 @@ public class DashBoardActivity extends AppCompatActivity {
         builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
             String reason = input.getText().toString().trim();
-            if(reason.isEmpty()){
-                input.setError("Please provide a reason for rejecting the trip");
-                input.findFocus().requestFocus();
-                Toast.makeText(DashBoardActivity.this , "Please provide a reason for rejecting the trip",Toast.LENGTH_SHORT).show();
-
-            }else {
+            if (!TextUtils.isEmpty(reason)) {
                 rejectbooking(reason);
                 requestListAdapter.update(bookingList);
                 driverBookingList();
                 dialog.dismiss();
+            } else {
+                input.setError("Please provide a reason for rejecting the trip");
+                input.requestFocus();
+               Toast.makeText(DashBoardActivity.this , "Please provide a reason for rejecting the trip",Toast.LENGTH_SHORT).show();
             }
-
-
-
-//            if (!TextUtils.isEmpty(reason)&& !reason.startsWith("")) {
-//                rejectbooking(reason);
-//                requestListAdapter.update(bookingList);
-//                driverBookingList();
-//                dialog.dismiss();
-//            } else {
-//                input.setError("Please provide a reason for rejecting the trip");
-//                input.findFocus().requestFocus();
-//                Toast.makeText(DashBoardActivity.this , "Please provide a reason for rejecting the trip",Toast.LENGTH_SHORT).show();
-//            }
         });
-
+        input.requestFocus();
         builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         AlertDialog alertDialog = builder.create();
