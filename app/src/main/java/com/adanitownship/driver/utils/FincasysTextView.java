@@ -2,6 +2,7 @@ package com.adanitownship.driver.utils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.text.TextUtils;
@@ -105,12 +106,16 @@ public class FincasysTextView extends TextView {
                 break;
         }
 
-        customFont = getResources().getString(fontName);
+        try {
+            customFont = getResources().getString(fontName);
 
-        Typeface tf = Typeface.createFromAsset(context.getAssets(),
-                "font/" + customFont + ".ttf");
-        setTypeface(tf);
-        a.recycle();
+            Typeface tf = Typeface.createFromAsset(context.getAssets(),
+                    "font/" + customFont + ".ttf");
+            setTypeface(tf);
+            a.recycle();
+        } catch (Resources.NotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

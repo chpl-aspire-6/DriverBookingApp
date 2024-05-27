@@ -167,7 +167,7 @@
                 android:id="@+id/img_del_notify"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:padding="@dimen/_10sdp"
+                android:padding="@dimen/_12sdp"
                 android:src="@drawable/ic_delete_notify"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/iv_notify"

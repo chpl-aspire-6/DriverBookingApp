@@ -169,6 +169,8 @@ public class OTPDialogFragment extends DialogFragment {
                             commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                             if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                                 Tools.toast(requireActivity(), commonResponse.getMessage(), 2);
+                                OTPDialogFragLlResend.setVisibility(View.GONE);
+                                countDownTimer();
 
                             } else {
                                 Tools.toast(requireActivity(), commonResponse.getMessage(), 1);
@@ -237,7 +239,7 @@ public class OTPDialogFragment extends DialogFragment {
 
 
     public void countDownTimer() {
-        CountDownTimer countDownTimer = new CountDownTimer(30000, 1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(20000, 1000) {
             @Override
             public void onTick(long l) {
                 String text = String.format(Locale.getDefault(), "%02d:%02d", TimeUnit.MILLISECONDS.toMinutes(l) % 60, TimeUnit.MILLISECONDS.toSeconds(l) % 60);
@@ -250,20 +252,7 @@ public class OTPDialogFragment extends DialogFragment {
 
                 OTPDialogFragIv_truemobile_register.setVisibility(View.VISIBLE);
                 OTPDialogFragLlResend.setVisibility(View.VISIBLE);
-
-//                if (is_email_otp){
-//                    lin_email_otp.setVisibility(View.VISIBLE);
-//                }else {
-//                    lin_email_otp.setVisibility(View.GONE);
-//                }
-//                if (is_voice_otp){
-//                    lin_call_otp.setVisibility(View.VISIBLE);
-//                }else {
-//                    lin_call_otp.setVisibility(View.GONE);
-//                }
-
                 OTPDialogFragTv_coundown_otp.setText("00:00");
-
             }
         };
         countDownTimer.start();

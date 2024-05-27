@@ -1,7 +1,6 @@
 package com.adanitownship.driver;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
@@ -17,8 +16,8 @@ import android.support.annotation.NonNull;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -32,15 +31,14 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.adanitownship.driver.adapter.RequestListAdapter;
 import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
-import com.adanitownship.driver.adapter.RequestListAdapter;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.utils.GzipUtils;
@@ -59,15 +57,23 @@ import rx.schedulers.Schedulers;
 
 
 public class DashBoardActivity extends AppCompatActivity {
+    public static final String CHANNEL_ID = "reminder_channel";
+    private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 101;
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
+    private static final int REQUEST_CALL_PERMISSION = 2;
+    private static final int REQUEST_CODE_CALL_PERMISSION = 3;
+    private static final int REQUEST_CODE_PERMISSIONS = 102;
+
+    private static final int PERMISSION_REQUEST_CODE = 100;
+
+
     RestCall restCall;
     PreferenceManager preferenceManager;
     SwipeRefreshLayout swipe;
-    ImageView imgClose, imgIcon , iv_profile_photo;
+    ImageView imgClose, imgIcon, iv_profile_photo;
     EditText etSearch;
-    TextView txt_PersonName , tv_noti_count;
-    public static final String CHANNEL_ID = "reminder_channel";
-    private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 101;
-
+    TextView txt_PersonName, tv_noti_count;
+    String pendingPhoneNumber, dropLatitude, dropLongitude, pickupLatitude, pickupLongitude;
 
     RelativeLayout rel_nodata;
     LinearLayout lin_ps_load, lin_logout, linLayNoData;
@@ -114,24 +120,10 @@ public class DashBoardActivity extends AppCompatActivity {
         Tools.displayImage(DashBoardActivity.this, imgIcon, preferenceManager.getNoDataIcon());
 
         txt_PersonName.setText(preferenceManager.getKeyValueString("driver_name"));
-        Glide.with(DashBoardActivity.this)
-                        .load(preferenceManager.getKeyValueString("driver_profile"))
-                                .placeholder(R.drawable.vector_person)
-                                        .into(iv_profile_photo);
+        Glide.with(DashBoardActivity.this).load(preferenceManager.getKeyValueString("driver_profile")).placeholder(R.drawable.vector_person).into(iv_profile_photo);
 
         driverBookingList();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION_PERMISSION);
-            } else {
-
-                createNotificationChannels();
-            }
-        } else {
-
-            createNotificationChannels();
-        }
+        requestPermissions();
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,16 +211,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     public void acceptbooking() {
 
-        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id"),
-                preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"),
-                preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"),
-                preferenceManager.getKeyValueString("pickup_location_name"),
-                preferenceManager.getKeyValueString("drop_location_name"),
-                preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"),
-                preferenceManager.getKeyValueString("travel_agent_name"),
-                preferenceManager.getKeyValueString("travel_agent_phone_no"),
-                preferenceManager.getKeyValueString("society_id"),
-                preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id"), preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"), preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"), preferenceManager.getKeyValueString("pickup_location_name"), preferenceManager.getKeyValueString("drop_location_name"), preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"), preferenceManager.getKeyValueString("travel_agent_name"), preferenceManager.getKeyValueString("travel_agent_phone_no"), preferenceManager.getKeyValueString("society_id"), preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -275,14 +258,7 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void rejectbooking(String reason) {
-        restCall.rejectbooking("rejectbooking", preferenceManager.getKeyValueString("request_id"), reason, preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id")
-        ,   preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"),
-                preferenceManager.getKeyValueString("pickup_location_name"),
-                preferenceManager.getKeyValueString("drop_location_name"),
-                preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"),
-                preferenceManager.getKeyValueString("travel_agent_name"),
-                preferenceManager.getKeyValueString("travel_agent_phone_no"),preferenceManager.getKeyValueString("society_id"),
-                preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        restCall.rejectbooking("rejectbooking", preferenceManager.getKeyValueString("request_id"), reason, preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"), preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"), preferenceManager.getKeyValueString("pickup_location_name"), preferenceManager.getKeyValueString("drop_location_name"), preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"), preferenceManager.getKeyValueString("travel_agent_name"), preferenceManager.getKeyValueString("travel_agent_phone_no"), preferenceManager.getKeyValueString("society_id"), preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -375,8 +351,8 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-    public void driverDropUser(String requestId , String pos) {
-        restCall.driverDropUser("driverDropUser",requestId).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+    public void driverDropUser(String requestId, String pos) {
+        restCall.driverDropUser("driverDropUser", requestId).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -406,7 +382,7 @@ public class DashBoardActivity extends AppCompatActivity {
                             bookingList.remove(Integer.parseInt(pos));
                             requestListAdapter.update(bookingList);
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
-                           driverBookingList();
+                            driverBookingList();
 
                         } else {
                             Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
@@ -517,21 +493,48 @@ public class DashBoardActivity extends AppCompatActivity {
                                     }
 
                                     @Override
+                                    public void onCallNowItemClickListener(BookingRequestListResponse.Booking booking) {
+                                        String userContactNumber = booking.getUserContactNumber();
+                                        if (userContactNumber != null && !userContactNumber.isEmpty()) {
+                                            makePhoneCall(userContactNumber);
+                                        } else {
+                                            Toast.makeText(DashBoardActivity.this, "User  phone number is not available", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onDropLocationItemClickListener(String pos, BookingRequestListResponse.Booking booking) {
+
+                                        dropLatitude = booking.getDropLocationLatitude();
+                                        dropLongitude = booking.getDropLocationLongitude();
+                                        openMapWithDropLocation();
+
+                                    }
+
+                                    @Override
+                                    public void onPickUpLocationItemClickListener(String pos, BookingRequestListResponse.Booking booking) {
+                                        pickupLatitude = booking.getPickupLocationLatitude();
+                                        pickupLongitude = booking.getPickupLocationLongitude();
+                                        openMapWithPickUpLocation();
+
+                                    }
+
+                                    @Override
                                     public void onPickUpItemClickListener(BookingRequestListResponse.Booking booking) {
 
                                         if (booking.getDutyStatus().equalsIgnoreCase("1")) {
-                                            showPickUpConfrimstionDialog(booking.getRequestId());
-                                        }else {
+                                            showPickUpConfirmationDialog(booking.getRequestId());
+                                        } else {
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
                                         }
 
                                     }
 
                                     @Override
-                                    public void onDropItemClickListener(String pos ,BookingRequestListResponse.Booking booking) {
+                                    public void onDropItemClickListener(String pos, BookingRequestListResponse.Booking booking) {
                                         if (booking.getDutyStatus().equalsIgnoreCase("1")) {
                                             showDropConfirmationDialog(booking.getRequestId(), pos);
-                                        }else {
+                                        } else {
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
                                         }
                                     }
@@ -541,8 +544,6 @@ public class DashBoardActivity extends AppCompatActivity {
 
                                 // Set switch to "Off" otherwise
                                 switchOnOff.setChecked(bookingList.get(0).getDutyStatus().equalsIgnoreCase("1"));  // Set switch to "On" if dutyStatus is "1"
-
-
                             } else {
                                 lin_ps_load.setVisibility(View.GONE);
                                 recy_booking_list.setVisibility(View.VISIBLE);
@@ -632,7 +633,7 @@ public class DashBoardActivity extends AppCompatActivity {
             } else {
                 input.setError("Please provide a reason for rejecting the trip");
                 input.requestFocus();
-               Toast.makeText(DashBoardActivity.this , "Please provide a reason for rejecting the trip",Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashBoardActivity.this, "Please provide a reason for rejecting the trip", Toast.LENGTH_SHORT).show();
             }
         });
         input.requestFocus();
@@ -648,7 +649,7 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-    public void showPickUpConfrimstionDialog(String requestId) {
+    public void showPickUpConfirmationDialog(String requestId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
@@ -656,7 +657,7 @@ public class DashBoardActivity extends AppCompatActivity {
         final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
         final EditText editText_reason = dialogView.findViewById(R.id.editText_reason);
         img_icon.setImageResource(R.drawable.ic_pickup);
-        txtHeading.setText("Are you sure for Pick Up");
+        txtHeading.setText(R.string.are_you_sure_for_pick_up);
         editText_reason.setVisibility(View.GONE);
         builder.setView(dialogView);
         builder.setCancelable(false);
@@ -675,7 +676,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     }
 
-    public void showDropConfirmationDialog(String requestId,String pos) {
+    public void showDropConfirmationDialog(String requestId, String pos) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
@@ -688,11 +689,10 @@ public class DashBoardActivity extends AppCompatActivity {
         builder.setView(dialogView);
         builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
-            driverDropUser(requestId , pos);
+            driverDropUser(requestId, pos);
         });
 
-        builder.setNegativeButton("Cancel", (dialog, which) ->
-                dialog.cancel());
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
 
         AlertDialog alertDialog = builder.create();
 
@@ -754,52 +754,112 @@ public class DashBoardActivity extends AppCompatActivity {
         });
     }
 
+    public void requestPermissions() {
+        String[] permissions = {
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.CALL_PHONE,
+                Manifest.permission.POST_NOTIFICATIONS
+        };
 
-
-    private void showPermissionRationaleDialog() {
-        // Build a dialog explaining why the permission is needed
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage("This app needs notification permission to show important updates and alerts. Grant permission to enable notifications?");
-        builder.setPositiveButton("Grant Permission", (dialog, which) -> {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, REQUEST_CODE_NOTIFICATION_PERMISSION);
-        });
-        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
-        builder.create().show();
-    }
-
-    private void openNotificationSettings() {
-        Intent intent = new Intent();
-        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
-        } else {
-            Toast.makeText(this, "Unable to open Notification Settings", Toast.LENGTH_SHORT).show();
+        if (!arePermissionsGranted(permissions)) {
+            ActivityCompat.requestPermissions(this, permissions, PERMISSION_REQUEST_CODE);
         }
     }
 
-    private void createNotificationChannels() {
-        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.O){
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID,"App notifications", NotificationManager.IMPORTANCE_HIGH);
-            channel.setDescription("App  notifications appear here");
-            channel.setSound(null,null);
-            NotificationManager manager = getSystemService(NotificationManager.class);
-            manager.createNotificationChannel(channel);
+    private boolean arePermissionsGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
         }
+        return true;
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_CODE_NOTIFICATION_PERMISSION) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                createNotificationChannels();
-            } else {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.POST_NOTIFICATIONS)) {
-                    showPermissionRationaleDialog();
-                } else {
-                    openNotificationSettings();
-                }
+
+        boolean allPermissionsGranted = true;
+        for (int grantResult : grantResults) {
+            if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                allPermissionsGranted = false;
+                break;
             }
+        }
+
+        if (!allPermissionsGranted) {
+            showSettingsDialog();
+        }
+    }
+
+    private void showSettingsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Permissions Required")
+                .setMessage("This app requires permissions to use certain features. Please grant them in the app settings.")
+                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openAppSettings();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void openAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+
+    private void makePhoneCall(String phoneNumber) {
+        pendingPhoneNumber = phoneNumber;
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(callIntent);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
+        }
+    }
+
+    public void openMapWithDropLocation() {
+
+        String latitude = "";
+        String longitude = "";
+        latitude = dropLatitude;
+        longitude = dropLongitude;
+        Log.e("#TANU4dropLatitude", dropLatitude);
+        Log.e("#TANU4dropLongitude", dropLongitude);
+        Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?q=" + latitude + "," + longitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+
+            startActivity(mapIntent);
+        } else {
+            Toast.makeText(this, "No Location Found!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void openMapWithPickUpLocation() {
+
+        String latitude = "";
+        String longitude = "";
+        latitude = pickupLatitude;
+        longitude = pickupLongitude;
+        Log.e("#TANU3pickupLatitude", pickupLatitude);
+        Log.e("#TANU33pickupLongitude", pickupLongitude);
+        Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?q=" + latitude + "," + longitude);
+        Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
+        mapIntent.setPackage("com.google.android.apps.maps");
+        if (mapIntent.resolveActivity(getPackageManager()) != null) {
+
+            startActivity(mapIntent);
+        } else {
+            Toast.makeText(this, "No Location Found!", Toast.LENGTH_SHORT).show();
         }
     }
 }

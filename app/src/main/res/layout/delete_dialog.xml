@@ -19,8 +19,9 @@
             android:id="@+id/img_deleteNotify"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_100sdp"
-            android:src="@drawable/iv_delete_notify"
+            android:src="@drawable/ic_delete_notify"
             android:layout_gravity="center"
+            android:padding="@dimen/_10sdp"
             />
 
 
@@ -28,7 +29,7 @@
             android:id="@+id/txt_del_msg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Want to Delete this Notification?"
+            android:text="@string/are_you_want_to_delete_the_notification"
             android:gravity="center"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_gravity="center"

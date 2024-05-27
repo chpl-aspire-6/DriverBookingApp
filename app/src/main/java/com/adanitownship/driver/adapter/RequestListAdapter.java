@@ -2,6 +2,7 @@ package com.adanitownship.driver.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adanitownship.driver.R;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
+import com.adanitownship.driver.utils.FincasysTextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -37,8 +39,10 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
     public interface ItemSingleClickListener {
         void onAcceptItemClickListener(BookingRequestListResponse.Booking booking);
-
         void onRejectItemClickListener(BookingRequestListResponse.Booking booking);
+        void onCallNowItemClickListener(BookingRequestListResponse.Booking booking);
+        void onDropLocationItemClickListener(String pos ,BookingRequestListResponse.Booking booking);
+        void onPickUpLocationItemClickListener(String pos ,BookingRequestListResponse.Booking booking);
         void onPickUpItemClickListener(BookingRequestListResponse.Booking booking);
         void onDropItemClickListener(String pos ,BookingRequestListResponse.Booking booking);
     }
@@ -121,6 +125,26 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
                 sClickListener.onDropItemClickListener(String.valueOf(position),searchbookingList.get(position));
             }
         });
+          holder.txt_MobileNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sClickListener.onCallNowItemClickListener(searchbookingList.get(position));
+            }
+        });
+          holder.txt_ToLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sClickListener.onDropLocationItemClickListener(String.valueOf(position),searchbookingList.get(position));
+            }
+        });
+          holder.txt_FromLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sClickListener.onPickUpLocationItemClickListener(String.valueOf(position),searchbookingList.get(position));
+            }
+        });
+
+
         holder.lin_accept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,8 +165,13 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.txt_MobileNumber.setText(searchbookingList.get(position).getUserContactNumber());
         holder.txtPeopleCount.setText(searchbookingList.get(position).getPassengerCount());
         holder.txt_req_id.setText(searchbookingList.get(position).getDisplayRequestId());
-        holder.txt_AgentAmountDetail.setText(searchbookingList.get(position).getCompanyPaymentAmount());
-        holder.txt_CustomerDetail.setText(searchbookingList.get(position).getUserPaymentAmount());
+        holder.txt_AgentAmountDetail.setText("₹"+""+searchbookingList.get(position).getCompanyPaymentAmount());
+        holder.txt_CustomerDetail.setText("₹"+""+searchbookingList.get(position).getUserPaymentAmount());
+        holder.txt_TransportDetail.setText(searchbookingList.get(position).getTransport_details());
+
+        holder.txt_FromLocation.setPaintFlags(holder.txt_FromLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        holder.txt_ToLocation.setPaintFlags(holder.txt_ToLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+        holder.txt_MobileNumber.setPaintFlags(holder.txt_MobileNumber.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
 
 
         if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("3")) {
@@ -150,29 +179,17 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             holder.lin_Reject.setVisibility(View.VISIBLE);
             holder.lin_Drop.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.GONE);
-//            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary));
-//            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_Light));
-//            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_LightBG));
         } else if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("5")) {
             holder.lin_accept.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.VISIBLE);
             holder.lin_Reject.setVisibility(View.GONE);
             holder.lin_Drop.setVisibility(View.GONE);
-//            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary));
-//            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_Light));
-//            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorPurplePrimary_LightBG));
         } else if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("6")) {
             holder.lin_accept.setVisibility(View.GONE);
             holder.lin_Reject.setVisibility(View.GONE);
             holder.lin_Drop.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.GONE);
-//            holder.txtPeopleCount.setTextColor(ContextCompat.getColor(context ,R.color.colorRedPrimary));
-//            holder.img_per.setColorFilter(ContextCompat.getColor(context, R.color.colorRedPrimary));;
-//            holder.lin_StatusHeader.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorRedPrimary_LightBG));
-//            holder.lin_Details.setBackgroundColor(ContextCompat.getColor(context ,R.color.colorRedPrimary_Light));
             holder.txt_Status.setText(searchbookingList.get(position).getRequestStatusName());
-//            holder.txt_Status.setTextColor(ContextCompat.getColor(context ,R.color.colorRedPrimary));
-
         } else if (searchbookingList.get(position).getRequestStatus().equalsIgnoreCase("7")) {
             holder.lin_accept.setVisibility(View.GONE);
             holder.lin_Drop.setVisibility(View.VISIBLE);
@@ -188,9 +205,10 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details;
-        ImageView iv_profile_photo , img_per;
-        TextView txt_FromLocation,txt_AgentAmountDetail,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject , txt_Status;
+
+        LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details   , lin_call ;
+        ImageView iv_profile_photo , img_per , img_PickUp_location,img_Drop_location;
+        TextView txt_TransportDetail,txt_FromLocation,txt_AgentAmountDetail,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject ,txt_Status ;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -211,12 +229,13 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             txt_MobileNumber = itemView.findViewById(R.id.txt_MobileNumber);
             txtPeopleCount = itemView.findViewById(R.id.txtPeopleCount);
             txt_Status = itemView.findViewById(R.id.txt_Status);
+            txt_TransportDetail = itemView.findViewById(R.id.txt_TransportDetail);
             txt_CustomerDetail = itemView.findViewById(R.id.txt_CustomerDetail);
             txt_AgentAmountDetail = itemView.findViewById(R.id.txt_AgentAmountDetail);
             iv_profile_photo = itemView.findViewById(R.id.iv_profile_photo);
             img_per = itemView.findViewById(R.id.img_per);
-
-
+            img_PickUp_location = itemView.findViewById(R.id.img_PickUp_location);
+            img_Drop_location = itemView.findViewById(R.id.img_Drop_location);
         }
     }
 }

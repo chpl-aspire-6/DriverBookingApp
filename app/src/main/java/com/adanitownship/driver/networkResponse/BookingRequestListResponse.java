@@ -166,6 +166,19 @@ public class BookingRequestListResponse {
         @Expose
         private String userBookingRemarks;
 
+        @SerializedName("transport_details")
+        @Expose
+        private String transport_details;
+        @SerializedName("employee_number")
+        @Expose
+        private String employee_number;
+
+
+
+
+
+
+
         public String getRequestId() {
             return requestId;
         }
@@ -493,6 +506,23 @@ public class BookingRequestListResponse {
         public void setUserBookingRemarks(String userBookingRemarks) {
             this.userBookingRemarks = userBookingRemarks;
         }
+
+        public String getTransport_details() {
+            return transport_details;
+        }
+
+        public void setTransport_details(String transport_details) {
+            this.transport_details = transport_details;
+        }
+
+        public String getEmployee_number() {
+            return employee_number;
+        }
+
+        public void setEmployee_number(String employee_number) {
+            this.employee_number = employee_number;
+        }
+
 
     }
 

@@ -260,7 +260,7 @@ public class NotificationActivity extends AppCompatActivity {
         View dialogView = getLayoutInflater().inflate(R.layout.delete_dialog, null);
         builder.setView(dialogView);
         builder.setCancelable(false);
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton("Delete", (dialog, which) -> {
             deleteNotification();
            getNotificationData();
 
@@ -295,7 +295,7 @@ public class NotificationActivity extends AppCompatActivity {
         txt_del_msg.setText(R.string.want_to_delete_all_the_notification);
         builder.setView(dialogView);
         builder.setCancelable(false);
-        builder.setPositiveButton("OK", (dialog, which) -> {
+        builder.setPositiveButton("Delete", (dialog, which) -> {
             deleteAllNotification();
          getNotificationData();
 

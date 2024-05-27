@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DriverBookingApp</string>
+    <string name="app_name">Driver Booking App</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="msg_tag">Move with safety</string>
     <string name="otp_verification">OTP VERIFICATION</string>
@@ -39,5 +39,15 @@
     <string name="enter_your_mobile_number_or_email">Enter your mobile number or Email</string>
     <string name="pick_up">Pick Up</string>
     <string name="reason_for_rejecting_trip">Reason for Rejecting Trip</string>
+    <string name="are_you_want_to_delete_the_notification">Are you want to delete the Notification</string>
+    <string name="request">Request</string>
+    <string name="full_name">Jainil Patel</string>
+    <string name="mobile_number"><u>1234567890</u></string>
+    <string name="people_count">2 People</string>
+    <string name="from">PickUp Location :</string>
+    <string name="textFrom"><u>Makarba</u></string>
+    <string name="to">Drop Location :</string>
+    <string name="txtTo"><u>Vastrapur</u></string>
+    <string name="are_you_sure_for_pick_up">Are you sure for Pick Up</string>
 
 </resources>

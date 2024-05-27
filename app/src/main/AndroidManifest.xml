@@ -6,6 +6,10 @@
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE"
+        tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:name=".AppLevel"
@@ -22,6 +26,7 @@
         tools:ignore="AllowBackup,"
         tools:replace="android:usesCleartextTraffic,android:appComponentFactory,android:allowBackup,android:theme"
         tools:targetApi="33">
+
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true"
@@ -39,9 +44,7 @@
         <activity
             android:name=".GetStartScreen_Acitivity"
             android:exported="false"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".DashBoardActivity"
             android:exported="false"

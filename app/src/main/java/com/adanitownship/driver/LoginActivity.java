@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (edtEmailOrMobile.getText().toString().trim().isEmpty()) {
-                    edtEmailOrMobile.setError("Fill the Details !");
+                    edtEmailOrMobile.setError("Please enter the details ");
                     edtEmailOrMobile.requestFocus();
                 } else if (!isValidEmail(edtEmailOrMobile.getText().toString().trim())&&  !isValidMobile(edtEmailOrMobile.getText().toString().trim()) ) {
                     edtEmailOrMobile.setError("Enter your valid email or mobile number");
@@ -161,8 +161,8 @@ public class LoginActivity extends AppCompatActivity {
                                     commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
                                     if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                                         Tools.toast(LoginActivity.this, commonResponse.getMessage(), 2);
-//                                        preferenceManager.setLoginSession();
-                                        btnContinue.setEnabled(false);
+
+//                                        btnContinue.setEnabled(false);
                                         callDialog(edtEmailOrMobile.getText().toString());
                                     } else {
                                         Tools.toast(LoginActivity.this, commonResponse.getMessage(), 1);
