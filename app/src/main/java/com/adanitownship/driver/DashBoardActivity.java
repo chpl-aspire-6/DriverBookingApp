@@ -1,8 +1,6 @@
 package com.adanitownship.driver;
 
 import android.Manifest;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,7 +16,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -41,12 +38,12 @@ import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.CommonResponse;
+import com.adanitownship.driver.networkResponse.DriverDutyStatusResponse;
 import com.adanitownship.driver.utils.GzipUtils;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.adanitownship.driver.utils.VariableBag;
 import com.bumptech.glide.Glide;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -57,16 +54,8 @@ import rx.schedulers.Schedulers;
 
 
 public class DashBoardActivity extends AppCompatActivity {
-    public static final String CHANNEL_ID = "reminder_channel";
-    private static final int REQUEST_CODE_NOTIFICATION_PERMISSION = 101;
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 1;
     private static final int REQUEST_CALL_PERMISSION = 2;
-    private static final int REQUEST_CODE_CALL_PERMISSION = 3;
-    private static final int REQUEST_CODE_PERMISSIONS = 102;
-
     private static final int PERMISSION_REQUEST_CODE = 100;
-
-
     RestCall restCall;
     PreferenceManager preferenceManager;
     SwipeRefreshLayout swipe;
@@ -122,6 +111,7 @@ public class DashBoardActivity extends AppCompatActivity {
         txt_PersonName.setText(preferenceManager.getKeyValueString("driver_name"));
         Glide.with(DashBoardActivity.this).load(preferenceManager.getKeyValueString("driver_profile")).placeholder(R.drawable.vector_person).into(iv_profile_photo);
 
+        driverDutyStatus();
         driverBookingList();
         requestPermissions();
         notification.setOnClickListener(new View.OnClickListener() {
@@ -139,38 +129,25 @@ public class DashBoardActivity extends AppCompatActivity {
 
             }
         });
-        switchOnOff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    switchStatus = 1;//on
+        switchOnOff.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                switchStatus = 1;//on
 
-                } else {
-                    switchStatus = 0;//off
-
-                }
+            } else {
+                switchStatus = 0;//off
             }
+            driverDutyUpdate();
         });
-
         if (preferenceManager.getNotificationDot()) {
             tv_noti_count.setText(" ");
             tv_noti_count.setVisibility(View.VISIBLE);
         } else {
             tv_noti_count.setVisibility(View.GONE);
         }
-
-        switchOnOff.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                driverDutyUpdate();
-            }
-        });
         imgClose.setOnClickListener(v -> {
             etSearch.getText().clear();
             imgClose.setVisibility(View.GONE);
         });
-
 
         etSearch.addTextChangedListener(new TextWatcher() {
             @Override
@@ -196,18 +173,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
             }
         });
-
-        lin_logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                logoutDialog();
-            }
-        });
-
-
     }
-
 
     public void acceptbooking() {
 
@@ -350,7 +316,6 @@ public class DashBoardActivity extends AppCompatActivity {
         });
     }
 
-
     public void driverDropUser(String requestId, String pos) {
         restCall.driverDropUser("driverDropUser", requestId).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
@@ -398,22 +363,17 @@ public class DashBoardActivity extends AppCompatActivity {
         });
     }
 
-
     public void driverBookingList() {
-//        tools.showLoading();
         restCall.driverBookingList("driverBookingList", preferenceManager.getKeyValueString("driver_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
             public void onError(Throwable e) {
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         runOnUiThread(() -> {
                             tools.stopLoading();
                             swipe.setRefreshing(false);
@@ -434,13 +394,12 @@ public class DashBoardActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        tools.stopLoading();
                         swipe.setRefreshing(false);
+                        switchOnOff.setVisibility(View.VISIBLE);
                         BookingRequestListResponse bookingRequestListResponse = null;
                         try {
                             bookingRequestListResponse = new Gson().fromJson(GzipUtils.decrypt(encData), BookingRequestListResponse.class);
                             if (bookingRequestListResponse != null && bookingRequestListResponse.getStatus().equalsIgnoreCase("200") && bookingRequestListResponse.getBookingList().size() > 0) {
-
                                 lin_ps_load.setVisibility(View.GONE);
                                 recy_booking_list.setVisibility(View.VISIBLE);
                                 rel_nodata.setVisibility(View.GONE);
@@ -543,14 +502,12 @@ public class DashBoardActivity extends AppCompatActivity {
                                 bookingList = bookingRequestListResponse.getBookingList();
 
                                 // Set switch to "Off" otherwise
-                                switchOnOff.setChecked(bookingList.get(0).getDutyStatus().equalsIgnoreCase("1"));  // Set switch to "On" if dutyStatus is "1"
+//                                switchOnOff.setChecked(bookingList.get(0).getDutyStatus().equalsIgnoreCase("1"));  // Set switch to "On" if dutyStatus is "1"
                             } else {
                                 lin_ps_load.setVisibility(View.GONE);
                                 recy_booking_list.setVisibility(View.VISIBLE);
                                 rel_nodata.setVisibility(View.GONE);
                                 linLayNoData.setVisibility(View.VISIBLE);
-//                                Tools.toast(DashBoardActivity.this, bookingRequestListResponse.getMessage(), 1);
-
                             }
                         } catch (Exception e) {
                             throw new RuntimeException(e);
@@ -560,30 +517,6 @@ public class DashBoardActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    public void logoutDialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Logout Confirmation");
-        builder.setMessage("Are you sure you want to logout?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                preferenceManager.deleteLoginSession();
-                finishAffinity();
-                Tools.toast(DashBoardActivity.this, "LogOut Successfully", 2);
-            }
-        });
-
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
-        AlertDialog dialog = builder.create();
-        dialog.show();
     }
 
     public void showAcceptDialog() {
@@ -614,7 +547,6 @@ public class DashBoardActivity extends AppCompatActivity {
         alertDialog.show();
 
     }
-
 
     public void showRejectReasonDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -647,7 +579,6 @@ public class DashBoardActivity extends AppCompatActivity {
 
 
     }
-
 
     public void showPickUpConfirmationDialog(String requestId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -708,6 +639,57 @@ public class DashBoardActivity extends AppCompatActivity {
         restCall.driverDutyUpdate("driverDutyUpdate", preferenceManager.getKeyValueString("driver_id"), switchStatus).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        runOnUiThread(() -> {
+                            tools.stopLoading();
+                            swipe.setRefreshing(false);
+                            lin_ps_load.setVisibility(View.GONE);
+                            recy_booking_list.setVisibility(View.GONE);
+                            rel_nodata.setVisibility(View.VISIBLE);
+                            Tools.toast(DashBoardActivity.this, "no_internet_connection", VariableBag.ERROR);
+                        });
+
+                    }
+                });
+            }
+
+            @Override
+            public void onNext(String encData) {
+                runOnUiThread(() -> {
+                    tools.stopLoading();
+                    switchOnOff.setVisibility(View.VISIBLE);
+                    CommonResponse commonResponse = null;
+                    try {
+                        commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
+                        if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
+                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                            driverBookingList();
+                        } else {
+                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
+                        }
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+
+
+                });
+
+            }
+        });
+    }
+
+    public void driverDutyStatus() {
+        tools.showLoading();
+        restCall.driverDutyStatus("driverDutyStatus", preferenceManager.getKeyValueString("driver_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+            @Override
+            public void onCompleted() {
 
             }
 
@@ -734,14 +716,14 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onNext(String encData) {
                 runOnUiThread(() -> {
                     tools.stopLoading();
-                    CommonResponse commonResponse = null;
+                    DriverDutyStatusResponse driverDutyStatusResponse = null;
                     try {
-                        commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
-                        if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
-                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                        driverDutyStatusResponse = new Gson().fromJson(GzipUtils.decrypt(encData), DriverDutyStatusResponse.class);
+                        if (driverDutyStatusResponse != null && driverDutyStatusResponse.getStatus().equalsIgnoreCase("200")) {
+
+                            switchOnOff.setChecked(driverDutyStatusResponse.getDuty_status().equals("1"));
                             driverBookingList();
                         } else {
-                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
                         }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -755,14 +737,11 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     public void requestPermissions() {
-        String[] permissions = {
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.CALL_PHONE,
-                Manifest.permission.POST_NOTIFICATIONS
-        };
-
-        if (!arePermissionsGranted(permissions)) {
-            ActivityCompat.requestPermissions(this, permissions, PERMISSION_REQUEST_CODE);
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.POST_NOTIFICATIONS};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!arePermissionsGranted(permissions)) {
+                ActivityCompat.requestPermissions(this, permissions, PERMISSION_REQUEST_CODE);
+            }
         }
     }
 
@@ -793,17 +772,12 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
     private void showSettingsDialog() {
-        new AlertDialog.Builder(this)
-                .setTitle("Permissions Required")
-                .setMessage("This app requires permissions to use certain features. Please grant them in the app settings.")
-                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        openAppSettings();
-                    }
-                })
-                .setNegativeButton("Cancel", null)
-                .show();
+        new AlertDialog.Builder(this).setTitle("Permissions Required").setMessage("This app requires permissions to use certain features. Please grant them in the app settings.").setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                openAppSettings();
+            }
+        }).setNegativeButton("Cancel", null).show();
     }
 
     private void openAppSettings() {
@@ -812,7 +786,6 @@ public class DashBoardActivity extends AppCompatActivity {
         intent.setData(uri);
         startActivity(intent);
     }
-
 
     private void makePhoneCall(String phoneNumber) {
         pendingPhoneNumber = phoneNumber;

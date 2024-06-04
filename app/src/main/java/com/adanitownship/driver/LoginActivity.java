@@ -19,6 +19,7 @@ import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.utils.GzipUtils;
+import com.adanitownship.driver.utils.OnSingleClickListener;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -53,7 +54,25 @@ public class LoginActivity extends AppCompatActivity {
         preferenceManager = new PreferenceManager(LoginActivity.this);
         tools = new Tools(this);
         restCall = RestClient.createService(RestCall.class, "https://adanidev.mysmartsociety.app/shantivan/residentApiNewEnc/", "smartapikey");
-        btnContinue.setOnClickListener(new View.OnClickListener() {
+
+        btnContinue.setOnClickListener(new OnSingleClickListener() {
+            @Override
+            public void onSingleClick(View v) {
+                if (edtEmailOrMobile.getText().toString().trim().isEmpty()) {
+                    edtEmailOrMobile.setError("Please enter the details ");
+                    edtEmailOrMobile.requestFocus();
+                } else if (!isValidEmail(edtEmailOrMobile.getText().toString().trim())&&  !isValidMobile(edtEmailOrMobile.getText().toString().trim()) ) {
+                    edtEmailOrMobile.setError("Enter your valid email or mobile number");
+                    edtEmailOrMobile.requestFocus();
+                }else {
+                    driverLogin();
+                }
+            }
+        });
+
+
+
+       /* btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (edtEmailOrMobile.getText().toString().trim().isEmpty()) {
@@ -67,7 +86,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
 
-        });
+        });*/
+
 
         try {
 

@@ -48,6 +48,7 @@
                 android:textSize="15sp"
                 android:thumb="@drawable/thumb_selector"
                 app:showText="true"
+                android:visibility="gone"
                 app:switchTextAppearance="@style/SwitchTextAppearance"
                 app:track="@drawable/track_selector" />
 
@@ -101,7 +102,7 @@
                 android:id="@+id/rel_lyt_profile"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_10sdp">
+                android:layout_marginTop="@dimen/_5sdp">
 
                 <com.mikhaellopez.circularimageview.CircularImageView
                     android:id="@+id/iv_profile_photo"

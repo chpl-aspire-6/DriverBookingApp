@@ -91,6 +91,10 @@ public interface RestCall {
     @POST("driverController.php")
     Single<String> deleteAllNotification(@Field("deleteAllNotification") String deleteAllNotification, @Field("driver_id") String driver_id);
 
+    @FormUrlEncoded
+        @POST("driverController.php")
+        Single<String> driverDutyStatus(@Field("driverDutyStatus") String driverDutyStatus, @Field("driver_id") String driver_id);
+
 
 
 }
