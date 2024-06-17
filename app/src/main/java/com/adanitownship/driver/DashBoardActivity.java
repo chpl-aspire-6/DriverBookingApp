@@ -395,7 +395,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipe.setRefreshing(false);
-                        switchOnOff.setVisibility(View.VISIBLE);
+//                        switchOnOff.setVisibility(View.VISIBLE);
                         BookingRequestListResponse bookingRequestListResponse = null;
                         try {
                             bookingRequestListResponse = new Gson().fromJson(GzipUtils.decrypt(encData), BookingRequestListResponse.class);
@@ -664,7 +664,7 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onNext(String encData) {
                 runOnUiThread(() -> {
                     tools.stopLoading();
-                    switchOnOff.setVisibility(View.VISIBLE);
+//                    switchOnOff.setVisibility(View.VISIBLE);
                     CommonResponse commonResponse = null;
                     try {
                         commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
