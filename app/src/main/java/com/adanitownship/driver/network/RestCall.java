@@ -94,6 +94,18 @@ public interface RestCall {
     @FormUrlEncoded
         @POST("driverController.php")
         Single<String> driverDutyStatus(@Field("driverDutyStatus") String driverDutyStatus, @Field("driver_id") String driver_id);
+    @FormUrlEncoded
+    @POST("language_controller.php")
+    Single<String> getLanguage(
+            @Field("getLanguageNew") String getLanguage,
+            @Field("country_id") String country_id);
+
+    @FormUrlEncoded
+    @POST("language_controller.php")
+    Single<Object> getLanguageValues(@Field("getLanguageValues") String getLanguageValues,
+                                     @Field("society_id") String society_id,
+                                     @Field("country_id") String country_id,
+                                     @Field("language_id") String language_id);
 
 
 

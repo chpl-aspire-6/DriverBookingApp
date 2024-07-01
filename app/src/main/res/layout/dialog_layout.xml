@@ -33,6 +33,18 @@
             android:layout_gravity="center"
             />
 
+        <TextView
+            android:id="@+id/txtAmtInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:gravity="center"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="italic|bold"
+            android:textSize="@dimen/_15ssp"
+            />
 
 
         <EditText

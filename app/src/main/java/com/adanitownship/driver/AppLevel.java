@@ -10,6 +10,7 @@ import android.os.Build;
 import androidx.multidex.MultiDex;
 import androidx.multidex.MultiDexApplication;
 
+import com.adanitownship.driver.utils.LanguagePreferenceManager;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -24,6 +25,8 @@ public class AppLevel extends MultiDexApplication {
     private static AppLevel instance;
     PreferenceManager preferenceManager;
 
+    private LanguagePreferenceManager languagePreferenceManager;
+
     public AppLevel() {
         super();
     }
@@ -36,6 +39,7 @@ public class AppLevel extends MultiDexApplication {
         try {
             applicationContext = getApplicationContext();
             preferenceManager = new PreferenceManager(this);
+            languagePreferenceManager = new LanguagePreferenceManager(getApplicationContext());
             System.gc();
         } catch (Throwable ignore) {
 
@@ -52,6 +56,9 @@ public class AppLevel extends MultiDexApplication {
 
     }
 
+    public LanguagePreferenceManager getLanPrefLang(){
+        return languagePreferenceManager;
+    }
 
     public void logOutFromApp(){
 //        Intent intent = new Intent(instance, LoginActivity.class);

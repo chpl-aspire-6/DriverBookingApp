@@ -238,4 +238,8 @@ public class LoginActivity extends AppCompatActivity {
     private boolean isValidMobile(String phone) {
         return Patterns.PHONE.matcher(phone).matches() && phone.length() == 10;
     }
+
+
+
+
 }

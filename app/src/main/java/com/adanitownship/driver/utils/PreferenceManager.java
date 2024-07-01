@@ -20,6 +20,7 @@ public class PreferenceManager {
     private SharedPreferences.Editor mEditor;
 
     private Context context;
+    private LanguagePreferenceManager languagePreferenceManager;
 
     @SuppressLint("CommitPrefEdits")
     public PreferenceManager(Context context) {
@@ -27,6 +28,8 @@ public class PreferenceManager {
         context = context;
         mSharedPreferences = context.getSharedPreferences(VariableBag.PREF_NAME, Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
+        languagePreferenceManager = new LanguagePreferenceManager(context);
+
 
     }
 
@@ -125,6 +128,28 @@ public class PreferenceManager {
     public void setNotificationDot(boolean v) {
         mEditor.putBoolean(VariableBag.NOTIFICATION_COUNTER, v);
         mEditor.commit();
+    }
+
+    public String getMainApiKey() {
+        if (languagePreferenceManager.getKeyValueString(VariableBag.MAIN_KEY).trim().length() > 1) {
+            return languagePreferenceManager.getKeyValueString(VariableBag.MAIN_KEY);
+        } else {
+            return VariableBag.MAIN_KEY;
+        }
+    }
+
+    public String getLanguageId() {
+        return languagePreferenceManager.getLanguageId();
+    }
+
+    public void setLanguageId(String s) {
+        setStringPreference(VariableBag.LANGUAGE_ID, s);
+//        languagePreferenceManager.setLanguageId(s, preferenceManager.getSocietyId());
+    }
+
+    public String getJSONKeyStringObject(String stringKey) {
+        return languagePreferenceManager.getJSONKeyStringObject(stringKey);
+        //  return ""+stringKey;
     }
 }
 

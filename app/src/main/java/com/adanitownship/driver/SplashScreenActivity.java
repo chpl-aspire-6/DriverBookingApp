@@ -3,6 +3,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.adanitownship.driver.language.ChooseLanguageActivity;
 import com.adanitownship.driver.utils.PreferenceManager;
 
 public class SplashScreenActivity extends AppCompatActivity {
@@ -21,7 +23,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                     startActivity(intent);
                     finish();
                 }else{
-                    Intent intent = new Intent(SplashScreenActivity.this, GetStartScreen_Acitivity.class);
+                    Intent intent = new Intent(SplashScreenActivity.this, ChooseLanguageActivity.class);
                     startActivity(intent);
                     finish();
                 }

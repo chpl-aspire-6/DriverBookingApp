@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_100sdp"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_10sdp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="0dp"
+        app:cardUseCompatPadding="false">
+
+
+        <RelativeLayout
+            android:id="@+id/relLayItemView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_border_language">
+
+            <RelativeLayout
+                android:padding="@dimen/_2sdp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <RelativeLayout
+                    android:id="@+id/relLayImage"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentStart="true">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_marginEnd="@dimen/_40sdp"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/bg_border_language_color" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_minus20sdp"
+                        android:layout_marginBottom="@dimen/_minus20sdp"
+                        android:background="@drawable/bg_round_grey_1_language" />
+
+                    <ImageView
+                        android:id="@+id/languageIcon"
+                        android:layout_width="match_parent"
+                        android:layout_marginStart="@dimen/_minus10sdp"
+                        android:padding="@dimen/_10sdp"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/taj_mahal"/>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toEndOf="@id/relLayImage">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="@dimen/_10sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_toStartOf="@id/tvLanguageSelection"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/tvLanguageName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="ગુજરાતી"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_16ssp"
+                            app:fontName="OpenSans_Bold"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/tvLanguageSecondary"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_3sdp"
+                            android:text="English"
+                            android:textColor="@color/grey_40"
+                            android:textSize="@dimen/_14ssp"
+                            app:fontName="OpenSans_Regular"
+                            tools:ignore="HardcodedText" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/bg_round_grey_1_language" />
+
+                    <ImageView
+                        android:id="@+id/tvLanguageSelection"
+                        android:layout_width="@dimen/_20sdp"
+                        android:layout_height="@dimen/_20sdp"
+                        android:visibility="gone"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:src="@drawable/checkbox_select"
+                        app:tint="@color/green_500" />
+
+                </RelativeLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

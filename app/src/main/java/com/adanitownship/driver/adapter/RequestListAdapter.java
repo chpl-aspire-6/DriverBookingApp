@@ -12,12 +12,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adanitownship.driver.R;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
-import com.adanitownship.driver.utils.FincasysTextView;
+import com.adanitownship.driver.utils.PreferenceManager;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -29,12 +28,14 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     List<BookingRequestListResponse.Booking> searchbookingList;
     Context context;
     public static ItemSingleClickListener sClickListener;
+    PreferenceManager preferenceManager ;
 
 
     public RequestListAdapter(List<BookingRequestListResponse.Booking> bookingList, Context context) {
         this.bookingList = bookingList;
         this.searchbookingList = bookingList;
         this.context = context;
+        preferenceManager = new PreferenceManager(context);
     }
 
     public interface ItemSingleClickListener {
@@ -106,12 +107,12 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyViewHolder holder, @SuppressLint("RecyclerView") int position) {
 
         Glide.with(context)
                         .load(searchbookingList.get(position).getUserPhoto())
                                 .placeholder(R.drawable.vector_person)
-                                        .into(holder.iv_profile_photo);
+                .into(holder.iv_profile_photo);
 
         holder.lin_PickUP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,9 +166,12 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.txt_MobileNumber.setText(searchbookingList.get(position).getUserContactNumber());
         holder.txtPeopleCount.setText(searchbookingList.get(position).getPassengerCount());
         holder.txt_req_id.setText(searchbookingList.get(position).getDisplayRequestId());
-        holder.txt_AgentAmountDetail.setText("₹"+""+searchbookingList.get(position).getCompanyPaymentAmount());
+        holder.txt_ModeOfPayment.setText(searchbookingList.get(position).getModeOfPaymentName());
         holder.txt_CustomerDetail.setText("₹"+""+searchbookingList.get(position).getUserPaymentAmount());
-        holder.txt_TransportDetail.setText(searchbookingList.get(position).getTransport_details());
+        holder.txt_TransportDetail.setText(searchbookingList.get(position).getTransportDetails());
+        holder.txt_RideType.setText(searchbookingList.get(position).getRideTypeName());
+        holder.txt_TownshipName.setText(searchbookingList.get(position).getSocietyName());
+        holder.txt_FlatNumber.setText(searchbookingList.get(position).getFlatNumber());
 
         holder.txt_FromLocation.setPaintFlags(holder.txt_FromLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.txt_ToLocation.setPaintFlags(holder.txt_ToLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -196,6 +200,28 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             holder.lin_Reject.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.GONE);
         }
+        if(searchbookingList.get(position).getModeOfPaymentName().equalsIgnoreCase("Deduct from Salary")){
+            holder.lin_ModeofAmtInfo.setVisibility(View.GONE);
+            holder.lin_CustomerInfo.setVisibility(View.GONE);
+        }else {
+            holder.lin_ModeofAmtInfo.setVisibility(View.VISIBLE);
+            holder.lin_CustomerInfo.setVisibility(View.VISIBLE);
+        }
+
+        holder.txt_CustomerDetailTag.setText(preferenceManager.getJSONKeyStringObject("customer_amount"));
+        holder.txtAccept.setText(preferenceManager.getJSONKeyStringObject("accept"));
+        holder.txtReject.setText(preferenceManager.getJSONKeyStringObject("reject"));
+        holder.txt_DateDetailTag.setText(preferenceManager.getJSONKeyStringObject("book_date"));
+        holder.txt_timeDetailTag.setText(preferenceManager.getJSONKeyStringObject("book_time"));
+        holder.txt_FromDetail.setText(preferenceManager.getJSONKeyStringObject("pickup_location"));
+        holder.txt_ToLocationTag.setText(preferenceManager.getJSONKeyStringObject("drop_location"));
+        holder.txt_RideTypeTag.setText(preferenceManager.getJSONKeyStringObject("ride_type"));
+        holder.txt_TownshipNameTag.setText(preferenceManager.getJSONKeyStringObject("township_name"));
+        holder.txt_FlatNumberTag.setText(preferenceManager.getJSONKeyStringObject("flat_number"));
+        holder.txt_TransportDetailTag.setText(preferenceManager.getJSONKeyStringObject("transport_details"));
+        holder.txt_ModeOfPaymentTag.setText(preferenceManager.getJSONKeyStringObject("mode_of_payment"));
+        holder.txtPickUp.setText(preferenceManager.getJSONKeyStringObject("pick_up"));
+        holder.txtDrop.setText(preferenceManager.getJSONKeyStringObject("drop"));
 
     }
 
@@ -206,18 +232,19 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details   , lin_call ;
+        LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details   , lin_ModeofAmtInfo, lin_CustomerInfo ;
         ImageView iv_profile_photo , img_per , img_PickUp_location,img_Drop_location;
-        TextView txt_TransportDetail,txt_FromLocation,txt_AgentAmountDetail,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount, txtAccept, txtReject ,txt_Status ;
+        TextView txt_FlatNumber,txt_TownshipName,txt_RideType,txt_TransportDetail,txt_FromLocation, txt_ModeOfPayment,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount,txt_Status ;
 
+        TextView txt_CustomerDetailTag , txt_DateDetailTag,txt_FromDetail,txt_timeDetailTag,txt_ToLocationTag,txt_RideTypeTag,txt_TownshipNameTag,txt_FlatNumberTag,txt_ModeOfPaymentTag,txt_TransportDetailTag  , txtAccept, txtReject , txtPickUp,txtDrop;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             lin_accept = itemView.findViewById(R.id.lin_accept);
             lin_Reject = itemView.findViewById(R.id.lin_Reject);
-            txtAccept = itemView.findViewById(R.id.txtAccept);
-            txtReject = itemView.findViewById(R.id.txtReject);
             lin_PickUP = itemView.findViewById(R.id.lin_PickUP);
             lin_Drop = itemView.findViewById(R.id.lin_Drop);
+            lin_CustomerInfo = itemView.findViewById(R.id.lin_CustomerInfo);
+            lin_ModeofAmtInfo = itemView.findViewById(R.id.lin_ModeofAmtInfo);
             lin_StatusHeader = itemView.findViewById(R.id.lin_StatusHeader);
             lin_Details = itemView.findViewById(R.id.lin_Details);
             txt_FromLocation = itemView.findViewById(R.id.txt_FromLocation);
@@ -231,11 +258,30 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             txt_Status = itemView.findViewById(R.id.txt_Status);
             txt_TransportDetail = itemView.findViewById(R.id.txt_TransportDetail);
             txt_CustomerDetail = itemView.findViewById(R.id.txt_CustomerDetail);
-            txt_AgentAmountDetail = itemView.findViewById(R.id.txt_AgentAmountDetail);
+            txt_ModeOfPayment = itemView.findViewById(R.id.txt_ModeOfPayment);
+            txt_TownshipName = itemView.findViewById(R.id.txt_TownshipName);
+            txt_FlatNumber = itemView.findViewById(R.id.txt_FlatNumber);
+            txt_RideType = itemView.findViewById(R.id.txt_RideType);
             iv_profile_photo = itemView.findViewById(R.id.iv_profile_photo);
             img_per = itemView.findViewById(R.id.img_per);
-            img_PickUp_location = itemView.findViewById(R.id.img_PickUp_location);
-            img_Drop_location = itemView.findViewById(R.id.img_Drop_location);
+
+
+            txt_CustomerDetailTag = itemView.findViewById(R.id.txt_CustomerDetailTag);
+            txtAccept = itemView.findViewById(R.id.txtAccept);
+            txtReject = itemView.findViewById(R.id.txtReject);
+            txt_DateDetailTag = itemView.findViewById(R.id.txt_DateDetailTag);
+            txt_FromDetail = itemView.findViewById(R.id.txt_FromDetail);
+            txt_timeDetailTag = itemView.findViewById(R.id.txt_timeDetailTag);
+            txt_ToLocationTag = itemView.findViewById(R.id.txt_ToLocationTag);
+            txt_RideTypeTag = itemView.findViewById(R.id.txt_RideTypeTag);
+            txt_TownshipNameTag = itemView.findViewById(R.id.txt_TownshipNameTag);
+            txt_FlatNumberTag = itemView.findViewById(R.id.txt_FlatNumberTag);
+            txt_TransportDetailTag = itemView.findViewById(R.id.txt_TransportDetailTag);
+            txt_ModeOfPaymentTag = itemView.findViewById(R.id.txt_ModeOfPaymentTag);
+            txtPickUp = itemView.findViewById(R.id.txtPickUp);
+            txtDrop = itemView.findViewById(R.id.txtDrop);
+
+
         }
     }
 }

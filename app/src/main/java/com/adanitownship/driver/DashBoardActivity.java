@@ -34,12 +34,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.adanitownship.driver.adapter.RequestListAdapter;
+import com.adanitownship.driver.language.ChooseLanguageActivity;
 import com.adanitownship.driver.network.RestCall;
 import com.adanitownship.driver.network.RestClient;
 import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.networkResponse.DriverDutyStatusResponse;
+import com.adanitownship.driver.networkResponse.DropUserResponse;
 import com.adanitownship.driver.utils.GzipUtils;
+import com.adanitownship.driver.utils.LanguagePreferenceManager;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.adanitownship.driver.utils.VariableBag;
@@ -50,18 +53,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
 public class DashBoardActivity extends AppCompatActivity {
     private static final int REQUEST_CALL_PERMISSION = 2;
     private static final int PERMISSION_REQUEST_CODE = 100;
+    public LanguagePreferenceManager languagePreferenceManager;
     RestCall restCall;
     PreferenceManager preferenceManager;
     SwipeRefreshLayout swipe;
-    ImageView imgClose, imgIcon, iv_profile_photo;
+    ImageView imgClose, imgIcon, iv_profile_photo, iv_language;
     EditText etSearch;
-    TextView txt_PersonName, tv_noti_count;
+    TextView txt_PersonName, tv_noti_count , txttagRide;
     String pendingPhoneNumber, dropLatitude, dropLongitude, pickupLatitude, pickupLongitude;
 
     RelativeLayout rel_nodata;
@@ -71,9 +76,11 @@ public class DashBoardActivity extends AppCompatActivity {
     Tools tools;
     SwitchCompat switchOnOff;
     int switchStatus;
+    String switchDutyStatus;
     FrameLayout notification;
     List<BookingRequestListResponse.Booking> bookingList = new ArrayList<>();
 
+    boolean isFirstTime = true;
     @Override
     protected void onResume() {
         super.onResume();
@@ -87,14 +94,17 @@ public class DashBoardActivity extends AppCompatActivity {
         setContentView(R.layout.activity_dash_board);
         restCall = RestClient.createService(RestCall.class, "https://adanidev.mysmartsociety.app/shantivan/residentApiNewEnc/", "smartapikey");
         preferenceManager = new PreferenceManager(this);
+        languagePreferenceManager = AppLevel.getInstance().getLanPrefLang();
         recy_booking_list = findViewById(R.id.recy_booking_list);
         lin_ps_load = findViewById(R.id.lin_ps_load);
         lin_logout = findViewById(R.id.lin_logout);
         iv_profile_photo = findViewById(R.id.iv_profile_photo);
         linLayNoData = findViewById(R.id.linLayNoData);
+        iv_language = findViewById(R.id.iv_language);
         rel_nodata = findViewById(R.id.rel_nodata);
         notification = findViewById(R.id.notification);
         txt_PersonName = findViewById(R.id.txt_PersonName);
+        txttagRide = findViewById(R.id.txttagRide);
         tv_noti_count = findViewById(R.id.tv_noti_count);
         switchOnOff = findViewById(R.id.switchOnOff);
         imgClose = findViewById(R.id.imgClose);
@@ -110,14 +120,31 @@ public class DashBoardActivity extends AppCompatActivity {
 
         txt_PersonName.setText(preferenceManager.getKeyValueString("driver_name"));
         Glide.with(DashBoardActivity.this).load(preferenceManager.getKeyValueString("driver_profile")).placeholder(R.drawable.vector_person).into(iv_profile_photo);
-
+        downloadLanguage();
         driverDutyStatus();
         driverBookingList();
         requestPermissions();
+        setData();
+        switchOnOff.setChecked(Boolean.parseBoolean(switchDutyStatus));
+
+        String language = languagePreferenceManager.getJSONPref(VariableBag.LANGUAGE);
+        Log.e("###tps",languagePreferenceManager.getJSONPref(VariableBag.LANGUAGE));
+        if (language != null && language.trim().length() <= 0) {
+            downloadLanguage();
+        }
+
         notification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DashBoardActivity.this, NotificationActivity.class);
+                startActivity(intent);
+            }
+        });
+        iv_language.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DashBoardActivity.this, ChooseLanguageActivity.class);
+                intent.putExtra("isFromSetting", true);
                 startActivity(intent);
             }
         });
@@ -129,14 +156,28 @@ public class DashBoardActivity extends AppCompatActivity {
 
             }
         });
-        switchOnOff.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            if (isChecked) {
-                switchStatus = 1;//on
+//        switchOnOff.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            if (isChecked) {
+//                switchStatus = 1;//on
+//
+//            } else {
+//                switchStatus = 0;//off
+//            }
+//            driverDutyUpdate();
+//        });
+//
 
+        switchOnOff.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isFirstTime) {
+                if (isChecked) {
+                    switchStatus = 1; // on
+                } else {
+                    switchStatus = 0; // off
+                }
+                driverDutyUpdate();
             } else {
-                switchStatus = 0;//off
+                isFirstTime = false;
             }
-            driverDutyUpdate();
         });
         if (preferenceManager.getNotificationDot()) {
             tv_noti_count.setText(" ");
@@ -340,17 +381,17 @@ public class DashBoardActivity extends AppCompatActivity {
             public void onNext(String encData) {
                 runOnUiThread(() -> {
                     swipe.setRefreshing(false);
-                    CommonResponse commonResponse = null;
+                    DropUserResponse dropUserResponse = null;
                     try {
-                        commonResponse = new Gson().fromJson(GzipUtils.decrypt(encData), CommonResponse.class);
-                        if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
+                        dropUserResponse = new Gson().fromJson(GzipUtils.decrypt(encData), DropUserResponse.class);
+                        if (dropUserResponse != null && dropUserResponse.getStatus().equalsIgnoreCase("200")) {
                             bookingList.remove(Integer.parseInt(pos));
                             requestListAdapter.update(bookingList);
-                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 2);
+                            Tools.toast(DashBoardActivity.this, dropUserResponse.getMessage(), 2);
                             driverBookingList();
 
                         } else {
-                            Tools.toast(DashBoardActivity.this, commonResponse.getMessage(), 1);
+                            Tools.toast(DashBoardActivity.this, dropUserResponse.getMessage(), 1);
                         }
                     } catch (Exception e) {
                         throw new RuntimeException(e);
@@ -395,7 +436,6 @@ public class DashBoardActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         swipe.setRefreshing(false);
-//                        switchOnOff.setVisibility(View.VISIBLE);
                         BookingRequestListResponse bookingRequestListResponse = null;
                         try {
                             bookingRequestListResponse = new Gson().fromJson(GzipUtils.decrypt(encData), BookingRequestListResponse.class);
@@ -492,7 +532,7 @@ public class DashBoardActivity extends AppCompatActivity {
                                     @Override
                                     public void onDropItemClickListener(String pos, BookingRequestListResponse.Booking booking) {
                                         if (booking.getDutyStatus().equalsIgnoreCase("1")) {
-                                            showDropConfirmationDialog(booking.getRequestId(), pos);
+                                            showDropConfirmationDialog(booking.getRequestId(), pos ,booking.getUserPaymentAmount());
                                         } else {
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
                                         }
@@ -528,7 +568,7 @@ public class DashBoardActivity extends AppCompatActivity {
         final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
         final EditText editText_reason = dialogView.findViewById(R.id.editText_reason);
         img_icon.setImageResource(R.drawable.ic_pick_confirmation);
-        txtHeading.setText(R.string.are_you_sure_to_accept_this_ride);
+        txtHeading.setText(preferenceManager.getJSONKeyStringObject("are_you_sure_to_accept_this_ride"));
         editText_reason.setVisibility(View.GONE);
         builder.setView(dialogView);
         builder.setCancelable(false);
@@ -553,6 +593,9 @@ public class DashBoardActivity extends AppCompatActivity {
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
         final EditText input = dialogView.findViewById(R.id.editText_reason);
+        final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
+        txtHeading.setText(preferenceManager.getJSONKeyStringObject("reason_for_rejecting_trip_tag"));
+        input.setHint(preferenceManager.getJSONKeyStringObject("write_the_reason_for_rejecting_this_trip_here"));
         builder.setView(dialogView);
         builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
@@ -563,9 +606,9 @@ public class DashBoardActivity extends AppCompatActivity {
                 driverBookingList();
                 dialog.dismiss();
             } else {
-                input.setError("Please provide a reason for rejecting the trip");
+                input.setError(preferenceManager.getJSONKeyStringObject("reject_error_msg"));
                 input.requestFocus();
-                Toast.makeText(DashBoardActivity.this, "Please provide a reason for rejecting the trip", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DashBoardActivity.this, preferenceManager.getJSONKeyStringObject("reject_error_msg"), Toast.LENGTH_SHORT).show();
             }
         });
         input.requestFocus();
@@ -582,13 +625,12 @@ public class DashBoardActivity extends AppCompatActivity {
 
     public void showPickUpConfirmationDialog(String requestId) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
         final ImageView img_icon = dialogView.findViewById(R.id.img_icon);
         final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
         final EditText editText_reason = dialogView.findViewById(R.id.editText_reason);
         img_icon.setImageResource(R.drawable.ic_pickup);
-        txtHeading.setText(R.string.are_you_sure_for_pick_up);
+        txtHeading.setText(preferenceManager.getJSONKeyStringObject("are_you_sure_for_pick_up"));
         editText_reason.setVisibility(View.GONE);
         builder.setView(dialogView);
         builder.setCancelable(false);
@@ -607,16 +649,19 @@ public class DashBoardActivity extends AppCompatActivity {
 
     }
 
-    public void showDropConfirmationDialog(String requestId, String pos) {
+    public void showDropConfirmationDialog(String requestId, String pos , String  confrim_message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
         final ImageView img_icon = dialogView.findViewById(R.id.img_icon);
         final TextView txtHeading = dialogView.findViewById(R.id.txtHeading);
+        final TextView txtAmtInfo = dialogView.findViewById(R.id.txtAmtInfo);
         final EditText editText_reason = dialogView.findViewById(R.id.editText_reason);
         img_icon.setImageResource(R.drawable.drop_confirmation);
-        txtHeading.setText("Are you sure you want to Drop ");
+        txtHeading.setText(preferenceManager.getJSONKeyStringObject("are_you_sure_for_drop"));
+        txtAmtInfo.setText(confrim_message);
         editText_reason.setVisibility(View.GONE);
+        txtAmtInfo.setVisibility(View.VISIBLE);
         builder.setView(dialogView);
         builder.setCancelable(false);
         builder.setPositiveButton("OK", (dialog, which) -> {
@@ -720,7 +765,7 @@ public class DashBoardActivity extends AppCompatActivity {
                     try {
                         driverDutyStatusResponse = new Gson().fromJson(GzipUtils.decrypt(encData), DriverDutyStatusResponse.class);
                         if (driverDutyStatusResponse != null && driverDutyStatusResponse.getStatus().equalsIgnoreCase("200")) {
-
+                            switchDutyStatus = driverDutyStatusResponse.getDuty_status();
                             switchOnOff.setChecked(driverDutyStatusResponse.getDuty_status().equals("1"));
                             driverBookingList();
                         } else {
@@ -835,4 +880,40 @@ public class DashBoardActivity extends AppCompatActivity {
             Toast.makeText(this, "No Location Found!", Toast.LENGTH_SHORT).show();
         }
     }
+
+
+    private void downloadLanguage() {
+
+        tools.showLoading();
+
+
+        RestCall call2 = RestClient.createServiceJson(RestCall.class, VariableBag.COMMON_URL, preferenceManager.getMainApiKey());
+        call2.getLanguageValues("getLanguageValues", "1", "101", preferenceManager.getLanguageId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                tools.stopLoading();
+
+            }
+
+            @Override
+            public void onNext(Object responseBody) {
+
+                tools.stopLoading();
+                languagePreferenceManager.setKeyValueString(VariableBag.LANGUAGE_ID, preferenceManager.getLanguageId());
+                languagePreferenceManager.setJSONPref(VariableBag.LANGUAGE, new Gson().toJson(responseBody));
+
+            }
+        });
+    }
+
+
+    public void setData() {
+        txttagRide.setText(preferenceManager.getJSONKeyStringObject("your_ride"));
+    }
+
 }

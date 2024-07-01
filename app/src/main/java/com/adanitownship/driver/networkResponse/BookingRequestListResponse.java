@@ -40,6 +40,9 @@ public class BookingRequestListResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+
+
     public class Booking {
 
         @SerializedName("request_id")
@@ -99,6 +102,12 @@ public class BookingRequestListResponse {
         @SerializedName("travel_agent_name")
         @Expose
         private String travelAgentName;
+        @SerializedName("society_name")
+        @Expose
+        private String societyName;
+        @SerializedName("flat_number")
+        @Expose
+        private String flatNumber;
         @SerializedName("travel_agent_phone_no")
         @Expose
         private String travelAgentPhoneNo;
@@ -144,6 +153,12 @@ public class BookingRequestListResponse {
         @SerializedName("ride_type_name")
         @Expose
         private String rideTypeName;
+        @SerializedName("mode_of_payment")
+        @Expose
+        private String modeOfPayment;
+        @SerializedName("mode_of_payment_name")
+        @Expose
+        private String modeOfPaymentName;
         @SerializedName("request_status")
         @Expose
         private String requestStatus;
@@ -165,19 +180,12 @@ public class BookingRequestListResponse {
         @SerializedName("user_booking_remarks")
         @Expose
         private String userBookingRemarks;
-
-        @SerializedName("transport_details")
-        @Expose
-        private String transport_details;
         @SerializedName("employee_number")
         @Expose
-        private String employee_number;
-
-
-
-
-
-
+        private String employeeNumber;
+        @SerializedName("transport_details")
+        @Expose
+        private String transportDetails;
 
         public String getRequestId() {
             return requestId;
@@ -331,6 +339,22 @@ public class BookingRequestListResponse {
             this.travelAgentName = travelAgentName;
         }
 
+        public String getSocietyName() {
+            return societyName;
+        }
+
+        public void setSocietyName(String societyName) {
+            this.societyName = societyName;
+        }
+
+        public String getFlatNumber() {
+            return flatNumber;
+        }
+
+        public void setFlatNumber(String flatNumber) {
+            this.flatNumber = flatNumber;
+        }
+
         public String getTravelAgentPhoneNo() {
             return travelAgentPhoneNo;
         }
@@ -451,6 +475,22 @@ public class BookingRequestListResponse {
             this.rideTypeName = rideTypeName;
         }
 
+        public String getModeOfPayment() {
+            return modeOfPayment;
+        }
+
+        public void setModeOfPayment(String modeOfPayment) {
+            this.modeOfPayment = modeOfPayment;
+        }
+
+        public String getModeOfPaymentName() {
+            return modeOfPaymentName;
+        }
+
+        public void setModeOfPaymentName(String modeOfPaymentName) {
+            this.modeOfPaymentName = modeOfPaymentName;
+        }
+
         public String getRequestStatus() {
             return requestStatus;
         }
@@ -507,22 +547,21 @@ public class BookingRequestListResponse {
             this.userBookingRemarks = userBookingRemarks;
         }
 
-        public String getTransport_details() {
-            return transport_details;
+        public String getEmployeeNumber() {
+            return employeeNumber;
         }
 
-        public void setTransport_details(String transport_details) {
-            this.transport_details = transport_details;
+        public void setEmployeeNumber(String employeeNumber) {
+            this.employeeNumber = employeeNumber;
         }
 
-        public String getEmployee_number() {
-            return employee_number;
+        public String getTransportDetails() {
+            return transportDetails;
         }
 
-        public void setEmployee_number(String employee_number) {
-            this.employee_number = employee_number;
+        public void setTransportDetails(String transportDetails) {
+            this.transportDetails = transportDetails;
         }
-
 
     }
 

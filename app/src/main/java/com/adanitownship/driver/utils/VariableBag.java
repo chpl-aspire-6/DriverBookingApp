@@ -36,10 +36,21 @@ public class VariableBag {
     public static String DEVELOPER_KEY = "QUl6YVN5REVYb1JvWVZzLWxrNy1kN3ZZbmdDT0p0VjhvamR0aW9r";
     public static String SERVER_KEY = "QUFBQXdULTNtVmc6QVBBOTFiRTlMNmRnc2s2WGRNNE9lUEMxdUNhSF9OVlkwNjV1MExPRzdOZ3hqeWRGbEk1NU1CaWZZSUNDNXlnZ0cxZUNnS1BuZ1Z3SFpMR18tUDdxMmNxbGlTMmhhTkRjTUlWd0QxTDRzTG14aDI1MWgtOVM2U1hkRDV1MTYzYW9aUWQ1ZElOdElIdjE=";
     public static String MAIN_KEY = "smartapikey";
-
+//    public static String COMMON_URL = BuildConfig.DEBUG ? "https://adanidev.mysmartsociety.app/master/commonApiEnc/" : "https://mundratownship.mysmartsociety.app/master/commonApiEnc/";
+    public static String COMMON_URL = "https://adanidev.mysmartsociety.app/master/commonApiEnc/";
 
 
     public static String FolderName = "Mundra";
+
+    public static String PREF_NAME_LANG = "language";
+    public static String LANGUAGE = "language_dataValue";
+
+    public static final String LANGUAGE_ID = "language_id_society_data";
+
+    public static String VERSION_CODE_LANGUAGE = "version_code_language";
+
+    public static String SUCCESS_CODE = "200";
+
 
 
 

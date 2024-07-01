@@ -14,20 +14,22 @@
         android:layout_margin="@dimen/_5sdp"
         app:cardCornerRadius="@dimen/_20sdp"
         app:cardElevation="@dimen/_1sdp">
+
         <LinearLayout
             android:id="@+id/linear_lyt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary_LightBG"
             android:orientation="vertical">
+
             <LinearLayout
                 android:id="@+id/lin_StatusHeader"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:gravity="center"
                 android:layout_weight="5"
                 android:background="@color/colorPrimary_Light"
+                android:gravity="center"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -64,10 +66,10 @@
                         android:layout_marginTop="@dimen/_10sdp"
                         android:layout_marginBottom="@dimen/_3sdp"
                         android:text="@string/request"
-                        android:textStyle="bold"
-                        app:fontName="OpenSans_SemiBold"
                         android:textColor="@color/colorPrimary"
                         android:textSize="@dimen/_13ssp"
+                        android:textStyle="bold"
+                        app:fontName="OpenSans_SemiBold"
 
                         />
                 </LinearLayout>
@@ -86,14 +88,14 @@
                     android:id="@+id/lin_CabProfile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:weightSum="2"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
                     <!--Driver Profile -->
                     <RelativeLayout
                         android:id="@+id/rel_lyt_profile"
                         android:layout_width="wrap_content"
-                        android:layout_marginEnd="@dimen/_5sdp"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_5sdp">
 
                         <com.mikhaellopez.circularimageview.CircularImageView
                             android:id="@+id/iv_profile_photo"
@@ -116,9 +118,9 @@
                             android:layout_toEndOf="@id/iv_profile_photo"
                             android:text="@string/full_name"
                             android:textColor="@color/Black"
-                            app:fontName="OpenSans_SemiBold"
                             android:textSize="@dimen/_13ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
 
                         <TextView
                             android:id="@+id/txt_MobileNumber"
@@ -130,10 +132,10 @@
                             android:layout_marginEnd="@dimen/_50sdp"
                             android:layout_toEndOf="@id/iv_profile_photo"
                             android:text="@string/mobile_number"
-                            android:textStyle="bold"
-                            app:fontName="OpenSans_SemiBold"
                             android:textColor="@color/colorPrimary"
-                            android:textSize="@dimen/_11ssp" />
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
 
                     </RelativeLayout>
 
@@ -144,8 +146,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_weight="1"
                         android:layout_marginEnd="@dimen/_5sdp"
+                        android:layout_weight="1"
                         android:gravity="center"
                         android:orientation="horizontal">
 
@@ -164,27 +166,21 @@
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:text="@string/people_count"
-                            app:fontName="OpenSans_SemiBold"
                             android:textColor="@color/colorPrimary"
                             android:textSize="@dimen/_12ssp"
-                            android:textStyle="bold" />
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
                     </LinearLayout>
 
                 </LinearLayout>
 
-
-<!--                <View-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="2dp"-->
-<!--                    android:layout_margin="@dimen/_10sdp"-->
-<!--                    android:background="@color/Gray"></View>-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginStart="@dimen/_10sdp"
-                    android:layout_marginBottom="@dimen/_1sdp"
+                    android:layout_marginTop="@dimen/_5sdp"
                     android:layout_marginEnd="@dimen/_5sdp"
+                    android:layout_marginBottom="@dimen/_1sdp"
                     android:orientation="vertical">
 
                     <!-- Date and Time Info -->
@@ -210,22 +206,22 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Date:"
-                                android:textStyle="bold"
-                                app:fontName="OpenSans_SemiBold"
                                 android:textColor="@color/Black"
-                                android:textSize="@dimen/_11ssp" />
+                                android:textSize="@dimen/_11ssp"
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
 
                             <TextView
                                 android:id="@+id/txt_DateDetail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_3sdp"
+                                android:ellipsize="end"
+                                android:singleLine="true"
                                 android:text="5 April 2024"
                                 android:textColor="@color/grey_80"
                                 android:textSize="@dimen/_11ssp"
-                                android:ellipsize="end"
-                                app:fontName="OpenSans_Regular"
-                                android:singleLine="true" />
+                                app:fontName="OpenSans_Regular" />
                         </LinearLayout>
 
                         <!-- Right Side Information -->
@@ -242,113 +238,207 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Time:"
-                                app:fontName="OpenSans_SemiBold"
-                                android:textStyle="bold"
                                 android:textColor="@color/Black"
-                                android:textSize="@dimen/_11ssp" />
+                                android:textSize="@dimen/_11ssp"
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
 
                             <TextView
                                 android:id="@+id/txt_timeDetail"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_3sdp"
+                                android:ellipsize="end"
+                                android:singleLine="true"
                                 android:text="3 PM"
                                 android:textColor="@color/grey_80"
                                 android:textSize="@dimen/_11ssp"
-                                android:ellipsize="end"
-                                app:fontName="OpenSans_Regular"
-                                android:singleLine="true" />
+                                app:fontName="OpenSans_Regular" />
                         </LinearLayout>
                     </LinearLayout>
 
                     <!-- From and To Details -->
 
-                        <!-- From Details -->
-                        <LinearLayout
-                            android:id="@+id/lin_FromANDToDetail"
-                            android:layout_width="match_parent"
+                    <!-- From Details -->
+                    <LinearLayout
+                        android:id="@+id/lin_FromANDToDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/txt_FromDetail"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:weightSum="3"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:text="@string/from"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
 
-                            <TextView
-                                android:id="@+id/txt_FromDetail"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/from"
-                                app:fontName="OpenSans_SemiBold"
-                                android:textColor="@color/Black"
-                                android:textSize="@dimen/_11ssp"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/txt_FromLocation"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/textFrom"
-                                android:textColor="@color/grey_80"
-                                android:textSize="@dimen/_11ssp"
-                                app:fontName="OpenSans_Regular"
-                                />
-
-                            <ImageButton
-                                android:id="@+id/img_PickUp_location"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:src="@drawable/ic_location"
-                                android:padding="@dimen/_5sdp"
-                                android:visibility="gone"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:scaleType="centerInside" />
-                        </LinearLayout>
-
-                        <!-- To Details -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:id="@+id/txt_FromLocation"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:weightSum="3"
-                            android:layout_marginTop="@dimen/_5sdp"
-                            android:orientation="horizontal">
+                            android:layout_weight="1"
+                            android:text="@string/textFrom"
+                            android:textColor="@color/grey_80"
+                            android:textSize="@dimen/_11ssp"
+                            app:fontName="OpenSans_Regular" />
 
-                            <TextView
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/to"
-                                android:textStyle="bold"
-                                android:textColor="@color/Black"
-                                android:textSize="@dimen/_11ssp"
-                                app:fontName="OpenSans_SemiBold" />
+                    </LinearLayout>
+                    <!-- To Details -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
-                            <TextView
-                                android:id="@+id/txt_ToLocation"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/txtTo"
-                                android:textColor="@color/grey_80"
-                                android:textSize="@dimen/_11ssp"
-                                app:fontName="OpenSans_Regular"
+                        <TextView
+                            android:id="@+id/txt_ToLocationTag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/to"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
 
-                                />
+                        <TextView
+                            android:id="@+id/txt_ToLocation"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:text="@string/txtTo"
+                            android:textColor="@color/grey_80"
+                            android:textSize="@dimen/_11ssp"
+                            app:fontName="OpenSans_Regular"
 
-                            <ImageButton
-                                android:id="@+id/img_Drop_location"
-                                android:layout_width="@dimen/_30sdp"
-                                android:layout_height="@dimen/_30sdp"
-                                android:src="@drawable/ic_location"
-                                android:padding="@dimen/_5sdp"
-                                android:visibility="gone"
-                                android:background="?attr/selectableItemBackgroundBorderless"
-                                android:scaleType="centerInside" />
-                        </LinearLayout>
+                            />
+                    </LinearLayout>
+                    <!--  Ride Type Info-->
+                    <LinearLayout
+                        android:id="@+id/lin_RideTypeInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
 
+                        <TextView
+                            android:id="@+id/txt_RideTypeTag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Ride Type:"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
 
+                        <TextView
+                            android:id="@+id/txt_RideType"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/grey_80"
+                            android:textSize="@dimen/_11ssp"
+                            app:fontName="OpenSans_Regular" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                    <!--Township name info-->
+                    <LinearLayout
+                        android:id="@+id/lin_TownshipName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/txt_TownshipNameTag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Township Name:"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
+
+                        <TextView
+                            android:id="@+id/txt_TownshipName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/grey_80"
+                            android:textSize="@dimen/_11ssp"
+                            app:fontName="OpenSans_Regular" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+                    <!--Flat number info -->
+                    <LinearLayout
+                        android:id="@+id/lin_FlatNumberInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_5sdp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:id="@+id/txt_FlatNumberTag"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Flat Number:"
+                            android:textColor="@color/Black"
+                            android:textSize="@dimen/_11ssp"
+                            android:textStyle="bold"
+                            app:fontName="OpenSans_SemiBold" />
+
+                        <TextView
+                            android:id="@+id/txt_FlatNumber"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text=""
+                            android:textColor="@color/grey_80"
+                            android:textSize="@dimen/_11ssp"
+                            app:fontName="OpenSans_Regular" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1" />
+                    </LinearLayout>
                     <!-- Amount Layout -->
                     <LinearLayout
                         android:id="@+id/lin_AmountDetails"
@@ -358,43 +448,43 @@
                         android:layout_marginBottom="@dimen/_7sdp"
                         android:orientation="vertical">
 
-                        <!-- Agent Amount Info -->
+                        <!-- Mode of Payment Info -->
                         <LinearLayout
-                            android:id="@+id/lin_AgentAmountInfo"
+                            android:id="@+id/lin_ModeofAmtInfo"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
-                            android:weightSum="3"
                             android:layout_marginTop="@dimen/_1sdp"
-                            android:orientation="horizontal">
+                            android:gravity="center_vertical"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
 
                             <TextView
-                                android:id="@+id/txt_AgentAmountDetailTag"
+                                android:id="@+id/txt_ModeOfPaymentTag"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="Company Amt:"
+                                android:text="Mode of Payment:"
                                 android:textColor="@color/Black"
                                 android:textSize="@dimen/_11ssp"
-                                app:fontName="OpenSans_SemiBold"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
 
                             <TextView
-                                android:id="@+id/txt_AgentAmountDetail"
+                                android:id="@+id/txt_ModeOfPayment"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:singleLine="true"
                                 android:text="cc"
                                 android:textColor="@color/grey_80"
                                 android:textSize="@dimen/_11ssp"
-                                android:ellipsize="end"
-                                app:fontName="OpenSans_Regular"
-                                android:singleLine="true" />
+                                app:fontName="OpenSans_Regular" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
                         </LinearLayout>
 
                         <!-- Customer Amount Info -->
@@ -404,8 +494,8 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="center_vertical"
-                            android:weightSum="3"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:weightSum="2">
 
                             <TextView
                                 android:id="@+id/txt_CustomerDetailTag"
@@ -414,26 +504,26 @@
                                 android:layout_weight="1"
                                 android:text="Customer Amt:"
                                 android:textColor="@color/Black"
-                                app:fontName="OpenSans_SemiBold"
                                 android:textSize="@dimen/_11ssp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
 
                             <TextView
                                 android:id="@+id/txt_CustomerDetail"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:singleLine="true"
                                 android:text=""
                                 android:textColor="@color/grey_80"
                                 android:textSize="@dimen/_11ssp"
-                                android:ellipsize="end"
-                                app:fontName="OpenSans_Regular"
-                                android:singleLine="true" />
+                                app:fontName="OpenSans_Regular" />
 
                             <TextView
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"/>
+                                android:layout_weight="1" />
                         </LinearLayout>
 
                         <!-- Transport Info -->
@@ -443,35 +533,35 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="@dimen/_5sdp"
                             android:gravity="start"
-                            android:weightSum="3"
-                            android:orientation="horizontal">
+                            android:orientation="horizontal"
+                            android:weightSum="2">
 
                             <TextView
                                 android:id="@+id/txt_TransportDetailTag"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:text="Transport Details:"
                                 android:textColor="@color/Black"
-                                android:layout_weight="1"
                                 android:textSize="@dimen/_11ssp"
-                                app:fontName="OpenSans_SemiBold"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
 
                             <TextView
                                 android:id="@+id/txt_TransportDetail"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_3sdp"
-                                android:text=""
                                 android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:text=""
                                 android:textColor="@color/grey_80"
                                 android:textSize="@dimen/_11ssp"
-                                android:ellipsize="end"
-                                app:fontName="OpenSans_Regular"
-                                android:singleLine="true" />
+                                app:fontName="OpenSans_Regular" />
                         </LinearLayout>
-                    </LinearLayout>
 
+                    </LinearLayout>
 
 
                 </LinearLayout>
@@ -511,11 +601,11 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="Accept"
-                                app:fontName="OpenSans_SemiBold"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorPrimary"
                                 android:textSize="@dimen/_12ssp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -542,11 +632,11 @@
                                 android:layout_gravity="center"
                                 android:gravity="center"
                                 android:text="Reject"
-                                app:fontName="OpenSans_SemiBold"
                                 android:textAlignment="center"
                                 android:textColor="@color/colorRedPrimary"
                                 android:textSize="@dimen/_12ssp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -582,11 +672,11 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="@string/pick_up"
-                                app:fontName="OpenSans_SemiBold"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12ssp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -611,11 +701,11 @@
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
                                 android:text="Drop"
-                                app:fontName="OpenSans_SemiBold"
                                 android:textAlignment="center"
                                 android:textColor="@color/white"
                                 android:textSize="@dimen/_12ssp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>

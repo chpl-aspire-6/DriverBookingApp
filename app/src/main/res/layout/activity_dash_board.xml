@@ -14,23 +14,23 @@
         android:orientation="vertical">
 
         <!--        Header Part-->
-        <LinearLayout
+     <!--   <LinearLayout
             android:id="@+id/linDriverAvailable"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="@dimen/_5sdp"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:padding="@dimen/_3sdp"
-            android:weightSum="3">
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp"
+            android:weightSum="4">
 
             <TextView
+                android:id="@+id/txttagRide"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="start"
                 android:layout_gravity="center"
-                android:text="Your Rides"
+                android:text=""
                 android:textColor="@color/colorPrimary"
                 android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
@@ -41,7 +41,7 @@
                 android:layout_width="240dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:checked="false"
+                android:checked="true"
                 android:textAllCaps="false"
                 android:textOff="Off"
                 android:textOn="On"
@@ -51,6 +51,16 @@
                 android:visibility="visible"
                 app:switchTextAppearance="@style/SwitchTextAppearance"
                 app:track="@drawable/track_selector" />
+
+            <ImageView
+                android:id="@+id/iv_language"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_5sdp"
+                app:srcCompat="@drawable/ic_language"
+                app:tint="@color/colorPrimary" />
 
             <FrameLayout
                 android:id="@+id/notification"
@@ -89,7 +99,96 @@
 
 
             </FrameLayout>
-        </LinearLayout>
+        </LinearLayout>-->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linDriverAvailable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_10sdp"
+            android:padding="@dimen/_5sdp">
+
+            <TextView
+                android:id="@+id/txttagRide"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text=""
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toStartOf="@+id/switchOnOff"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchOnOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:checked="true"
+                android:textAllCaps="false"
+                android:textOff="Off"
+                android:textOn="On"
+                android:textSize="15sp"
+                android:thumb="@drawable/thumb_selector"
+                app:showText="true"
+                android:visibility="visible"
+                app:switchTextAppearance="@style/SwitchTextAppearance"
+                app:track="@drawable/track_selector"
+                app:layout_constraintEnd_toStartOf="@+id/iv_language"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_language"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_marginEnd="8dp"
+                app:srcCompat="@drawable/ic_language"
+                app:tint="@color/colorPrimary"
+                app:layout_constraintEnd_toStartOf="@+id/notification"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <FrameLayout
+                android:id="@+id/notification"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <FrameLayout
+                    android:id="@+id/fram_noti"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible">
+
+                    <ImageView
+                        android:id="@+id/iv_not"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_notifications_black_24dp"
+                        app:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/tv_noti_count"
+                        android:layout_width="@dimen/_10sdp"
+                        android:layout_height="@dimen/_10ssp"
+                        android:layout_gravity="end"
+                        android:background="@drawable/circel_back"
+                        android:gravity="center"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_6ssp"
+                        android:textStyle="normal"
+                        android:visibility="gone" />
+                </FrameLayout>
+            </FrameLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <!--        Driver Profile -->
         <LinearLayout
