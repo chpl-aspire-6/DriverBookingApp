@@ -29,10 +29,12 @@ import com.adanitownship.driver.network.RestClient;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.networkResponse.VerifyOtpResponse;
 import com.adanitownship.driver.utils.GzipUtils;
+import com.adanitownship.driver.utils.OnSingleClickListener;
 import com.adanitownship.driver.utils.PreferenceManager;
 import com.adanitownship.driver.utils.Tools;
 import com.google.firebase.FirebaseApp;
 import com.google.gson.Gson;
+import com.mobsandgeeks.saripaar.Validator;
 import com.mukesh.OtpView;
 
 import java.util.Locale;
@@ -47,12 +49,9 @@ public class OTPDialogFragment extends DialogFragment {
     Tools tools;
     LinearLayout OTPDialogFragLlResend;
     ImageView OTPDialogFragIv_truemobile_register;
-
     TextView OTPDialogFragTv_coundown_otp, OTPDialogFragEt_mobile_register;
-
     Button OTPDialogFragDone_btn, OTPDialogFragCancel_bt;
     String mNum, versionCode;
-
     OtpView OTPDialogFragOtp_view;
     PreferenceManager preferenceManager;
 
@@ -87,7 +86,6 @@ public class OTPDialogFragment extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_o_t_p_dialog, container, false);
         restCall = RestClient.createService(RestCall.class, "https://adanidev.mysmartsociety.app/shantivan/residentApiNewEnc/", "smartapikey");
         tools = new Tools(requireActivity());
-
         FirebaseApp.initializeApp(requireActivity());
         OTPDialogFragOtp_view = view.findViewById(R.id.OTPDialogFragOtp_view);
         OTPDialogFragDone_btn = view.findViewById(R.id.OTPDialogFragDone_btn);
@@ -102,12 +100,15 @@ public class OTPDialogFragment extends DialogFragment {
         OTPDialogFragEt_mobile_register.setEnabled(false);
         OTPDialogFragEt_mobile_register.setFocusable(false);
         countDownTimer();
-        OTPDialogFragLlResend.setOnClickListener(new View.OnClickListener() {
+
+        OTPDialogFragLlResend.setOnClickListener(new OnSingleClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onSingleClick(View v) {
                 driverResendOtp();
             }
         });
+
+
 //        App version
         try {
             PackageInfo pInfo = getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0);
@@ -127,13 +128,33 @@ public class OTPDialogFragment extends DialogFragment {
                     OTPDialogFragOtp_view.setError("Enter the Otp");
                     OTPDialogFragOtp_view.requestFocus();
                 }
-
-
             }
         });
 
+               OTPDialogFragCancel_bt.setOnClickListener(v -> dismiss());
+
+
+
+        //Update Code
+     /*   OTPDialogFragDone_btn.setOnClickListener(v -> {
+            if (!isVerifyClick) {
+                isVerifyClick = true;
+                validator.validate();
+            }
+        });
+
+        OTPDialogFragDone_btn.setText(preferenceManager.getJSONKeyStringObject("verify"));
         OTPDialogFragCancel_bt.setOnClickListener(v -> dismiss());
 
+        countDownTimer();
+
+        OTPDialogFragOtp_view.setOtpCompletionListener(otp -> {
+            if (!isVerifyClick) {
+                isVerifyClick = true;
+                validator.validate();
+            }
+        });
+*/
         return view;
     }
 
@@ -170,6 +191,7 @@ public class OTPDialogFragment extends DialogFragment {
                             if (commonResponse != null && commonResponse.getStatus().equalsIgnoreCase("200")) {
                                 Tools.toast(requireActivity(), commonResponse.getMessage(), 2);
                                 OTPDialogFragLlResend.setVisibility(View.GONE);
+                                OTPDialogFragTv_coundown_otp.setVisibility(View.VISIBLE);
                                 countDownTimer();
 
                             } else {
@@ -252,6 +274,7 @@ public class OTPDialogFragment extends DialogFragment {
 
                 OTPDialogFragIv_truemobile_register.setVisibility(View.VISIBLE);
                 OTPDialogFragLlResend.setVisibility(View.VISIBLE);
+                OTPDialogFragTv_coundown_otp.setVisibility(View.GONE);
                 OTPDialogFragTv_coundown_otp.setText("00:00");
             }
         };

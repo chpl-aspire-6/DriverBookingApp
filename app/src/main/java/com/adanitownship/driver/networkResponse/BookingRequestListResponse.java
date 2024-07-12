@@ -187,6 +187,19 @@ public class BookingRequestListResponse {
         @Expose
         private String transportDetails;
 
+        @SerializedName("confirm_message")
+        @Expose
+        private String confirm_message;
+
+
+        public String getConfirm_message() {
+            return confirm_message;
+        }
+
+        public void setConfirm_message(String confirm_message) {
+            this.confirm_message = confirm_message;
+        }
+
         public String getRequestId() {
             return requestId;
         }

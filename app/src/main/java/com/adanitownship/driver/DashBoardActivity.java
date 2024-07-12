@@ -1,6 +1,7 @@
 package com.adanitownship.driver;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -41,6 +42,7 @@ import com.adanitownship.driver.networkResponse.BookingRequestListResponse;
 import com.adanitownship.driver.networkResponse.CommonResponse;
 import com.adanitownship.driver.networkResponse.DriverDutyStatusResponse;
 import com.adanitownship.driver.networkResponse.DropUserResponse;
+import com.adanitownship.driver.utils.FincasysDialog;
 import com.adanitownship.driver.utils.GzipUtils;
 import com.adanitownship.driver.utils.LanguagePreferenceManager;
 import com.adanitownship.driver.utils.PreferenceManager;
@@ -60,17 +62,18 @@ import rx.schedulers.Schedulers;
 public class DashBoardActivity extends AppCompatActivity {
     private static final int REQUEST_CALL_PERMISSION = 2;
     private static final int PERMISSION_REQUEST_CODE = 100;
+    private static final int REQUEST_NOTIFICATION_PERMISSION = 102;
+
     public LanguagePreferenceManager languagePreferenceManager;
     RestCall restCall;
     PreferenceManager preferenceManager;
     SwipeRefreshLayout swipe;
     ImageView imgClose, imgIcon, iv_profile_photo, iv_language;
     EditText etSearch;
-    TextView txt_PersonName, tv_noti_count , txttagRide;
+    TextView txt_PersonName, tv_noti_count, txttagRide;
     String pendingPhoneNumber, dropLatitude, dropLongitude, pickupLatitude, pickupLongitude;
-
     RelativeLayout rel_nodata;
-    LinearLayout lin_ps_load, lin_logout, linLayNoData;
+    LinearLayout lin_ps_load, lin_logout, linLayNoData, lin_layout;
     RecyclerView recy_booking_list;
     RequestListAdapter requestListAdapter;
     Tools tools;
@@ -79,8 +82,9 @@ public class DashBoardActivity extends AppCompatActivity {
     String switchDutyStatus;
     FrameLayout notification;
     List<BookingRequestListResponse.Booking> bookingList = new ArrayList<>();
-
     boolean isFirstTime = true;
+
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -98,6 +102,7 @@ public class DashBoardActivity extends AppCompatActivity {
         recy_booking_list = findViewById(R.id.recy_booking_list);
         lin_ps_load = findViewById(R.id.lin_ps_load);
         lin_logout = findViewById(R.id.lin_logout);
+        lin_layout = findViewById(R.id.lin_layout);
         iv_profile_photo = findViewById(R.id.iv_profile_photo);
         linLayNoData = findViewById(R.id.linLayNoData);
         iv_language = findViewById(R.id.iv_language);
@@ -128,7 +133,7 @@ public class DashBoardActivity extends AppCompatActivity {
         switchOnOff.setChecked(Boolean.parseBoolean(switchDutyStatus));
 
         String language = languagePreferenceManager.getJSONPref(VariableBag.LANGUAGE);
-        Log.e("###tps",languagePreferenceManager.getJSONPref(VariableBag.LANGUAGE));
+        Log.e("###tps", languagePreferenceManager.getJSONPref(VariableBag.LANGUAGE));
         if (language != null && language.trim().length() <= 0) {
             downloadLanguage();
         }
@@ -396,14 +401,10 @@ public class DashBoardActivity extends AppCompatActivity {
                     } catch (Exception e) {
                         throw new RuntimeException(e);
                     }
-
-
                 });
-
             }
         });
     }
-
     public void driverBookingList() {
         restCall.driverBookingList("driverBookingList", preferenceManager.getKeyValueString("driver_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
@@ -532,7 +533,7 @@ public class DashBoardActivity extends AppCompatActivity {
                                     @Override
                                     public void onDropItemClickListener(String pos, BookingRequestListResponse.Booking booking) {
                                         if (booking.getDutyStatus().equalsIgnoreCase("1")) {
-                                            showDropConfirmationDialog(booking.getRequestId(), pos ,booking.getUserPaymentAmount());
+                                            showDropConfirmationDialog(booking.getRequestId(), pos, booking.getConfirm_message());
                                         } else {
                                             Tools.toast(DashBoardActivity.this, "You are off Duty right now!!", 1);
                                         }
@@ -649,7 +650,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     }
 
-    public void showDropConfirmationDialog(String requestId, String pos , String  confrim_message) {
+    public void showDropConfirmationDialog(String requestId, String pos, String confrim_message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_layout, null);
@@ -781,7 +782,7 @@ public class DashBoardActivity extends AppCompatActivity {
         });
     }
 
-    public void requestPermissions() {
+/*    public void requestPermissions() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CALL_PHONE, Manifest.permission.POST_NOTIFICATIONS};
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!arePermissionsGranted(permissions)) {
@@ -841,7 +842,7 @@ public class DashBoardActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
         }
-    }
+    }*/
 
     public void openMapWithDropLocation() {
 
@@ -849,8 +850,6 @@ public class DashBoardActivity extends AppCompatActivity {
         String longitude = "";
         latitude = dropLatitude;
         longitude = dropLongitude;
-        Log.e("#TANU4dropLatitude", dropLatitude);
-        Log.e("#TANU4dropLongitude", dropLongitude);
         Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?q=" + latitude + "," + longitude);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
@@ -868,13 +867,10 @@ public class DashBoardActivity extends AppCompatActivity {
         String longitude = "";
         latitude = pickupLatitude;
         longitude = pickupLongitude;
-        Log.e("#TANU3pickupLatitude", pickupLatitude);
-        Log.e("#TANU33pickupLongitude", pickupLongitude);
         Uri gmmIntentUri = Uri.parse("geo:" + latitude + "," + longitude + "?q=" + latitude + "," + longitude);
         Intent mapIntent = new Intent(Intent.ACTION_VIEW, gmmIntentUri);
         mapIntent.setPackage("com.google.android.apps.maps");
         if (mapIntent.resolveActivity(getPackageManager()) != null) {
-
             startActivity(mapIntent);
         } else {
             Toast.makeText(this, "No Location Found!", Toast.LENGTH_SHORT).show();
@@ -883,23 +879,17 @@ public class DashBoardActivity extends AppCompatActivity {
 
 
     private void downloadLanguage() {
-
         tools.showLoading();
-
-
         RestCall call2 = RestClient.createServiceJson(RestCall.class, VariableBag.COMMON_URL, preferenceManager.getMainApiKey());
         call2.getLanguageValues("getLanguageValues", "1", "101", preferenceManager.getLanguageId()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Object>() {
             @Override
             public void onCompleted() {
-
             }
-
             @Override
             public void onError(Throwable e) {
                 tools.stopLoading();
 
             }
-
             @Override
             public void onNext(Object responseBody) {
 
@@ -911,9 +901,123 @@ public class DashBoardActivity extends AppCompatActivity {
         });
     }
 
-
     public void setData() {
         txttagRide.setText(preferenceManager.getJSONKeyStringObject("your_ride"));
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if (lin_layout.getVisibility() == View.VISIBLE) {
+            FincasysDialog fincasysDialog = new FincasysDialog(this, FincasysDialog.LOGOUT_TYPE);
+            fincasysDialog.setTitleText(preferenceManager.getJSONKeyStringObject("are_you_sure_to_exit"));
+            fincasysDialog.setContentText(preferenceManager.getJSONKeyStringObject("thanks_for_using_this_app"));
+            fincasysDialog.setCancelText(preferenceManager.getJSONKeyStringObject("cancel"));
+            fincasysDialog.setConfirmText(preferenceManager.getJSONKeyStringObject("exit"));
+            fincasysDialog.setCancelable(false);
+            fincasysDialog.setCancelClickListener(Dialog::dismiss);
+            fincasysDialog.setConfirmClickListener(fincasysDialog12 -> {
+                fincasysDialog.dismiss();
+                finishAffinity();
+            });
+
+            try {
+                fincasysDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+
+    public void requestPermissions() {
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissions.add(Manifest.permission.CALL_PHONE);
+
+        // Request permissions for Android versions below Android 13 (API level 33)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!arePermissionsGranted(permissions.toArray(new String[0]))) {
+                ActivityCompat.requestPermissions(this, permissions.toArray(new String[0]), PERMISSION_REQUEST_CODE);
+            }
+        }
+    }
+
+    private boolean arePermissionsGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            boolean allPermissionsGranted = true;
+            for (int grantResult : grantResults) {
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (!allPermissionsGranted) {
+                showSettingsDialog();
+            }
+        } else if (requestCode == REQUEST_CALL_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall(pendingPhoneNumber);
+            } else {
+                showSettingsDialog();
+            }
+        } else if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                showSettingsDialog();
+            }
+        }
+    }
+
+    private void showSettingsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Permissions Required")
+                .setMessage("This app requires permissions to use certain features. Please grant them in the app settings.")
+                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openAppSettings();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void openAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    private void makePhoneCall(String phoneNumber) {
+        pendingPhoneNumber = phoneNumber;
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(callIntent);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
+        }
+    }
 }

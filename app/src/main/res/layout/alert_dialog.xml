@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/relLayImage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="@dimen/_30sdp"
+            android:layout_marginTop="@dimen/_minus30sdp"
+            android:layout_marginRight="@dimen/_30sdp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="@dimen/_20sdp"
+            app:cardElevation="0dp"
+            app:cardUseCompatPadding="false">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:gravity="center"
+                    android:minHeight="@dimen/_80sdp"
+                    android:orientation="vertical"
+                    android:padding="@dimen/_20sdp">
+
+                    <TextView
+                        app:fontName="OpenSans_Bold"
+                        android:id="@+id/tvTitleText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/dialog_title"
+                        android:textColor="@color/grey_90"
+                        android:textSize="@dimen/_14ssp"
+                        android:visibility="gone" />
+
+                    <TextView
+                        android:visibility="gone"
+                        android:id="@+id/tvContentText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        app:fontName="OpenSans_SemiBold"
+                        android:textColor="@color/grey_90"
+                        android:textSize="@dimen/_12ssp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp">
+
+                    <Button
+                        android:id="@+id/btnCancel"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/grey_20"
+                        android:gravity="center"
+                        android:text=""
+                        android:textAllCaps="true"
+                        app:fontName="OpenSans_SemiBold"
+                        android:textColor="@color/grey_90"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/btnNeutral"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        app:fontName="OpenSans_SemiBold"
+                        android:background="@color/grey_90"
+                        android:gravity="center"
+                        android:text=""
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone" />
+
+
+                    <Button
+                        android:id="@+id/btnConfirm"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:background="@color/colorPrimary"
+                        android:gravity="center"
+                        android:text=""
+                        android:textAllCaps="true"
+                        app:fontName="OpenSans_SemiBold"
+                        android:textColor="@color/text_color_white"
+                        android:textSize="@dimen/_12ssp"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <RelativeLayout
+            android:id="@+id/relLayImage"
+            android:layout_width="@dimen/_50sdp"
+            android:layout_height="@dimen/_50sdp"
+            android:layout_centerHorizontal="true">
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivWarning"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/alert_info"
+                android:visibility="invisible"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/_5sdp"
+                app:civ_shadow_radius="1dp"
+                />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivError"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/alert_error"
+                android:visibility="invisible"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/_5sdp"
+                app:civ_shadow_radius="1dp"/>
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivDelete"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/alert_delete"
+                android:visibility="invisible"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/_5sdp"
+                app:civ_shadow_radius="1dp" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivDefault"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/logo_trans"
+                android:visibility="invisible"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/_5sdp"
+                app:civ_shadow_radius="1dp" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivLogout"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/alert_exit"
+                android:visibility="invisible"
+                app:civ_border_color="@color/white"
+                app:civ_border_width="@dimen/_5sdp"
+                app:civ_shadow_radius="1dp"/>
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/ivSuccess"
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:src="@drawable/alert_success"
+                android:visibility="invisible"
+                app:civ_border_color="@color/white"
+                app:civ_shadow_radius="1dp"
+                app:civ_border_width="@dimen/_5sdp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+</LinearLayout>

@@ -320,6 +320,7 @@
     <color name="colorPurplePrimary_Light">#eae3f0</color>
 
 
+    <color name="text_color_white">@color/white</color>
 
 
 

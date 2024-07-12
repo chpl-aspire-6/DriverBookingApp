@@ -9,97 +9,12 @@
     tools:context=".DashBoardActivity">
 
     <LinearLayout
+        android:id="@+id/lin_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <!--        Header Part-->
-     <!--   <LinearLayout
-            android:id="@+id/linDriverAvailable"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="@dimen/_10sdp"
-            android:padding="@dimen/_5sdp"
-            android:weightSum="4">
-
-            <TextView
-                android:id="@+id/txttagRide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="start"
-                android:layout_gravity="center"
-                android:text=""
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/_15sdp"
-                android:textStyle="bold" />
-
-
-            <androidx.appcompat.widget.SwitchCompat
-                android:id="@+id/switchOnOff"
-                android:layout_width="240dp"
-                android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:checked="true"
-                android:textAllCaps="false"
-                android:textOff="Off"
-                android:textOn="On"
-                android:textSize="15sp"
-                android:thumb="@drawable/thumb_selector"
-                app:showText="true"
-                android:visibility="visible"
-                app:switchTextAppearance="@style/SwitchTextAppearance"
-                app:track="@drawable/track_selector" />
-
-            <ImageView
-                android:id="@+id/iv_language"
-                android:layout_width="@dimen/_25sdp"
-                android:layout_height="@dimen/_30sdp"
-                android:layout_gravity="center"
-                android:layout_weight="1"
-                android:layout_marginStart="@dimen/_5sdp"
-                app:srcCompat="@drawable/ic_language"
-                app:tint="@color/colorPrimary" />
-
-            <FrameLayout
-                android:id="@+id/notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/_5sdp"
-                android:layout_weight="1">
-
-                <FrameLayout
-                    android:id="@+id/fram_noti"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:visibility="visible">
-
-                    <ImageView
-                        android:id="@+id/iv_not"
-                        android:layout_width="@dimen/_25sdp"
-                        android:layout_height="@dimen/_30sdp"
-                        android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_notifications_black_24dp"
-                        app:tint="@color/colorPrimary" />
-
-                    <TextView
-                        android:id="@+id/tv_noti_count"
-                        android:layout_width="@dimen/_10sdp"
-                        android:layout_height="@dimen/_10ssp"
-                        android:layout_gravity="end"
-                        android:background="@drawable/circel_back"
-                        android:gravity="center"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_6ssp"
-                        android:textStyle="normal"
-                        android:visibility="gone" />
-                </FrameLayout>
-
-
-            </FrameLayout>
-        </LinearLayout>-->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/linDriverAvailable"
             android:layout_width="match_parent"
@@ -194,7 +109,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_5sdp"
             android:orientation="vertical">
 
             <RelativeLayout

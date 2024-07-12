@@ -49,5 +49,6 @@
     <string name="to">Drop Location :</string>
     <string name="txtTo"><u>Vastrapur</u></string>
     <string name="are_you_sure_for_pick_up">Are you sure for Pick Up</string>
+    <string name="dialog_title">Dialog Title</string>
 
 </resources>
