@@ -201,6 +201,9 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             holder.lin_Reject.setVisibility(View.GONE);
             holder.lin_PickUP.setVisibility(View.GONE);
         }
+
+
+
         if(searchbookingList.get(position).getModeOfPaymentName().equalsIgnoreCase("Deduct from Salary")){
             holder.lin_ModeofAmtInfo.setVisibility(View.GONE);
             holder.lin_CustomerInfo.setVisibility(View.GONE);
@@ -208,6 +211,14 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             holder.lin_ModeofAmtInfo.setVisibility(View.VISIBLE);
             holder.lin_CustomerInfo.setVisibility(View.VISIBLE);
         }
+
+        if(searchbookingList.get(position).getDriver_otp().equalsIgnoreCase("")){
+            holder.lin_OTPInfo.setVisibility(View.GONE);
+
+        }else {
+            holder.lin_OTPInfo.setVisibility(View.VISIBLE);
+        }
+
 
         holder.txt_CustomerDetailTag.setText(preferenceManager.getJSONKeyStringObject("customer_amount"));
         holder.txtAccept.setText(preferenceManager.getJSONKeyStringObject("accept"));
@@ -234,7 +245,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details   , lin_ModeofAmtInfo, lin_CustomerInfo ;
+        LinearLayout lin_OTPInfo,lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details   , lin_ModeofAmtInfo, lin_CustomerInfo ;
         ImageView iv_profile_photo , img_per , img_PickUp_location,img_Drop_location;
         TextView txt_OTPDetail,txt_FlatNumber,txt_TownshipName,txt_RideType,txt_TransportDetail,txt_FromLocation, txt_ModeOfPayment,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount,txt_Status ;
 
@@ -244,6 +255,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             lin_accept = itemView.findViewById(R.id.lin_accept);
             lin_Reject = itemView.findViewById(R.id.lin_Reject);
             lin_PickUP = itemView.findViewById(R.id.lin_PickUP);
+            lin_OTPInfo = itemView.findViewById(R.id.lin_OTPInfo);
             lin_Drop = itemView.findViewById(R.id.lin_Drop);
             lin_CustomerInfo = itemView.findViewById(R.id.lin_CustomerInfo);
             lin_ModeofAmtInfo = itemView.findViewById(R.id.lin_ModeofAmtInfo);
