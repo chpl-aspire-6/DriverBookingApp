@@ -223,7 +223,7 @@ public class DashBoardActivity extends AppCompatActivity {
 
     public void acceptbooking() {
 
-        String username =   preferenceManager.getKeyValueString("username")+""+( preferenceManager.getKeyValueString("request_id"));
+        String username =   preferenceManager.getKeyValueString("username")+ "(" + preferenceManager.getKeyValueString("flat_name")+ ")";
         restCall.acceptbooking("acceptbooking",
                 preferenceManager.getKeyValueString("request_id"),
                 preferenceManager.getKeyValueString("driver_id"),
@@ -244,10 +244,12 @@ public class DashBoardActivity extends AppCompatActivity {
                 preferenceManager.getKeyValueString("pickup_time"),
                 preferenceManager.getKeyValueString("floor_id"),
                 preferenceManager.getKeyValueString("company_name"),
-                preferenceManager.getKeyValueString("username"),
+//                preferenceManager.getKeyValueString("username"),
+                username,
                 preferenceManager.getKeyValueString("user_id"),
                 preferenceManager.getKeyValueString("block_id"),
-                preferenceManager.getKeyValueString("vehicle_no")
+                preferenceManager.getKeyValueString("vehicle_no"),
+                preferenceManager.getKeyValueString("company_name")
 
 
 
@@ -500,6 +502,7 @@ public class DashBoardActivity extends AppCompatActivity {
                                             preferenceManager.setKeyValueString("username", booking.getUserFullName());
                                             preferenceManager.setKeyValueString("company_name", booking.getCompany_name());
                                             preferenceManager.setKeyValueString("vehicle_no", booking.getVehicleNo());
+                                            preferenceManager.setKeyValueString("flat_name", booking.getFlatNumber());
                                             showAcceptDialog();
                                         } else {
 
@@ -968,7 +971,7 @@ public class DashBoardActivity extends AppCompatActivity {
     }
 
 
-    public void requestPermissions() {
+  /*  public void requestPermissions() {
         List<String> permissions = new ArrayList<>();
         permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
         permissions.add(Manifest.permission.CALL_PHONE);
@@ -1055,5 +1058,102 @@ public class DashBoardActivity extends AppCompatActivity {
         } else {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
         }
+    }*/
+
+
+
+//latest
+   public void requestPermissions() {
+        List<String> permissions = new ArrayList<>();
+        permissions.add(Manifest.permission.ACCESS_FINE_LOCATION);
+        permissions.add(Manifest.permission.CALL_PHONE);
+
+        // Request permissions for Android versions 13 (API level 33) and above
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                permissions.add(Manifest.permission.POST_NOTIFICATIONS);
+            }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (!arePermissionsGranted(permissions.toArray(new String[0]))) {
+                ActivityCompat.requestPermissions(this, permissions.toArray(new String[0]), PERMISSION_REQUEST_CODE);
+            }
+        }
     }
+
+    private boolean arePermissionsGranted(String[] permissions) {
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            boolean allPermissionsGranted = true;
+            for (int grantResult : grantResults) {
+                if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                    allPermissionsGranted = false;
+                    break;
+                }
+            }
+
+            if (!allPermissionsGranted) {
+                showSettingsDialog();
+            }
+        } else if (requestCode == REQUEST_CALL_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall(pendingPhoneNumber);
+            } else {
+                showSettingsDialog();
+            }
+        } else if (requestCode == REQUEST_NOTIFICATION_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                showSettingsDialog();
+            }
+        }
+    }
+
+    private void showSettingsDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Permissions Required")
+                .setMessage("This app requires permissions to use certain features. Please grant them in the app settings.")
+                .setPositiveButton("Go to Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        openAppSettings();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .show();
+    }
+
+    private void openAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    private void makePhoneCall(String phoneNumber) {
+        pendingPhoneNumber = phoneNumber;
+        Intent callIntent = new Intent(Intent.ACTION_DIAL);
+        callIntent.setData(Uri.parse("tel:" + phoneNumber));
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED) {
+            startActivity(callIntent);
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL_PERMISSION);
+        }
+    }
+
+
+
+
+
 }

@@ -201,10 +201,21 @@ public class BookingRequestListResponse {
         @SerializedName("company_name")
         @Expose
         private String company_name;
+
         @SerializedName("unit_id")
         @Expose
         private String unit_id;
+        @SerializedName("driver_otp")
+        @Expose
+        private String driver_otp;
 
+        public String getDriver_otp() {
+            return driver_otp;
+        }
+
+        public void setDriver_otp(String driver_otp) {
+            this.driver_otp = driver_otp;
+        }
 
         public String getUnit_id() {
             return unit_id;

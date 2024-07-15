@@ -560,6 +560,40 @@
                                 android:textSize="@dimen/_11ssp"
                                 app:fontName="OpenSans_Regular" />
                         </LinearLayout>
+<!--                        OTp Layout-->
+                        <LinearLayout
+                            android:id="@+id/lin_OTPInfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_5sdp"
+                            android:gravity="start"
+                            android:orientation="horizontal"
+                            android:weightSum="2">
+
+                            <TextView
+                                android:id="@+id/txt_otpTag"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="OTP:"
+                                android:textColor="@color/Black"
+                                android:textSize="@dimen/_11ssp"
+                                android:textStyle="bold"
+                                app:fontName="OpenSans_SemiBold" />
+
+                            <TextView
+                                android:id="@+id/txt_OTPDetail"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="@dimen/_3sdp"
+                                android:layout_weight="1"
+                                android:ellipsize="end"
+                                android:singleLine="true"
+                                android:text=""
+                                android:textColor="@color/grey_80"
+                                android:textSize="@dimen/_11ssp"
+                                app:fontName="OpenSans_Regular" />
+                        </LinearLayout>
 
                     </LinearLayout>
 

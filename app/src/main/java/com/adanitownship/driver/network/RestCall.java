@@ -49,11 +49,12 @@ public interface RestCall {
                                  @Field("visit_date") String visitDate,
                                  @Field("visit_time") String visitTime,
                                  @Field("floor_id") String floor_id,
-                                 @Field("company_name") String visit_from_company,
+                                 @Field("company_name") String company_name,
                                  @Field("user_name") String user_name,
                                  @Field("user_id") String user_id,
                                  @Field("block_id") String block_id,
-                                 @Field("vehicle_no") String vehicle_no
+                                 @Field("vehicle_no") String vehicle_no,
+                                 @Field("visit_from_company") String visit_from_company
 
                                  );
 

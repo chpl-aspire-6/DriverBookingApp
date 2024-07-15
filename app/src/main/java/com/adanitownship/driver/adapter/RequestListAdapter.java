@@ -172,6 +172,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.txt_RideType.setText(searchbookingList.get(position).getRideTypeName());
         holder.txt_TownshipName.setText(searchbookingList.get(position).getSocietyName());
         holder.txt_FlatNumber.setText(searchbookingList.get(position).getFlatNumber());
+        holder.txt_OTPDetail.setText(searchbookingList.get(position).getDriver_otp());
 
         holder.txt_FromLocation.setPaintFlags(holder.txt_FromLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
         holder.txt_ToLocation.setPaintFlags(holder.txt_ToLocation.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -222,6 +223,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
         holder.txt_ModeOfPaymentTag.setText(preferenceManager.getJSONKeyStringObject("mode_of_payment"));
         holder.txtPickUp.setText(preferenceManager.getJSONKeyStringObject("pick_up"));
         holder.txtDrop.setText(preferenceManager.getJSONKeyStringObject("drop"));
+        holder.txt_otpTag.setText(preferenceManager.getJSONKeyStringObject("otp"));
 
     }
 
@@ -234,9 +236,9 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
 
         LinearLayout lin_accept, lin_Reject, lin_PickUP, lin_Drop , lin_StatusHeader , lin_Details   , lin_ModeofAmtInfo, lin_CustomerInfo ;
         ImageView iv_profile_photo , img_per , img_PickUp_location,img_Drop_location;
-        TextView txt_FlatNumber,txt_TownshipName,txt_RideType,txt_TransportDetail,txt_FromLocation, txt_ModeOfPayment,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount,txt_Status ;
+        TextView txt_OTPDetail,txt_FlatNumber,txt_TownshipName,txt_RideType,txt_TransportDetail,txt_FromLocation, txt_ModeOfPayment,txt_CustomerDetail, txt_req_id,txt_ToLocation, txt_DateDetail, txt_timeDetail, txt_PersonName, txt_MobileNumber, txtPeopleCount,txt_Status ;
 
-        TextView txt_CustomerDetailTag , txt_DateDetailTag,txt_FromDetail,txt_timeDetailTag,txt_ToLocationTag,txt_RideTypeTag,txt_TownshipNameTag,txt_FlatNumberTag,txt_ModeOfPaymentTag,txt_TransportDetailTag  , txtAccept, txtReject , txtPickUp,txtDrop;
+        TextView txt_otpTag,txt_CustomerDetailTag , txt_DateDetailTag,txt_FromDetail,txt_timeDetailTag,txt_ToLocationTag,txt_RideTypeTag,txt_TownshipNameTag,txt_FlatNumberTag,txt_ModeOfPaymentTag,txt_TransportDetailTag  , txtAccept, txtReject , txtPickUp,txtDrop;
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             lin_accept = itemView.findViewById(R.id.lin_accept);
@@ -261,6 +263,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             txt_ModeOfPayment = itemView.findViewById(R.id.txt_ModeOfPayment);
             txt_TownshipName = itemView.findViewById(R.id.txt_TownshipName);
             txt_FlatNumber = itemView.findViewById(R.id.txt_FlatNumber);
+            txt_OTPDetail = itemView.findViewById(R.id.txt_OTPDetail);
             txt_RideType = itemView.findViewById(R.id.txt_RideType);
             iv_profile_photo = itemView.findViewById(R.id.iv_profile_photo);
             img_per = itemView.findViewById(R.id.img_per);
@@ -280,6 +283,7 @@ public class RequestListAdapter extends RecyclerView.Adapter<RequestListAdapter.
             txt_ModeOfPaymentTag = itemView.findViewById(R.id.txt_ModeOfPaymentTag);
             txtPickUp = itemView.findViewById(R.id.txtPickUp);
             txtDrop = itemView.findViewById(R.id.txtDrop);
+            txt_otpTag = itemView.findViewById(R.id.txt_otpTag);
 
 
         }
