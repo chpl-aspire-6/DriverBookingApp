@@ -223,7 +223,37 @@ public class DashBoardActivity extends AppCompatActivity {
 
     public void acceptbooking() {
 
-        restCall.acceptbooking("acceptbooking", preferenceManager.getKeyValueString("request_id"), preferenceManager.getKeyValueString("driver_id"), preferenceManager.getKeyValueString("travel_agent_id"), preferenceManager.getKeyValueString("pickup_date"), preferenceManager.getKeyValueString("pickup_time"), preferenceManager.getKeyValueString("pickup_location_name"), preferenceManager.getKeyValueString("drop_location_name"), preferenceManager.getKeyValueString("driver_mobile_no"), preferenceManager.getKeyValueString("driver_name"), preferenceManager.getKeyValueString("travel_agent_name"), preferenceManager.getKeyValueString("travel_agent_phone_no"), preferenceManager.getKeyValueString("society_id"), preferenceManager.getKeyValueString("user_id")).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
+        String username =   preferenceManager.getKeyValueString("username")+""+( preferenceManager.getKeyValueString("request_id"));
+        restCall.acceptbooking("acceptbooking",
+                preferenceManager.getKeyValueString("request_id"),
+                preferenceManager.getKeyValueString("driver_id"),
+                preferenceManager.getKeyValueString("travel_agent_id"),
+                preferenceManager.getKeyValueString("pickup_date"),
+                preferenceManager.getKeyValueString("pickup_time"),
+                preferenceManager.getKeyValueString("pickup_location_name"),
+                preferenceManager.getKeyValueString("drop_location_name"),
+                preferenceManager.getKeyValueString("driver_mobile_no"),
+                preferenceManager.getKeyValueString("driver_name"),
+                preferenceManager.getKeyValueString("travel_agent_name"),
+                preferenceManager.getKeyValueString("travel_agent_phone_no"),
+                preferenceManager.getKeyValueString("society_id"),
+                preferenceManager.getKeyValueString("unit_id"),
+                preferenceManager.getKeyValueString("driver_name"),
+                preferenceManager.getKeyValueString("driver_mobile_number"),
+                preferenceManager.getKeyValueString("pickup_date"),
+                preferenceManager.getKeyValueString("pickup_time"),
+                preferenceManager.getKeyValueString("floor_id"),
+                preferenceManager.getKeyValueString("company_name"),
+                preferenceManager.getKeyValueString("username"),
+                preferenceManager.getKeyValueString("user_id"),
+                preferenceManager.getKeyValueString("block_id"),
+                preferenceManager.getKeyValueString("vehicle_no")
+
+
+
+
+
+                ).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Subscriber<String>() {
             @Override
             public void onCompleted() {
 
@@ -464,6 +494,12 @@ public class DashBoardActivity extends AppCompatActivity {
                                             preferenceManager.setKeyValueString("travel_agent_phone_no", booking.getTravelAgentPhoneNo());
                                             preferenceManager.setKeyValueString("society_id", booking.getSocietyId());
                                             preferenceManager.setKeyValueString("user_id", booking.getUserId());
+                                            preferenceManager.setKeyValueString("unit_id", booking.getUnit_id());
+                                            preferenceManager.setKeyValueString("block_id", booking.getBlock_id());
+                                            preferenceManager.setKeyValueString("floor_id", booking.getFloor_id());
+                                            preferenceManager.setKeyValueString("username", booking.getUserFullName());
+                                            preferenceManager.setKeyValueString("company_name", booking.getCompany_name());
+                                            preferenceManager.setKeyValueString("vehicle_no", booking.getVehicleNo());
                                             showAcceptDialog();
                                         } else {
 

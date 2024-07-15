@@ -42,7 +42,6 @@ public class BookingRequestListResponse {
     }
 
 
-
     public class Booking {
 
         @SerializedName("request_id")
@@ -191,6 +190,29 @@ public class BookingRequestListResponse {
         @Expose
         private String confirm_message;
 
+        @SerializedName("block_id")
+        @Expose
+        private String block_id;
+
+        @SerializedName("floor_id")
+        @Expose
+        private String floor_id;
+
+        @SerializedName("company_name")
+        @Expose
+        private String company_name;
+        @SerializedName("unit_id")
+        @Expose
+        private String unit_id;
+
+
+        public String getUnit_id() {
+            return unit_id;
+        }
+
+        public void setUnit_id(String unit_id) {
+            this.unit_id = unit_id;
+        }
 
         public String getConfirm_message() {
             return confirm_message;
@@ -576,8 +598,28 @@ public class BookingRequestListResponse {
             this.transportDetails = transportDetails;
         }
 
+        public String getBlock_id() {
+            return block_id;
+        }
+
+        public void setBlock_id(String block_id) {
+            this.block_id = block_id;
+        }
+
+        public String getFloor_id() {
+            return floor_id;
+        }
+
+        public void setFloor_id(String floor_id) {
+            this.floor_id = floor_id;
+        }
+
+        public String getCompany_name() {
+            return company_name;
+        }
+
+        public void setCompany_name(String company_name) {
+            this.company_name = company_name;
+        }
     }
-
-
-
 }

@@ -43,7 +43,18 @@ public interface RestCall {
                                  @Field("travel_agent_name") String travel_agent_name,
                                  @Field("travel_agent_phone_no") String travel_agent_phone_no,
                                  @Field("society_id") String society_id,
-                                 @Field("user_id") String user_id
+                                 @Field("unit_id") String unit_id,
+                                 @Field("visitor_name") String visitor_name,
+                                 @Field("visitor_mobile") String visitor_mobile,
+                                 @Field("visit_date") String visitDate,
+                                 @Field("visit_time") String visitTime,
+                                 @Field("floor_id") String floor_id,
+                                 @Field("company_name") String visit_from_company,
+                                 @Field("user_name") String user_name,
+                                 @Field("user_id") String user_id,
+                                 @Field("block_id") String block_id,
+                                 @Field("vehicle_no") String vehicle_no
+
                                  );
 
 @FormUrlEncoded

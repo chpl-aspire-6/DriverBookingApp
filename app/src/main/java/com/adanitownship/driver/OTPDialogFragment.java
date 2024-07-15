@@ -246,6 +246,7 @@ public class OTPDialogFragment extends DialogFragment {
                                 preferenceManager.setKeyValueString("driver_name", verifyOtpResponse.getDriverName());
                                 preferenceManager.setKeyValueString("travel_agent_id", verifyOtpResponse.getTravelAgentId());
                                 preferenceManager.setKeyValueString("driver_profile", verifyOtpResponse.getDriverPhoto());
+                                preferenceManager.setKeyValueString("driver_mobile_number", verifyOtpResponse.getMobileNumber());
                                 requireActivity().finish();
                             } else {
                                 Tools.toast(requireActivity(), verifyOtpResponse.getMessage(), 1);
